@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "title": "用 n8n 搭建内容生产管线：一次产出，多平台分发",
+    "url": "/blog/hello-content-pipeline.html",
+    "date": "2026-07-07",
+    "summary": "一套 n8n 工作流，输入3-5条要点，自动生成完整文章 + 知乎版 + 小红书版 + JSON-LD 结构化数据。一个人做品牌，最缺的不是能力，而是系统。",
+    "category": "AI Automation"
+  }
+]
