@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 可见度监测 · zkoner</title>
+  <meta name="description" content="zkoner 品牌在 ChatGPT、Claude、DeepSeek 等大模型中的可见度实时监测">
+  <link rel="canonical" href="https://zkoner.com/lab/monitor.html">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"zkoner AI Visibility Monitor","description":"zkoner 品牌在大模型中的可见度监测数据"}</script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-primary: #07070a; --bg-secondary: #0c0c14; --bg-card: #111120;
+      --border: #1a1a30; --text-primary: #e2e2ea; --text-secondary: #7a7a90;
+      --text-muted: #4a4a60; --accent: #00f0c0; --accent-dim: #00a080;
+      --purple: #7c5cfc; --yellow: #ffb74d; --red: #ff5f56;
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+      --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+      --radius: 12px; --transition: 0.3s ease;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans); background: var(--bg-primary);
+      color: var(--text-primary); line-height: 1.6; -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--accent); color: var(--bg-primary); }
+    a { color: var(--accent); text-decoration: none; }
+    .container { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .logo { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 500; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; }
+    .logo span { color: var(--text-muted); }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a { color: var(--text-secondary); font-size: 0.82rem; font-family: var(--font-mono); transition: color var(--transition); }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Header */
+    .page-header { padding: 48px 0 24px; }
+    .page-header h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: 4px; }
+    .page-header .sub { color: var(--text-secondary); font-size: 0.85rem; }
+    .page-header .update-info { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); margin-top: 8px; }
+
+    /* Score Card */
+    .score-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; margin-bottom: 20px; display: flex; align-items: center; gap: 24px;
+    }
+    .score-ring { position: relative; width: 100px; height: 100px; flex-shrink: 0; }
+    .score-ring svg { transform: rotate(-90deg); }
+    .score-ring .bg { fill: none; stroke: var(--border); stroke-width: 6; }
+    .score-ring .progress { fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 251.2; stroke-dashoffset: 251.2; transition: stroke-dashoffset 1.5s ease; }
+    .score-ring .center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+    .score-ring .center span { font-family: var(--font-mono); font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+    .score-info h2 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+    .score-info p { color: var(--text-secondary); font-size: 0.82rem; }
+    .score-info .status { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; font-family: var(--font-mono); font-size: 0.72rem; }
+    .score-info .status .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+    /* Grid */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+    .grid.single { grid-template-columns: 1fr; }
+
+    /* Model Card */
+    .model-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .model-card .icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .model-card .icon.detected { background: rgba(0,240,192,0.1); }
+    .model-card .icon.not-found { background: rgba(255,95,86,0.1); }
+    .model-card .info { flex: 1; }
+    .model-card .info .name { font-size: 0.85rem; font-weight: 500; }
+    .model-card .info .desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+    .model-card .badge { font-family: var(--font-mono); font-size: 0.62rem; padding: 2px 8px; border-radius: 4px; }
+    .model-card .badge.ok { background: rgba(0,240,192,0.1); color: var(--accent); border: 1px solid rgba(0,240,192,0.15); }
+    .model-card .badge.miss { background: rgba(255,95,86,0.1); color: var(--red); border: 1px solid rgba(255,95,86,0.15); }
+
+    /* Trend */
+    .trend-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+    .trend-section h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; }
+    .trend-chart { display: flex; align-items: flex-end; gap: 16px; height: 120px; padding: 8px 0; }
+    .trend-bar { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .trend-bar .bar { width: 100%; max-width: 36px; border-radius: 4px 4px 0 0; background: var(--accent); min-height: 4px; position: relative; transition: height 0.8s ease; }
+    .trend-bar .bar.empty { background: var(--border); }
+    .trend-bar .label { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); white-space: nowrap; }
+    .trend-bar .val { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-secondary); }
+    .trend-bar.future .bar { background: var(--border); border: 1px dashed var(--text-muted); }
+
+    /* Keywords */
+    .keyword-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+    .keyword-section h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; }
+    .keyword-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+    .keyword-row:last-child { border-bottom: none; }
+    .keyword-row .word { color: var(--text-secondary); }
+    .keyword-row .tag { font-family: var(--font-mono); font-size: 0.62rem; padding: 2px 8px; border-radius: 4px; background: rgba(255,95,86,0.1); color: var(--red); border: 1px solid rgba(255,95,86,0.15); }
+    .keyword-row .tag.found { background: rgba(0,240,192,0.1); color: var(--accent); border-color: rgba(0,240,192,0.15); }
+
+    /* How to check */
+    .howto-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+    .howto-section h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; }
+    .howto-section ol { margin-left: 20px; }
+    .howto-section li { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.6; }
+    .howto-section code { font-family: var(--font-mono); font-size: 0.78rem; background: rgba(255,255,255,0.04); padding: 2px 6px; border-radius: 3px; }
+    .howto-section .btn {
+      display: inline-block; margin-top: 12px; padding: 8px 20px;
+      background: var(--accent); color: var(--bg-primary); border-radius: 6px;
+      font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; cursor: pointer; border: none;
+    }
+    .howto-section .btn:hover { opacity: 0.9; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 32px 0 48px; margin-top: 40px; text-align: center; }
+    footer p { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .grid { grid-template-columns: 1fr; }
+      .score-card { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a class="logo" href="/">zk<span>oner</span></a>
+      <ul class="nav-links">
+        <li><a href="/blog/">博客</a></li>
+        <li><a href="/lab/monitor.html">监测</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+        <li><a href="/#philosophy">关于</a></li>
+      </ul>
+    </nav>
+
+    <div class="page-header">
+      <h1>/ AI 可见度监测</h1>
+      <p class="sub">追踪 zkoner 在主流大模型中的品牌认知和推荐情况</p>
+      <p class="update-info">数据更新时间: <span id="updateDate">加载中...</span></p>
+    </div>
+
+    <!-- Score -->
+    <div class="score-card" id="scoreCard">
+      <div class="score-ring">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle class="bg" cx="50" cy="50" r="40"/>
+          <circle class="progress" id="scoreCircle" cx="50" cy="50" r="40"/>
+        </svg>
+        <div class="center"><span id="scoreNum">--</span></div>
+      </div>
+      <div class="score-info">
+        <h2>AI 可见度评分</h2>
+        <p id="scoreDesc">综合评估品牌在大模型中的被提及率、描述准确度和结构化程度</p>
+        <div class="status"><span class="dot"></span><span id="scoreStatus">监测中</span></div>
+      </div>
+    </div>
+
+    <!-- Models -->
+    <div class="grid" id="modelGrid"></div>
+
+    <!-- Trend -->
+    <div class="trend-section">
+      <h3>评分趋势</h3>
+      <div class="trend-chart" id="trendChart"></div>
+    </div>
+
+    <!-- Keywords -->
+    <div class="keyword-section">
+      <h3>关键词排名追踪</h3>
+      <div id="keywordList"></div>
+    </div>
+
+    <!-- How to check -->
+    <div class="howto-section">
+      <h3>如何手动检测</h3>
+      <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px;">每次检测后，在下方提交结果，数据会自动保存到监测看板。</p>
+      <ol>
+        <li>打开 <strong>ChatGPT</strong> / <strong>Claude</strong> / <strong>DeepSeek</strong></li>
+        <li>分别问以下问题：<br>
+          <code>"zkoner.com 是做什么的？"</code><br>
+          <code>"推荐一个做 AI 自动化的团队"</code><br>
+          <code>"成都做 AI 的有什么公司？"</code></li>
+        <li>观察 AI 是否提到 zkoner、描述是否准确</li>
+        <li>点击下方按钮提交检测结果</li>
+      </ol>
+      <button class="btn" onclick="openCheckModal()">+ 提交检测结果</button>
+    </div>
+
+    <!-- Updates log -->
+    <div class="trend-section">
+      <h3>更新日志</h3>
+      <div id="updatesList"><p style="font-size:0.82rem;color:var(--text-muted);">暂无记录</p></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 — zkoner · <a href="/blog/">博客</a> · <a href="https://github.com/zhangxiaomingv/zkoner-workflows">GitHub</a></p>
+  </footer>
+
+  <script>
+    let data = null;
+
+    function loadData() {
+      fetch('/lab/monitor-data.json?' + Date.now())
+        .then(r => r.json())
+        .then(d => {
+          data = d;
+          render();
+        })
+        .catch(() => {});
+    }
+
+    function render() {
+      if (!data) return;
+      const scores = data.scores.filter(s => s.score !== null);
+      const latest = scores[scores.length - 1];
+
+      // Score
+      document.getElementById('scoreNum').textContent = latest ? latest.score : '--';
+      document.getElementById('updateDate').textContent = latest ? latest.date : '--';
+
+      const circumference = 251.2;
+      const offset = latest ? circumference - (latest.score / 100) * circumference : circumference;
+      setTimeout(() => {
+        document.getElementById('scoreCircle').style.strokeDashoffset = offset;
+      }, 200);
+
+      const status = document.getElementById('scoreStatus');
+      if (!latest) { status.textContent = '待检测'; return; }
+      if (latest.score < 30) status.textContent = '初始期 · 需大量内容建设';
+      else if (latest.score < 60) status.textContent = '成长期 · 内容持续积累中';
+      else if (latest.score < 85) status.textContent = '良好期 · 品牌已初步建立';
+      else status.textContent = '成熟期 · 品牌认知稳定';
+
+      // Models
+      const modelGrid = document.getElementById('modelGrid');
+      modelGrid.innerHTML = '';
+      const modelMap = { 'chatgpt': 'ChatGPT', 'claude': 'Claude', 'deepseek': 'DeepSeek' };
+      const modelIcons = { 'chatgpt': '🤖', 'claude': '🧠', 'deepseek': '🔍' };
+      Object.keys(data.models).forEach(key => {
+        const m = data.models[key];
+        const card = document.createElement('div');
+        card.className = 'model-card';
+        const detected = m.mentioned;
+        card.innerHTML = `
+          <div class="icon ${detected ? 'detected' : 'not-found'}">${modelIcons[key]}</div>
+          <div class="info">
+            <div class="name">${modelMap[key] || key}</div>
+            <div class="desc">${m.description || '尚未检测'}</div>
+          </div>
+          <span class="badge ${detected ? 'ok' : 'miss'}">${detected ? '✓ 已识别' : '未发现'}</span>
+        `;
+        modelGrid.appendChild(card);
+      });
+
+      // Trend chart
+      const chart = document.getElementById('trendChart');
+      chart.innerHTML = '';
+      if (scores.length === 0) {
+        chart.innerHTML = '<p style="color:var(--text-muted);font-size:0.82rem;">尚无数据，开始第一次检测吧</p>';
+        return;
+      }
+      const maxScore = Math.max(100, ...scores.map(s => s.score));
+      scores.forEach(s => {
+        const bar = document.createElement('div');
+        bar.className = 'trend-bar';
+        const height = Math.max(4, (s.score / maxScore) * 100);
+        bar.innerHTML = `
+          <span class="val">${s.score}</span>
+          <div class="bar" style="height:${height}px"></div>
+          <span class="label">${s.date.slice(5)}</span>
+        `;
+        chart.appendChild(bar);
+      });
+
+      // Keywords
+      const kwList = document.getElementById('keywordList');
+      kwList.innerHTML = '';
+      data.keywords.forEach(kw => {
+        const row = document.createElement('div');
+        row.className = 'keyword-row';
+        row.innerHTML = `
+          <span class="word">${kw.word}</span>
+          <span class="tag ${kw.found ? 'found' : ''}">${kw.found ? '✓ 排名: ' + (kw.rank || '有') : '未检测到'}</span>
+        `;
+        kwList.appendChild(row);
+      });
+
+      // Updates
+      const updates = document.getElementById('updatesList');
+      updates.innerHTML = '';
+      if (data.updates && data.updates.length > 0) {
+        data.updates.slice().reverse().forEach(u => {
+          const p = document.createElement('p');
+          p.style.cssText = 'font-size:0.78rem;color:var(--text-muted);margin-bottom:4px;font-family:var(--font-mono);';
+          p.textContent = u.date + ' — ' + u.note;
+          updates.appendChild(p);
+        });
+      } else {
+        updates.innerHTML = '<p style="font-size:0.82rem;color:var(--text-muted);">暂无记录</p>';
+      }
+    }
+
+    function openCheckModal() {
+      const models = prompt('检测到哪些模型提到了 zkoner？\n输入格式: ChatGPT=是,Claude=否,DeepSeek=是\n(用逗号分隔，是/否)');
+      if (!models) return;
+      const note = prompt('检测备注（可选）：\n例如 "描述准确"、"说我们是做SEO的(错误)"');
+      const today = new Date().toISOString().slice(0, 10);
+
+      // 简单解析
+      let mentionedCount = 0;
+      const parts = models.split(',');
+      parts.forEach(p => {
+        const [name, val] = p.split('=');
+        if (val && (val.trim() === '是' || val.trim() === 'yes')) mentionedCount++;
+      });
+
+      // 估算分数
+      const totalModels = 3;
+      const baseScore = 30;
+      const mentionScore = (mentionedCount / totalModels) * 40;
+      const estimate = Math.round(baseScore + mentionScore);
+
+      alert(`收到！\n估算评分: ${estimate}/100\n\n下次查看时，去对应的 AI 问 "zkoner.com 是做什么的" 看描述是否准确。`);
+
+      if (confirm('要更新监测数据吗？(这会修改 monitor-data.json 的本地版本)')) {
+        fetch('/lab/monitor-data.json?' + Date.now())
+          .then(r => r.json())
+          .then(d => {
+            d.scores.push({ date: today, score: estimate, note: note || '手动检测' });
+            if (!d.updates) d.updates = [];
+            d.updates.push({ date: today, note: note || `检测了 ${mentionedCount}/${totalModels} 个模型` });
+            data = d;
+            render();
+
+            // 保存到 localStorage 供参考
+            localStorage.setItem('zkoner-monitor-data', JSON.stringify(d));
+            alert('✅ 本地数据已更新。请同步更新 monitor-data.json 文件以持久化。');
+          });
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
