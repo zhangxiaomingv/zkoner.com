@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>张明夷 · AI Builder · zkoner</title>
+  <meta name="description" content="张明夷 — AI时代企业数字基础设施构建者。帮助企业建立AI可见性、自动化工作流和增长系统。">
+  <meta name="keywords" content="AI Visibility, AI Automation, AI Growth, n8n, 企业自动化, 企业获客, 成都">
+  <meta name="author" content="张明夷">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="张明夷 · AI Builder">
+  <meta property="og:description" content="AI时代企业数字基础设施构建者">
+  <meta property="og:url" content="https://zkoner.com">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="zkoner">
+
+  <!-- JSON-LD Structured Data (GEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://zkoner.com/#person",
+        "name": "张明夷",
+        "alternateName": "Mingyi Zhang",
+        "givenName": "明夷",
+        "familyName": "张",
+        "description": "AI时代企业数字基础设施构建者。专注于AI Visibility、AI Automation与AI Growth系统建设。",
+        "url": "https://zkoner.com",
+        "knowsAbout": [
+          "AI Visibility",
+          "Generative Engine Optimization",
+          "AI Automation",
+          "n8n Workflow",
+          "Enterprise Automation",
+          "AI Growth System",
+          "Schema.org",
+          "Knowledge Graph"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "成都",
+          "addressCountry": "CN"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://zkoner.com/#website",
+        "url": "https://zkoner.com",
+        "name": "zkoner",
+        "description": "张明夷的个人AI实验室 — 企业数字基础设施构建",
+        "inLanguage": "zh-CN"
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-primary: #07070a;
+      --bg-secondary: #0c0c14;
+      --bg-card: #111120;
+      --bg-card-hover: #161630;
+      --border: #1a1a30;
+      --border-glow: rgba(0, 240, 192, 0.08);
+      --text-primary: #e2e2ea;
+      --text-secondary: #7a7a90;
+      --text-muted: #4a4a60;
+      --accent: #00f0c0;
+      --accent-dim: #00a080;
+      --accent-glow: rgba(0, 240, 192, 0.15);
+      --purple: #7c5cfc;
+      --purple-dim: #5a3dd0;
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+      --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+      --radius: 12px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: var(--bg-primary); }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* ── Background grid ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 1040px; margin: 0 auto; padding: 0 24px;
+      position: relative; z-index: 1;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; border-bottom: 1px solid var(--border);
+    }
+    nav .logo {
+      font-family: var(--font-mono); font-size: 0.9rem; font-weight: 500;
+      letter-spacing: 2px; color: var(--accent); text-transform: uppercase;
+    }
+    nav .logo span { color: var(--text-muted); }
+    nav .nav-links { display: flex; gap: 24px; list-style: none; }
+    nav .nav-links a {
+      text-decoration: none; color: var(--text-secondary); font-size: 0.82rem;
+      font-family: var(--font-mono); transition: color var(--transition);
+    }
+    nav .nav-links a:hover { color: var(--accent); }
+    .nav-status {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-status .dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ── Sections ── */
+    section { padding: 80px 0; }
+    .section-label {
+      font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--text-muted); margin-bottom: 12px;
+    }
+
+    /* ── Hero ── */
+    .hero { padding: 120px 0 80px; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-name {
+      font-size: 3.5rem; font-weight: 650; letter-spacing: -1px;
+      line-height: 1.1; margin-bottom: 8px;
+    }
+    .hero-tagline {
+      font-family: var(--font-mono); font-size: 1.05rem;
+      color: var(--accent); margin-bottom: 20px;
+    }
+    .hero-desc {
+      font-size: 1rem; color: var(--text-secondary);
+      max-width: 420px; line-height: 1.7;
+    }
+    .hero-desc strong { color: var(--text-primary); font-weight: 500; }
+    .hero-status {
+      margin-top: 24px; padding: 12px 16px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; display: inline-flex; align-items: center; gap: 10px;
+    }
+    .hero-status .status-text {
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary);
+    }
+    .hero-status .status-text .highlight { color: var(--accent); }
+    .hero-status .bar {
+      width: 120px; height: 3px; background: var(--border); border-radius: 2px;
+      overflow: hidden;
+    }
+    .hero-status .bar-fill {
+      height: 100%; width: 65%; background: var(--accent);
+      border-radius: 2px; animation: progress-pulse 3s ease-in-out infinite;
+    }
+    @keyframes progress-pulse {
+      0%, 100% { width: 65%; }
+      50% { width: 72%; }
+    }
+
+    /* Hero right — terminal */
+    .hero-terminal {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.7;
+    }
+    .terminal-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 10px 14px; background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+    }
+    .terminal-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .terminal-dot:nth-child(1) { background: #ff5f56; }
+    .terminal-dot:nth-child(2) { background: #ffbd2e; }
+    .terminal-dot:nth-child(3) { background: #27c93f; }
+    .terminal-header span {
+      margin-left: auto; color: var(--text-muted); font-size: 0.68rem;
+    }
+    .terminal-body { padding: 16px; color: var(--text-secondary); }
+    .terminal-body .line { white-space: pre-wrap; margin-bottom: 4px; }
+    .terminal-body .prompt { color: var(--accent); }
+    .terminal-body .output { color: var(--text-primary); }
+    .terminal-body .output .key { color: var(--purple); }
+    .terminal-body .output .str { color: var(--accent-dim); }
+    .terminal-body .cursor {
+      display: inline-block; width: 8px; height: 16px;
+      background: var(--accent); animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── Systems ── */
+    .systems-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .system-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+      transition: all var(--transition); cursor: default;
+      position: relative; overflow: hidden;
+    }
+    .system-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0; transition: opacity var(--transition);
+    }
+    .system-card:hover::before { opacity: 1; }
+    .system-card:hover {
+      background: var(--bg-card-hover); border-color: rgba(0,240,192,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,240,192,0.04);
+    }
+    .system-card .icon {
+      font-size: 1.5rem; margin-bottom: 12px; display: block;
+    }
+    .system-card h3 {
+      font-size: 1rem; font-weight: 600; margin-bottom: 4px; color: var(--text-primary);
+    }
+    .system-card .sys-en {
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-dim);
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+    }
+    .system-card p {
+      font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;
+    }
+    .system-card .tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .system-card .tags span {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      padding: 3px 8px; border-radius: 4px;
+      background: rgba(124,92,252,0.08); color: var(--purple);
+      border: 1px solid rgba(124,92,252,0.12);
+    }
+    .system-card .tags span.accent {
+      background: rgba(0,240,192,0.08); color: var(--accent);
+      border-color: rgba(0,240,192,0.12);
+    }
+
+    /* ── Lab ── */
+    .lab-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .lab-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+      transition: all var(--transition);
+    }
+    .lab-card:hover {
+      border-color: rgba(124,92,252,0.25);
+      box-shadow: 0 4px 20px rgba(124,92,252,0.04);
+    }
+    .lab-card .meta {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+    }
+    .lab-card .badge {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      padding: 2px 8px; border-radius: 4px; text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .lab-card .badge.visibility { background: rgba(0,240,192,0.1); color: var(--accent); border: 1px solid rgba(0,240,192,0.15); }
+    .lab-card .badge.automation { background: rgba(124,92,252,0.1); color: var(--purple); border: 1px solid rgba(124,92,252,0.15); }
+    .lab-card .badge.growth { background: rgba(255,183,77,0.12); color: #ffb74d; border: 1px solid rgba(255,183,77,0.15); }
+    .lab-card .title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+    .lab-card .desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+    .lab-card .tech-tags {
+      margin-top: 12px; display: flex; flex-wrap: wrap; gap: 4px;
+    }
+    .lab-card .tech-tags span {
+      font-family: var(--font-mono); font-size: 0.62rem;
+      padding: 2px 6px; border-radius: 3px;
+      background: rgba(255,255,255,0.04); color: var(--text-muted);
+    }
+    .lab-empty {
+      grid-column: 1 / -1;
+      text-align: center; padding: 60px 20px;
+      border: 1px dashed var(--border); border-radius: var(--radius);
+      color: var(--text-muted);
+    }
+    .lab-empty .icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+    .lab-empty p { font-family: var(--font-mono); font-size: 0.8rem; }
+
+    /* ── Philosophy ── */
+    .philosophy {
+      text-align: center; max-width: 640px; margin: 0 auto;
+    }
+    .philosophy blockquote {
+      font-size: 1.15rem; line-height: 1.8; color: var(--text-secondary);
+      border: none; padding: 0;
+    }
+    .philosophy blockquote strong { color: var(--text-primary); font-weight: 500; }
+    .philosophy .divider {
+      width: 40px; height: 2px; background: var(--accent);
+      margin: 32px auto; border-radius: 1px;
+    }
+    .philosophy .signature {
+      font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);
+    }
+
+    /* ── Contact / Footer ── */
+    footer {
+      border-top: 1px solid var(--border); padding: 32px 0 48px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .footer-left h4 {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .footer-left p {
+      font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;
+    }
+    .footer-right {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+    }
+    .footer-right a {
+      text-decoration: none; color: var(--text-muted); font-size: 0.82rem;
+      font-family: var(--font-mono); transition: color var(--transition);
+    }
+    .footer-right a:hover { color: var(--accent); }
+    .footer-bottom {
+      margin-top: 24px; padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-bottom p {
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);
+    }
+
+    /* ── Animations ── */
+    .fade-in {
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .hero-name { font-size: 2.4rem; }
+      .hero-desc { max-width: 100%; }
+      .systems-grid { grid-template-columns: 1fr; }
+      .lab-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-right { align-items: flex-start; }
+      section { padding: 48px 0; }
+      .hero { padding: 60px 0 40px; }
+      nav .nav-links { display: none; }
+      .nav-status { display: none; }
+    }
+    @media (max-width: 480px) {
+      .hero-name { font-size: 1.8rem; }
+      .container { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ Navigation ═══ -->
+  <div class="container">
+    <nav>
+      <div class="logo">zk<span>oner</span></div>
+      <ul class="nav-links">
+        <li><a href="#systems">Systems</a></li>
+        <li><a href="#lab">Lab</a></li>
+        <li><a href="#philosophy">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-status">
+        <span class="dot"></span>
+        <span>BUILDING</span>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ═══ Hero ═══ -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <h1 class="hero-name">张明夷</h1>
+          <div class="hero-tagline" id="typewriter"></div>
+          <p class="hero-desc">
+            <strong>AI时代企业数字基础设施构建者。</strong>
+            帮助企业建立大模型可理解的品牌实体，用 Agent 和自动化驱动业务，用数据搭建增长引擎。
+          </p>
+          <div class="hero-status">
+            <span class="status-text">
+              <span class="highlight">●</span> 运行中 · AI Visibility &nbsp;
+              <span class="highlight">●</span> AI Automation &nbsp;
+              <span class="highlight">●</span> AI Growth
+            </span>
+          </div>
+        </div>
+        <div>
+          <div class="hero-terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span class="terminal-dot"></span>
+              <span>/status</span>
+            </div>
+            <div class="terminal-body">
+              <div class="line"><span class="prompt">~ $</span> whoami</div>
+              <div class="line output">张明夷 / AI Infrastructure Builder</div>
+              <div class="line"><span class="prompt">~ $</span> cat /etc/os-release</div>
+              <div class="line output">
+                <span class="key">NAME=</span><span class="str">"zkoner"</span><br>
+                <span class="key">SECTOR=</span><span class="str">"Enterprise Digital Infrastructure"</span><br>
+                <span class="key">LOCATION=</span><span class="str">"成都"</span><br>
+                <span class="key">STATUS=</span> <span style="color:var(--accent)">"BUILDING"</span>
+              </div>
+              <div class="line"><span class="prompt">~ $</span> <span class="cursor"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Systems ═══ -->
+  <section id="systems">
+    <div class="container">
+      <div class="section-label fade-in">/ Systems</div>
+      <h2 style="font-size:1.6rem;font-weight:600;margin-bottom:8px;" class="fade-in">三大系统</h2>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:32px;" class="fade-in">
+        不是服务列表。是我正在构建的企业数字基础设施。
+      </p>
+      <div class="systems-grid">
+        <div class="system-card fade-in">
+          <span class="icon">◈</span>
+          <h3>AI Visibility System</h3>
+          <div class="sys-en">让大模型准确理解你的品牌</div>
+          <p>通过结构化数据、知识图谱和实体建模，帮助企业在 ChatGPT、Claude、DeepSeek 等大模型中获得准确的品牌认知和推荐。</p>
+          <div class="tags">
+            <span class="accent">Schema.org</span>
+            <span class="accent">JSON-LD</span>
+            <span class="accent">Knowledge Graph</span>
+            <span>Entity Recognition</span>
+            <span>GEO</span>
+          </div>
+        </div>
+        <div class="system-card fade-in">
+          <span class="icon">⚙</span>
+          <h3>AI Automation System</h3>
+          <div class="sys-en">用 Agent 和代码驱动业务</div>
+          <p>使用 n8n、AI Agent、API 集成搭建企业自动化工作流。从数据采集、处理到输出，让重复工作自动完成。</p>
+          <div class="tags">
+            <span class="accent">n8n</span>
+            <span>AI Agent</span>
+            <span class="accent">API</span>
+            <span>Workflow</span>
+            <span>Automation</span>
+          </div>
+        </div>
+        <div class="system-card fade-in">
+          <span class="icon">◆</span>
+          <h3>AI Growth System</h3>
+          <div class="sys-en">数据驱动的获客增长引擎</div>
+          <p>搭建 AI 驱动的获客系统，涵盖潜客分析、企业数据处理、销售自动化。让增长可量化、可自动化、可扩展。</p>
+          <div class="tags">
+            <span class="accent">Data Pipeline</span>
+            <span>Lead Scoring</span>
+            <span>Sales Automation</span>
+            <span>AI CRM</span>
+            <span>Analytics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Lab ═══ -->
+  <section id="lab">
+    <div class="container">
+      <div class="section-label fade-in">/ Lab</div>
+      <h2 style="font-size:1.6rem;font-weight:600;margin-bottom:8px;" class="fade-in">实验与案例</h2>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:32px;" class="fade-in">
+        正在运行的项目。每个都是真实交付的系统。
+      </p>
+      <div class="lab-grid">
+        <div class="lab-card fade-in">
+          <div class="meta">
+            <span class="badge visibility">AI Visibility</span>
+          </div>
+          <div class="title">成都科技企业 AI 可见度诊断</div>
+          <div class="desc">为本地科技公司建立完整的 Schema.org 结构化数据体系，包括 Organization、LocalBusiness、Service 实体建模，提升其在 AI 搜索中的识别准确率。</div>
+          <div class="tech-tags">
+            <span>JSON-LD</span>
+            <span>Knowledge Graph</span>
+            <span>GEO Audit</span>
+          </div>
+        </div>
+        <div class="lab-card fade-in">
+          <div class="meta">
+            <span class="badge automation">AI Automation</span>
+          </div>
+          <div class="title">GEO 每日内容自动化生成系统</div>
+          <div class="desc">基于 n8n 的自动化工作流，定时生成 AI 友好内容 + 结构化数据，通过 Webhook 对外输出。包含话题轮换、数据组装、HTML 渲染的全自动管线。</div>
+          <div class="tech-tags">
+            <span>n8n</span>
+            <span>Schedule</span>
+            <span>Auto Content</span>
+          </div>
+        </div>
+        <div class="lab-card fade-in">
+          <div class="meta">
+            <span class="badge growth">AI Growth</span>
+          </div>
+          <div class="title">企业获客数据管道</div>
+          <div class="desc">搭建从数据采集、潜客评分到销售触达的自动化管道。处理企业公开数据，AI 评分筛选高意向客户，自动推送到 CRM。</div>
+          <div class="tech-tags">
+            <span>Data Pipeline</span>
+            <span>AI Scoring</span>
+            <span>CRM Integration</span>
+          </div>
+        </div>
+        <div class="lab-card fade-in">
+          <div class="meta">
+            <span class="badge visibility">AI Visibility</span>
+            <span class="badge automation">AI Automation</span>
+          </div>
+          <div class="title">品牌 AI 认知监测系统</div>
+          <div class="desc">持续监测品牌在 ChatGPT、Claude、DeepSeek 等大模型中的输出表现。检测品牌被提及的上下文、语义一致性和信息完整度。</div>
+          <div class="tech-tags">
+            <span>LLM Monitoring</span>
+            <span>AI Audit</span>
+            <span>Dashboard</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Philosophy ═══ -->
+  <section id="philosophy">
+    <div class="container">
+      <div class="philosophy fade-in">
+        <div class="section-label">/ Manifesto</div>
+        <blockquote>
+          A business is not a website.<br>
+          It's a system of <strong>signals</strong>, <strong>data</strong>, and <strong>automation</strong>.
+          <br><br>
+          我构建的不是网站。<br>
+          是让 AI 理解企业、自动化运营、持续增长的<strong>数字基础设施</strong>。
+        </blockquote>
+        <div class="divider"></div>
+        <div class="signature">— 张明夷 · 成都 · 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-left">
+          <h4>zkoner</h4>
+          <p>
+            AI时代企业数字基础设施构建者。<br>
+            以系统思维驱动商业自动化。
+          </p>
+        </div>
+        <div class="footer-right">
+          <a href="mailto:i@zkoner.com">i@zkoner.com</a>
+          <a href="https://github.com/zkoner" target="_blank" rel="noopener">github/zkoner</a>
+          <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">成都 · 中国</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 — 张明夷 / zkoner</p>
+        <p style="display:flex;align-items:center;gap:4px;">
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite;"></span>
+          BUILDING
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Typewriter Effect ──
+    (function() {
+      const el = document.getElementById('typewriter');
+      const text = 'AI Builder / 数字基础设施构建者';
+      let i = 0, isDeleting = false;
+      function type() {
+        if (!isDeleting) {
+          el.textContent = text.substring(0, i + 1);
+          i++;
+          if (i === text.length) { setTimeout(() => { isDeleting = true; setTimeout(type, 1500); }, 2000); return; }
+          setTimeout(type, 60 + Math.random() * 40);
+        } else {
+          el.textContent = text.substring(0, i);
+          i--;
+          if (i < 0) { i = 0; isDeleting = false; setTimeout(type, 500); return; }
+          setTimeout(type, 30 + Math.random() * 20);
+        }
+      }
+      type();
+    })();
+
+    // ── Scroll Fade-in ──
+    (function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    })();
+  </script>
+</body>
+</html>
