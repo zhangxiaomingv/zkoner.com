@@ -110,9 +110,33 @@ nav .logo a { color: var(--accent); }
   font-size: 1.4rem; cursor: pointer; padding: 4px;
 }
 
+/* ── Nav Contact Info ── */
+.nav-contact {
+  display: flex; align-items: center; gap: 8px;
+  margin-left: 16px; padding-left: 16px;
+  border-left: 1px solid var(--border);
+  font-family: var(--font-mono); font-size: 0.72rem;
+}
+.nav-contact .nav-phone {
+  color: var(--text-muted);
+  transition: color var(--transition);
+}
+.nav-contact .nav-phone:hover { color: var(--accent); }
+.nav-contact .nav-divider {
+  width: 1px; height: 10px; background: var(--border);
+}
+.nav-contact .nav-location {
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: 4px;
+}
+.nav-contact .nav-location .pin {
+  color: var(--accent-dim); font-size: 0.65rem;
+}
+
 /* ── Mobile Nav ── */
 @media (max-width: 900px) {
   .nav-toggle { display: block; }
+  .nav-contact { display: none; }
   .nav-links {
     display: none; flex-direction: column; gap: 0;
     position: absolute; top: 100%; left: 0; right: 0;
