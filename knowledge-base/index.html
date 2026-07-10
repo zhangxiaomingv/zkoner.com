@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Base · zkoner — AI 时代知识体系</title>
+  <meta name="description" content="AI 时代的知识体系构建方法、工具与实践经验。涵盖 AI 搜索、结构化数据、自动化工作流、内容策略等主题。">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Knowledge Base · zkoner">
+  <meta property="og:description" content="AI 时代的知识体系构建方法、工具与实践经验。">
+  <meta property="og:url" content="https://zkoner.com/knowledge-base/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="zkoner">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://zkoner.com/knowledge-base/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://zkoner.com" },
+          { "@type": "ListItem", "position": 2, "name": "Knowledge Base", "item": "https://zkoner.com/knowledge-base/" }
+        ]
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://zkoner.com/knowledge-base/#page",
+        "url": "https://zkoner.com/knowledge-base/",
+        "name": "Knowledge Base — AI 时代知识体系",
+        "description": "AI 时代的知识体系构建方法、工具与实践经验。",
+        "inLanguage": "zh-CN",
+        "isPartOf": { "@id": "https://zkoner.com/#website" }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="canonical" href="https://zkoner.com/knowledge-base/">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ═══ Navigation ═══ -->
+  <div class="container">
+    <nav>
+      <div class="logo"><a href="/">zk<span>oner</span></a></div>
+      <button class="nav-toggle" aria-label="菜单">☰</button>
+      <ul class="nav-links">
+        <li class="nav-dropdown">
+          <a href="/geo/">GEO</a>
+          <div class="nav-dropdown-menu">
+            <a href="/geo/#definition">GEO 定义</a>
+            <a href="/geo/#vs-seo">GEO vs SEO</a>
+            <a href="/geo/#why">为什么需要</a>
+            <a href="/geo/#how">工作原理</a>
+            <a href="/geo/#best-practices">最佳实践</a>
+            <a href="/geo/#myths">常见误区</a>
+            <a href="/geo/#tools">工具</a>
+            <a href="/geo/#trends">未来趋势</a>
+          </div>
+        </li>
+        <li class="nav-dropdown">
+          <a href="/ai-ready/">AI Ready</a>
+          <div class="nav-dropdown-menu">
+            <a href="/ai-ready/#content">内容结构</a>
+            <a href="/ai-ready/#schema">Schema</a>
+            <a href="/ai-ready/#faq">FAQ</a>
+            <a href="/ai-ready/#knowledge">知识库</a>
+            <a href="/ai-ready/#api">API</a>
+            <a href="/ai-ready/#monitoring">效果监测</a>
+          </div>
+        </li>
+        <li><a href="/knowledge-base/">知识库</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+        <li><a href="/case-studies/">案例</a></li>
+        <li><a href="/resources/">资源</a></li>
+        <li><a href="/blog/">博客</a></li>
+        <li><a href="/about/">关于</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- ═══ Page Hero ═══ -->
+  <section class="page-hero" id="hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">首页</a>
+        <span> / Knowledge Base</span>
+      </div>
+      <h1>Knowledge Base</h1>
+      <p>AI 时代的知识体系构建方法、工具与实践经验。从基础概念到系统落地，逐步建立完整的 AI 认知框架。</p>
+    </div>
+  </section>
+
+  <!-- ═══ Knowledge Topics Grid ═══ -->
+  <section id="topics">
+    <div class="container">
+      <div class="section-label fade-in">/ Topics</div>
+      <h2 class="section-title fade-in">知识主题</h2>
+      <p class="section-desc fade-in">覆盖 AI 可见度建设所需的核心知识领域。</p>
+      <div class="card-grid-3 fade-in">
+
+        <div class="card">
+          <a href="/knowledge-base/ai-search-basics/">
+            <span class="badge badge-geo">Foundation</span>
+            <h3>AI 搜索基础</h3>
+            <p>深入理解大语言模型（LLM）的搜索与信息检索原理。了解 AI 如何抓取、解析、理解网页内容，以及影响 AI 搜索结果排名的关键因素。从语义理解到向量检索，构建对 AI 搜索工作方式的系统性认知。</p>
+            <div class="card-meta">7 篇文章 · 入门级</div>
+          </a>
+        </div>
+
+        <div class="card">
+          <a href="/knowledge-base/structured-data/">
+            <span class="badge badge-ready">Schema</span>
+            <h3>结构化数据</h3>
+            <p>系统学习 Schema.org 各类实体类型及其应用场景。涵盖 Organization、LocalBusiness、Product、Article、FAQPage、Service 等核心类型的建模方法、属性选择和嵌套规则，以及结构化数据验证与效果追踪。</p>
+            <div class="card-meta">12 篇文章 · 进阶级</div>
+          </a>
+        </div>
+
+        <div class="card">
+          <a href="/knowledge-base/automation-workflows/">
+            <span class="badge badge-growth">Automation</span>
+            <h3>自动化工作流</h3>
+            <p>基于 n8n 的自动化工作流设计模式与最佳实践。包括内容自动生成管线、数据采集与清洗、多平台分发、定时任务编排、Webhook 集成、AI Agent 编排等场景的完整实现方案。</p>
+            <div class="card-meta">9 篇文章 · 进阶级</div>
+          </a>
+        </div>
+
+        <div class="card">
+          <a href="/knowledge-base/content-strategy/">
+            <span class="badge badge-geo">Strategy</span>
+            <h3>内容策略</h3>
+            <p>为 AI 搜索优化的内容创作方法论。涵盖 AI 友好内容的结构化写作规范、实体密度控制、可信源建设、E-E-A-T 提升策略、多模态内容优化，以及如何通过内容管线持续扩大 AI 可见度。</p>
+            <div class="card-meta">8 篇文章 · 进阶级</div>
+          </a>
+        </div>
+
+        <div class="card">
+          <a href="/knowledge-base/visibility-monitoring/">
+            <span class="badge badge-ready">Monitoring</span>
+            <h3>可见度监测</h3>
+            <p>建立 AI 搜索可见度的可量化监测体系。学习如何通过 AI 对话测试分析品牌提及率、信息准确度和推荐倾向，搭建自动化监测看板，追踪可见度变化趋势，用数据驱动优化决策。</p>
+            <div class="card-meta">6 篇文章 · 高级</div>
+          </a>
+        </div>
+
+        <div class="card">
+          <a href="/knowledge-base/growth-systems/">
+            <span class="badge badge-growth">Growth</span>
+            <h3>增长系统</h3>
+            <p>构建 AI 驱动的可持续增长系统。从获客数据管道搭建、用户行为分析与智能营销触发，到基于 AI 可见度的流量增长飞轮设计。将技术能力转化为可量化的业务增长成果。</p>
+            <div class="card-meta">5 篇文章 · 高级</div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-section" id="cta">
+    <div class="container">
+      <h2 class="fade-in">开始构建你的知识体系</h2>
+      <p class="fade-in">无论你处于哪个阶段，系统化的知识积累是 AI 可见度建设的基石。</p>
+      <a href="/contact/" class="cta-btn fade-in">
+        <span>咨询 zkoner</span>
+        <span>→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>zkoner</h4>
+          <p>AI 时代企业数字基础设施构建者。<br>以系统思维驱动 AI 可见性与自动化。</p>
+        </div>
+        <div class="footer-col">
+          <h4>板块</h4>
+          <ul>
+            <li><a href="/geo/">What is GEO</a></li>
+            <li><a href="/ai-ready/">AI Ready Website</a></li>
+            <li><a href="/knowledge-base/">Knowledge Base</a></li>
+            <li><a href="/case-studies/">Case Studies</a></li>
+            <li><a href="/resources/">Resources</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系</h4>
+          <ul>
+            <li><a href="mailto:243922774@qq.com">243922774@qq.com</a></li>
+            <li><a href="/about/">关于</a></li>
+            <li><a href="/contact/">联系</a></li>
+            <li><a href="https://github.com/zhangxiaomingv/zkoner-workflows" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 — zkoner</p>
+        <p style="display:flex;align-items:center;gap:4px;">
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite;"></span>
+          BUILDING
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

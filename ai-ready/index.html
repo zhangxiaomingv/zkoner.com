@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Ready Website — 让网站被 AI 理解 · zkoner</title>
+  <meta name="description" content="AI Ready Website 完整指南：从内容结构、Schema.org 结构化数据、FAQPage 到 API 接口、持续更新管线与 AI 可见度监测。让网站成为 AI 能理解的数字基础设施。">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="AI Ready Website — 让网站被 AI 理解">
+  <meta property="og:description" content="从语义 HTML 到结构化数据，从 API 到持续监测 — 系统构建 AI 能理解的网站。">
+  <meta property="og:url" content="https://zkoner.com/ai-ready/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="zkoner">
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "@id": "https://zkoner.com/ai-ready/#breadcrumb",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://zkoner.com" },
+      { "@type": "ListItem", "position": 2, "name": "AI Ready Website", "item": "https://zkoner.com/ai-ready/" }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: WebPage metadata -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://zkoner.com/ai-ready/#webpage",
+    "url": "https://zkoner.com/ai-ready/",
+    "name": "AI Ready Website — 让网站被 AI 理解",
+    "description": "从语义 HTML 到结构化数据，从 API 到持续监测 — 系统构建 AI 能理解的网站。",
+    "inLanguage": "zh-CN",
+    "isPartOf": { "@id": "https://zkoner.com/#website" },
+    "breadcrumb": { "@id": "https://zkoner.com/ai-ready/#breadcrumb" },
+    "about": {
+      "@type": "Thing",
+      "name": "AI Ready Website",
+      "description": "让网站具备 AI 可理解的信息结构、结构化数据和机器可访问接口"
+    }
+  }
+  </script>
+
+  <link rel="canonical" href="https://zkoner.com/ai-ready/">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Navigation  (same as home page)
+       ════════════════════════════════════════════════════════════ -->
+  <div class="container">
+    <nav>
+      <div class="logo"><a href="/">zk<span>oner</span></a></div>
+      <button class="nav-toggle" aria-label="菜单">☰</button>
+      <ul class="nav-links">
+        <li class="nav-dropdown">
+          <a href="/geo/">GEO</a>
+          <div class="nav-dropdown-menu">
+            <a href="/geo/#definition">GEO 定义</a>
+            <a href="/geo/#vs-seo">GEO vs SEO</a>
+            <a href="/geo/#why">为什么需要</a>
+            <a href="/geo/#how">工作原理</a>
+            <a href="/geo/#best-practices">最佳实践</a>
+            <a href="/geo/#myths">常见误区</a>
+            <a href="/geo/#tools">工具</a>
+            <a href="/geo/#trends">未来趋势</a>
+          </div>
+        </li>
+        <li class="nav-dropdown">
+          <a href="/ai-ready/">AI Ready</a>
+          <div class="nav-dropdown-menu">
+            <a href="/ai-ready/#content">内容结构</a>
+            <a href="/ai-ready/#schema">Schema</a>
+            <a href="/ai-ready/#faq">FAQ</a>
+            <a href="/ai-ready/#knowledge">知识库</a>
+            <a href="/ai-ready/#api">API</a>
+            <a href="/ai-ready/#monitoring">效果监测</a>
+          </div>
+        </li>
+        <li><a href="/knowledge-base/">知识库</a></li>
+        <li><a href="/faq/">FAQ</a></li>
+        <li><a href="/case-studies/">案例</a></li>
+        <li><a href="/resources/">资源</a></li>
+        <li><a href="/blog/">博客</a></li>
+        <li><a href="/about/">关于</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Page Hero
+       ════════════════════════════════════════════════════════════ -->
+  <section class="page-hero" id="hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">首页</a> / <span>AI Ready Website</span>
+      </div>
+      <div class="subtitle">
+        <span class="badge badge-ready">AI Ready</span>
+        &nbsp; /ai-ready/
+      </div>
+      <h1>AI Ready Website</h1>
+      <p>
+        AI 能理解的网站应该长什么样？从语义 HTML 到结构化数据，从 API 到持续监测 —
+        这是一个系统构建 AI 友好型网站的完整指南。本页面本身就是一次 AI Ready 的实践。
+      </p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       TOC (Table of Contents)
+       ════════════════════════════════════════════════════════════ -->
+  <div class="container">
+    <div class="toc" id="toc">
+      <div class="toc-title">目录 / Table of Contents</div>
+      <ul class="toc-list">
+        <li class="toc-h2"><a href="#content">1. 内容结构 — 语义 HTML 与标题层级</a></li>
+        <li class="toc-h2"><a href="#schema">2. Schema — Schema.org 结构化数据</a></li>
+        <li class="toc-h2"><a href="#faq">3. FAQ — 结构化 FAQPage</a></li>
+        <li class="toc-h2"><a href="#knowledge">4. 知识库 — 机器可读的知识体系</a></li>
+        <li class="toc-h2"><a href="#api">5. API — 机器可访问的数据接口</a></li>
+        <li class="toc-h2"><a href="#updates">6. 持续更新 — n8n 自动化管线</a></li>
+        <li class="toc-h2"><a href="#monitoring">7. 效果监测 — AI 可见度追踪</a></li>
+        <li class="toc-h2"><a href="#this-page">8. 本页面实践 — AI Ready 自查</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Content Wrapper
+       ════════════════════════════════════════════════════════════ -->
+  <div class="content-page container">
+
+    <!-- ──────────────── 1. 内容结构 ──────────────── -->
+    <section id="content">
+      <div class="section-label">
+        <span class="badge badge-ready">AI Ready</span> / 01
+      </div>
+      <h1>内容结构</h1>
+      <p class="section-desc">AI 理解网页的第一步，是读懂你的信息层级。</p>
+
+      <h2>为什么内容结构对 AI 如此重要？</h2>
+      <p>
+        大语言模型在浏览网页时，首先解析的是 <strong>语义结构</strong> 而非视觉样式。
+        清晰的 HTML 结构告诉 AI：什么是标题、什么是段落、什么是列表、什么是导航。
+        如果内容结构混乱，AI 的理解就会出现偏差甚至完全错过关键信息。
+      </p>
+
+      <h3>语义 HTML 的核心原则</h3>
+      <ul>
+        <li><strong>正确的标题层级</strong> — 使用 <code>&lt;h1&gt;</code> 到 <code>&lt;h6&gt;</code> 构建内容大纲，不跳级。每个页面只有一个 <code>&lt;h1&gt;</code>。</li>
+        <li><strong>语义化标签</strong> — 使用 <code>&lt;nav&gt;</code>、<code>&lt;main&gt;</code>、<code>&lt;article&gt;</code>、<code>&lt;section&gt;</code>、<code>&lt;aside&gt;</code> 标记页面区域。</li>
+        <li><strong>链接描述性文本</strong> — 避免"点击这里"，使用能独立描述目标内容的锚文本。</li>
+        <li><strong>干净的 URL 结构</strong> — 使用有意义的路径：<code>/ai-ready/#content</code> 优于 <code>/page.php?id=3</code>。</li>
+        <li><strong>Alt 文本</strong> — 所有图片提供有意义的替代文本，帮助 AI 理解图像内容。</li>
+      </ul>
+
+      <h3>标题层级示例</h3>
+      <div class="highlight-box">
+        <strong>正确示范：</strong><br>
+        <code>&lt;h1&gt;AI Ready Website&lt;/h1&gt;</code><br>
+        <code>&nbsp;&nbsp;&lt;h2&gt;内容结构&lt;/h2&gt;</code><br>
+        <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;语义 HTML 的核心原则&lt;/h3&gt;</code><br>
+        <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h3&gt;标题层级示例&lt;/h3&gt;</code><br>
+        <code>&nbsp;&nbsp;&lt;h2&gt;Schema 结构化数据&lt;/h2&gt;</code><br>
+        <br>
+        <strong>常见错误：</strong> 跳级使用标题（如 <code>h1</code> 直接跳到 <code>h4</code>）、用 <code>&lt;div&gt;</code> 模拟标题、多个 <code>h1</code>。
+      </div>
+
+      <h3>Clean URL 设计</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>推荐 (AI 友好)</th>
+            <th>不推荐 (不友好)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/ai-ready/#schema</code></td>
+            <td><code>/page.aspx?id=42&amp;tab=3</code></td>
+          </tr>
+          <tr>
+            <td><code>/blog/ai-ready-intro</code></td>
+            <td><code>/blog/post.php?slug=123abc</code></td>
+          </tr>
+          <tr>
+            <td><code>/knowledge-base/schema-org</code></td>
+            <td><code>/kb/index.php?cat=2&amp;item=7</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ──────────────── 2. Schema ──────────────── -->
+    <section id="schema">
+      <div class="section-label">
+        <span class="badge badge-ready">AI Ready</span> / 02
+      </div>
+      <h1>Schema — Schema.org 结构化数据</h1>
+      <p class="section-desc">结构化数据是 AI 理解实体关系的通用语言。</p>
+
+      <h2>什么是 Schema.org？</h2>
+      <p>
+        Schema.org 是 Google、Microsoft、Yahoo 和 Yandex 联合推出的结构化数据词汇表。
+        它用统一的 JSON-LD 格式描述人、组织、产品、事件、文章等实体及其关系。
+        大语言模型在训练和推理时大量依赖 Schema.org 数据来理解实体和关系。
+      </p>
+
+      <h3>AI Ready 网站必加的 Schema 类型</h3>
+      <ul>
+        <li><strong>Organization</strong> — 组织/公司信息：名称、描述、Logo、联系方式</li>
+        <li><strong>Person</strong> — 个人品牌/创始人信息</li>
+        <li><strong>WebSite</strong> — 网站基本信息：名称、描述、语言、搜索功能</li>
+        <li><strong>WebPage</strong> — 每个页面的类型标注</li>
+        <li><strong>BreadcrumbList</strong> — 面包屑导航，帮助 AI 理解站点结构</li>
+        <li><strong>FAQPage</strong> — 常见问题（下一节详述）</li>
+        <li><strong>Article / BlogPosting</strong> — 文章和博客内容</li>
+      </ul>
+
+      <h3>完整 JSON-LD 示例</h3>
+      <p>以下是一个组织+网站+面包屑的完整 JSON-LD 示例 — 本页面也使用了类似的模式。</p>
+
+      <div class="highlight-box" style="overflow-x:auto;">
+        <pre style="font-family:var(--font-mono);font-size:0.78rem;line-height:1.6;color:var(--text-secondary);white-space:pre-wrap;">
+<span style="color:var(--text-muted);">&lt;script type="application/ld+json"&gt;</span>
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://zkoner.com/#organization",
+      "name": "zkoner",
+      "description": "AI 时代企业数字基础设施构建者",
+      "url": "https://zkoner.com",
+      "logo": "https://zkoner.com/logo.png",
+      "email": "243922774@qq.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "成都",
+        "addressCountry": "CN"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "张明夷"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://zkoner.com/#website",
+      "url": "https://zkoner.com",
+      "name": "zkoner",
+      "description": "AI 时代企业数字基础设施构建",
+      "inLanguage": "zh-CN",
+      "publisher": { "@id": "https://zkoner.com/#organization" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://zkoner.com/ai-ready/#breadcrumb",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://zkoner.com" },
+        { "@type": "ListItem", "position": 2, "name": "AI Ready Website", "item": "https://zkoner.com/ai-ready/" }
+      ]
+    }
+  ]
+}
+<span style="color:var(--text-muted);">&lt;/script&gt;</span></pre>
+      </div>
+
+      <h3>Schema 验证工具</h3>
+      <ul>
+        <li><a href="https://validator.schema.org/" target="_blank" rel="noopener">Schema.org Validator</a> — 官方结构化数据验证工具</li>
+        <li><a href="https://search.google.com/test/rich-results" target="_blank" rel="noopener">Google Rich Results Test</a> — 验证富媒体搜索结果</li>
+        <li><a href="https://developers.google.com/search/docs/appearance/structured-data" target="_blank" rel="noopener">Google 结构化数据文档</a> — 官方指南</li>
+      </ul>
+    </section>
+
+    <!-- ──────────────── 3. FAQ ──────────────── -->
+    <section id="faq">
+      <div class="section-label">
+        <span class="badge badge-ready">AI Ready</span> / 03
+      </div>
+      <h1>FAQ — 结构化 FAQPage</h1>
+      <p class="section-desc">FAQ 是 AI 最常引用的信息来源之一。用 Schema 标记后，AI 可以精确提取问答对。</p>
+
+      <h2>为什么 FAQ 是 AI 可见度的关键？</h2>
+      <p>
+        当用户在 ChatGPT 或 Claude 中提问时，AI 会优先查找权威来源的结构化问答信息。
+        标注了 <strong>FAQPage</strong> Schema 的页面，AI 能够精确定位问题与答案的对应关系，
+        大幅提升被引用的概率和准确性。
+      </p>
+
+      <h3>FAQPage Schema 示例</h3>
+      <p>以下是 zkoner.com 使用的 FAQPage JSON-LD 模式：</p>
+
+      <div class="highlight-box" style="overflow-x:auto;">
+        <pre style="font-family:var(--font-mono);font-size:0.78rem;line-height:1.6;color:var(--text-secondary);white-space:pre-wrap;">
+<span style="color:var(--text-muted);">&lt;script type="application/ld+json"&gt;</span>
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://zkoner.com/ai-ready/#faqpage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "什么是 AI Ready Website？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI Ready Website 是指信息结构清晰、使用语义化 HTML、包含完整 Schema.org 结构化数据、提供机器可访问接口，并能持续更新的网站。这样的网站能被大语言模型准确理解、引用和推荐。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Schema.org 和 SEO 有什么关系？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Schema.org 结构化数据同时服务传统搜索引擎（如 Google 的 Rich Snippets）和生成式 AI 引擎（如 ChatGPT 的引用检索）。它为 AI 提供了理解页面内容的实体关系框架。"
+      }
+    }
+  ]
+}
+<span style="color:var(--text-muted);">&lt;/script&gt;</span></pre>
+      </div>
+
+      <h3>FAQ 最佳实践</h3>
+      <ul>
+        <li><strong>真实问题</strong> — 基于实际用户询问或搜索数据编写 FAQ，不要编造问题</li>
+        <li><strong>完整答案</strong> — 每个答案提供充分的上下文，不要只有一句话</li>
+        <li><strong>定期更新</strong> — 产品和行业变化后及时更新 FAQ</li>
+        <li><strong>内链关联</strong> — 答案中链接到相关内容页面，形成知识网络</li>
+        <li><strong>每个页面一至多个 FAQ</strong> — 不要把全站所有 FAQ 放在一个页面里</li>
+      </ul>
+
+      <div class="highlight-box">
+        <strong>AI Ready 提示：</strong> FAQ 不仅对用户有用，它是 AI 理解你业务最直接的入口。一个好的 FAQ 页面可能成为 AI 回答中关于你品牌的核心引用源。
+      </div>
+    </section>
+
+    <!-- ──────────────── 4. 知识库 ──────────────── -->
+    <section id="knowledge">
+      <div class="section-label">
+        <span class="badge badge-ready">AI Ready</span> / 04
+      </div>
+      <h1>知识库 — 机器可读的知识体系</h1>
+      <p class="section-desc">把分散的信息组织成 AI 可以系统学习的知识网络。</p>
+
+      <h2>从"页面"到"知识体系"</h2>
+      <p>
+        传统网站的信息是碎片化的：每篇文章、每个页面各自独立。AI 需要的却是 <strong>互联的知识网络</strong>。
+        一个 AI Ready 网站应该将内容组织为结构化的知识库，让 AI 可以追踪主题之间的关联。
+      </p>
+
+      <h3>核心实践</h3>
+
+      <h4>1. 内部链接策略</h4>
+      <p>
+        每个页面至少链接到 2-3 个相关主题页面。使用描述性链接文本而非泛泛的"了解更多"。
+        在 zkoner.com 上，<a href="/geo/">GEO 页面</a> 会链接到 <a href="/ai-ready/">AI Ready</a>，
+        因为两者主题相关且互相增强。
+      </p>
+
+      <h4>2. llms.txt — 为 AI 准备的站点地图</h4>
+      <p>
+        <code>llms.txt</code> 是一份纯文本文件，放在网站根目录，为 AI 爬虫提供当前站点的核心信息摘要。
+        它为 AI 提供了一种无需解析 HTML 就能了解站点结构的途径。
+      </p>
+      <div class="highlight-box">
+        <strong>llms.txt 示例：</strong><br>
+        <pre style="font-family:var(--font-mono);font-size:0.78rem;line-height:1.6;color:var(--text-secondary);white-space:pre-wrap;">
+# zkoner — AI Builder
+
+> zkoner 帮助个人和企业构建 AI 可理解的信息结构、自动化工作流和增长系统。
+
+## 核心页面
+
+- [What is GEO](/geo/): Generative Engine Optimization 完整指南
+- [AI Ready Website](/ai-ready/): AI 能理解的网站构建指南
+- [Knowledge Base](/knowledge-base/): AI 时代知识体系构建
+- [FAQ](/faq/): GEO、AI Ready、自动化相关问答
+- [Case Studies](/case-studies/): 真实项目案例</pre>
+      </div>
+
+      <h4>3. 主题聚类</h4>
+      <p>
+        围绕核心主题建立内容集群。例如 zkoner.com 的"AI 可见度"主题下包含
+        <a href="/geo/">GEO</a>、<a href="/ai-ready/">AI Ready</a>、
+        <a href="/knowledge-base/">知识库</a> 和 <a href="/case-studies/">案例</a>
+        四个子模块，彼此链接，形成一个完整的知识图。
+      </p>
+
+      <h4>4. 实体关系建模</h4>
+      <p>
+        在 Schema.org 中使用 <code>@id</code> 引用同一实体的不同关联页面。
+        例如在整个 zkoner.com 上，所有页面的 Organization 都使用相同的
+        <code>@id: "https://zkoner.com/#organization"</code>，告诉 AI 这些信息属于同一个实体。
+      </p>
+    </section>
+
+    <!-- ──────────────── 5. API ──────────────── -->
+    <section id="api">
+      <div class="section-label">
+        <span class="badge badge-ready">AI Ready</span> / 05
+      </div>
+      <h1>API — 机器可访问的数据接口</h1>
+      <p class="section-desc">让 AI 代理和自动化系统可以直接获取你的数据。</p>
+
+      <h2>为什么 AI Ready 网站需要 API？</h2>
+      <p>
+        随着 AI Agent 和自动化工作流的普及，越来越多的 AI 系统不再浏览网页，而是直接调用 API 获取数据。
+        一个提供 <strong>机器可读接口</strong> 的网站，天然比仅提供 HTML 页面的网站更易被 AI 集成和引用。
+      </p>
+
+      <h3>推荐的 API 模式</h3>
+
+      <ul>
+        <li><strong>RESTful JSON API</strong> — 标准 HTTP 接口，返回 JSON 格式数据</li>
+        <li><strong>Webhook</strong> — 实时推送数据更新，适合 n8n 自动化管线</li>
+        <li><strong>RSS / Atom Feed</strong> — 内容更新通知，AI 训练常用数据源</li>
+        <li><strong>sitemap.xml</strong> — 提供完整的 URL 索引，帮助 AI 爬虫发现所有页面</li>
+        <li><strong>robots.txt</strong> — 清晰声明允许和禁止的爬取路径</li>
+      </ul>
+
+      <h3>zkoner.com 的 API 架构</h3>
+      <div class="highlight-box">
+        <strong>数据流概览：</strong><br>
+        n8n 定时触发器 → 内容生成 Webhook → 数据写入 → JSON API 端点 → AI Agent 调用<br>
+        <br>
+        zkoner-workflows 仓库中的 n8n 工作流通过 Webhook 暴露数据端点，
+        被外部 AI Agent 和自动化系统调用。所有端点返回标准 JSON，
+        包含 Schema.org 兼容的结构化字段。
+      </div>
+
+      <h3>API 设计原则</h3>
+      <ul>
+        <li><strong>一致性</strong> — 统一的 URL 命名规则和响应格式</li>
+        <li><strong>版本化</strong> — URL 中包含版本号（如 <code>/api/v1/</code>）</li>
+        <li><strong>自描述</strong> — 返回字段使用语义化命名，配合 Schema.org 词汇</li>
+        <li><strong>速率限制</strong> — 保护服务，同时提供合理的调用配额</li>
+        <li><strong>认证可选</strong> — 公开数据无需认证，敏感数据使用 API Key</li>
+      </ul>
+    </section>
+
+    <!-- ──────────────── 6. 持续更新 ──────────────── -->
+    <section id="updates">
+      <div class="section-label">
+        <span class="badge badge-ready">AI Ready</span> / 06
+      </div>
+      <h1>持续更新 — n8n 自动化管线</h1>
+      <p class="section-desc">AI 喜欢新鲜数据。自动化的内容管线是保持 AI 友好状态的工程保障。</p>
+
+      <h2>为什么持续更新是 AI Ready 的关键？</h2>
+      <p>
+        AI 模型有数据新鲜度的偏好。同样的内容，更新频率更高的网站往往在 AI 回答中被优先引用。
+        但手动更新的成本太高，因此需要构建 <strong>自动化内容管线</strong>。
+      </p>
+
+      <h3>使用 n8n 构建自动更新管线</h3>
+      <p>
+        zkoner 使用 <a href="https://n8n.io" target="_blank" rel="noopener">n8n</a>
+        构建全自动的内容生成和发布系统。以下是一个典型的数据管线：
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>步骤</th>
+            <th>节点</th>
+            <th>功能</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Schedule Trigger</td>
+            <td>每天 8:00 自动触发</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>HTTP Request</td>
+            <td>获取外部数据源（行业新闻、趋势）</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>AI (LLM) Node</td>
+            <td>使用 AI 生成摘要和结构化内容</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Code Node</td>
+            <td>格式化为 Schema.org 兼容的 JSON</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Webhook</td>
+            <td>推送更新到网站的数据端点</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Slack / Email</td>
+            <td>发送执行报告和状态通知</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>自动化更新内容类型</h3>
+      <ul>
+        <li><strong>SEO / GEO 内容</strong> — 每日自动生成 AI 友好内容</li>
+        <li><strong>结构化数据</strong> — 自动生成和更新 JSON-LD</li>
+        <li><strong>FAQ 更新</strong> — 基于用户搜索数据自动更新 FAQ</li>
+        <li><strong>案例数据</strong> — 从项目管理系统同步更新</li>
+        <li><strong>Sitemap 生成</strong> — 自动生成并提交更新的 sitemap.xml</li>
+      </ul>
+
+      <div class="highlight-box">
+        <strong>相关资源：</strong> 查看 <a href="https://github.com/zhangxiaomingv/zkoner-workflows" target="_blank" rel="noopener">zkoner-workflows</a> 仓库获取 n8n 工作流源码。
+      </div>
+    </section>
+
+    <!-- ──────────────── 7. 效果监测 ──────────────── -->
+    <section id="monitoring">
+      <div class="section-label">
+        <span class="badge badge-ready">AI Ready</span> / 07
+      </div>
+      <h1>效果监测 — AI 可见度追踪</h1>
+      <p class="section-desc">建设工作可衡量。用数据跟踪你的 AI 可见度变化。</p>
+
+      <h2>如何监测 AI 可见度？</h2>
+      <p>
+        AI 可见度监测是 GEO（Generative Engine Optimization）的核心环节。
+        与传统 SEO 的排名追踪不同，GEO 监测关注的是：<strong>AI 在回答中包含了你多少次？引用的语境是什么？</strong>
+      </p>
+
+      <h3>监测维度</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>维度</th>
+            <th>监测方法</th>
+            <th>频率</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>引用出现</td>
+            <td>在 ChatGPT、Claude、Perplexity 中提问，检查是否引用你的内容</td>
+            <td>每周</td>
+          </tr>
+          <tr>
+            <td>引用准确性</td>
+            <td>AI 是否正确理解和转述了你的信息？有无事实性错误？</td>
+            <td>每月</td>
+          </tr>
+          <tr>
+            <td>实体识别</td>
+            <td>使用 Schema.org 验证工具检查 AI 是否正确识别了你的实体关系</td>
+            <td>每月</td>
+          </tr>
+          <tr>
+            <td>上下文质量</td>
+            <td>AI 在什么背景下引用你？是正面推荐还是中性提及？</td>
+            <td>每季度</td>
+          </tr>
+          <tr>
+            <td>覆盖率趋势</td>
+            <td>多轮不同角度提问，统计引用的总体趋势变化</td>
+            <td>每月</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>如何测试你的 AI 可见度</h3>
+      <p>以下是一些你可以自行测试的场景：</p>
+      <ul>
+        <li><strong>ChatGPT</strong> — 提问"什么是 GEO？"或"[你的公司名] 是做什么的？"，查看引用来源</li>
+        <li><strong>Claude</strong> — 在 Claude 中询问与你的专业领域相关的问题，检查引用</li>
+        <li><strong>Perplexity</strong> — 搜索你的品牌词，查看 AI 生成的摘要和引用</li>
+        <li><strong>Google AI Overviews</strong> — 在 Google 搜索与你业务相关的问题，查看 AI 摘要</li>
+      </ul>
+
+      <div class="highlight-box">
+        <strong>AI Ready 实践：</strong> zkoner 使用定制的 GEO 监测工作流，定期在多个 AI 平台上执行测试查询，
+        记录引用情况、分析引用准确度，并将结果同步到 n8n 数据表中用于趋势分析。
+      </div>
+    </section>
+
+    <!-- ──────────────── 8. 本页面实践 ──────────────── -->
+    <section id="this-page">
+      <div class="section-label">
+        <span class="badge badge-ready">AI Ready</span> / 08
+      </div>
+      <h1>本页面实践 — AI Ready 自查</h1>
+      <p class="section-desc">这一页本身就是 AI Ready 的活体示范。以下是本页面遵循的原则。</p>
+
+      <div class="highlight-box">
+        <strong>本页面已实施的 AI Ready 实践：</strong>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>原则</th>
+            <th>本页面的实现</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>语义 HTML</td>
+            <td>使用 <code>&lt;nav&gt;</code>、<code>&lt;section&gt;</code>、<code>&lt;h1&gt;</code>–<code>&lt;h4&gt;</code> 正确层级，没有跳级</td>
+          </tr>
+          <tr>
+            <td>标题层级</td>
+            <td>唯一 <code>h1</code>，<code>h2</code> 对应章节，<code>h3</code>/<code>h4</code> 对应子主题</td>
+          </tr>
+          <tr>
+            <td>Schema.org</td>
+            <td>内嵌 BreadcrumbList 和 WebPage JSON-LD</td>
+          </tr>
+          <tr>
+            <td>FAQPage Schema</td>
+            <td>第3节包含完整的 FAQPage JSON-LD 示例和本页的 FAQ 结构化数据</td>
+          </tr>
+          <tr>
+            <td>干净 URL</td>
+            <td>路径 <code>/ai-ready/</code>，锚点 <code>#content</code>、<code>#schema</code> 等</td>
+          </tr>
+          <tr>
+            <td>内部链接</td>
+            <td>链接到 <a href="/geo/">/geo/</a>、<a href="/knowledge-base/">/knowledge-base/</a>、<a href="/faq/">/faq/</a> 等关联页面</td>
+          </tr>
+          <tr>
+            <td>描述性锚文</td>
+            <td>所有链接文本独立可理解（如"查看 zkoner-workflows 仓库"）</td>
+          </tr>
+          <tr>
+            <td>元数据</td>
+            <td>完整的 title、description、OG 标签、canonical URL</td>
+          </tr>
+          <tr>
+            <td>可读性</td>
+            <td>内容以人优先，但结构为 AI 做了充分优化</td>
+          </tr>
+          <tr>
+            <td>AI 友好标识</td>
+            <td>使用 <code>badge badge-ready</code> 标注 AI Ready 元素</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight-box">
+        <strong>你可以做同样的事。</strong> 无论是一个人的博客还是企业的官网，
+        从语义 HTML 和 Schema 开始，逐步构建完整的 AI Ready 体系。
+        每个页面都能成为 AI 理解你的入口。
+      </div>
+    </section>
+
+  </div><!-- /.content-page -->
+
+  <!-- ════════════════════════════════════════════════════════════
+       CTA Section
+       ════════════════════════════════════════════════════════════ -->
+  <section class="cta-section" id="cta">
+    <div class="container">
+      <h2 class="fade-in">让你的网站被 AI 理解</h2>
+      <p class="fade-in">
+        从结构化数据到自动化管线，从内容策略到效果监测 —
+        系统建设 AI 时代的数字基础设施。
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="/geo/" class="cta-btn fade-in">
+          <span>了解 GEO</span>
+          <span>→</span>
+        </a>
+        <a href="/contact/" class="cta-btn outline fade-in">
+          <span>联系 zkoner</span>
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Footer (same as home page)
+       ════════════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>zkoner</h4>
+          <p>AI 时代企业数字基础设施构建者。<br>以系统思维驱动 AI 可见性与自动化。</p>
+        </div>
+        <div class="footer-col">
+          <h4>板块</h4>
+          <ul>
+            <li><a href="/geo/">What is GEO</a></li>
+            <li><a href="/ai-ready/">AI Ready Website</a></li>
+            <li><a href="/knowledge-base/">Knowledge Base</a></li>
+            <li><a href="/case-studies/">Case Studies</a></li>
+            <li><a href="/resources/">Resources</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系</h4>
+          <ul>
+            <li><a href="mailto:243922774@qq.com">243922774@qq.com</a></li>
+            <li><a href="/about/">关于</a></li>
+            <li><a href="/contact/">联系</a></li>
+            <li><a href="https://github.com/zhangxiaomingv/zkoner-workflows" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 — zkoner</p>
+        <p style="display:flex;align-items:center;gap:4px;">
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite;"></span>
+          BUILDING
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

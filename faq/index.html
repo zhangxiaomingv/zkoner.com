@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ · 常见问题 — zkoner · AI Builder</title>
+  <meta name="description" content="关于 GEO、AI Ready Website、AI Automation、AI Growth、知识库、资源与定价的常见问题。">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="FAQ · 常见问题 — zkoner">
+  <meta property="og:description" content="关于 GEO、AI Ready Website、AI Automation、AI Growth 的常见问题。">
+  <meta property="og:url" content="https://zkoner.com/faq/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="zkoner">
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FAQPage",
+        "@id": "https://zkoner.com/faq/#faqpage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "什么是 GEO（Generative Engine Optimization）？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GEO 是帮助企业在大模型（如 ChatGPT、Claude、DeepSeek 等）的搜索结果中获得更高可见度和推荐率的优化体系。包括结构化数据建设、AI 友好内容策略和知识图谱构建。与 SEO 优化传统搜索引擎不同，GEO 优化的是大语言模型的语义理解和推荐逻辑。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GEO 和 SEO 有什么区别？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "SEO 优化的是搜索引擎（如 Google、Bing）的排名算法，核心是关键词、外链、页面技术指标。GEO 优化的是大语言模型的语义理解和推荐逻辑，核心是结构化知识、实体关系、信息可信度和权威性。两者互补，但目标和技术路径不同。SEO 侧重于让页面被搜到，GEO 侧重于让品牌被 AI 理解和推荐。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "一个 'AI Ready' 的网站应该具备什么？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "清晰的语义化 HTML 结构、完整的 Schema.org 结构化数据（如 Organization、Article、FAQPage 等）、标准化的 FAQ 体系、开放的机器可读接口（如 API、llms.txt、robots.txt 优化）、持续更新的内容管线，以及定期的 AI 可见度监测。AI Ready 的网站应该让 AI 爬虫像读数据库一样理解网站内容。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GEO 需要多长时间才能看到效果？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基础结构化数据部署后，AI 搜索可见度的改善通常在 2-4 周内开始显现。但完整的知识体系构建和 AI 品牌认知建立需要持续投入，一般 3-6 个月可以达到显著效果。GEO 是持续优化的过程，而非一次性项目。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "AI Automation 如何与 GEO 协同工作？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "AI Automation 为 GEO 提供持续维护的能力。通过 n8n 等自动化平台，可以定时生成 AI 友好内容、自动更新结构化数据、监测 AI 对话中品牌的提及率和情感倾向、自动提交站点更新通知。自动化让 GEO 从一个静态项目变成一个持续运转的系统。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "n8n 在 AI 自动化生态中扮演什么角色？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "n8n 是一个开源的工作流自动化平台，在 AI 自动化生态中充当连接器角色。它可以连接 400+ 应用和服务，编排 AI Agent 的行为，构建内容管线、数据同步、监测告警等自动化流程。zkoner 使用 n8n 构建了多个 GEO 自动化工流，包括每日内容生成、AI 可见度监测、多渠道分发等。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "AI Growth 包含哪些具体内容？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "AI Growth 是指在 AI 主导的信息分发环境中实现持续增长的系统方法。内容包括：AI 可见度监测与优化、AI 友好内容策略与常态化产出、知识图谱建设与维护、多渠道 AI 引用策略、用户 AI 交互行为分析、基于 AI 反馈的迭代优化机制。核心是构建一个能被 AI 持续发现、理解和推荐的品牌知识体系。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "什么是 Knowledge Base？zkoner 的知识库有什么特点？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Knowledge Base（知识库）是结构化的、机器可读的知识集合。zkoner 的知识库以 AI 可见性为核心，涵盖 GEO 概念、Schema.org 类型参考、n8n 工作流模式、AI 爬虫行为分析等内容。特点包括：持续更新、附带实战案例、有直接的代码和配置示例、与 zkoner-workflows 开源项目关联，确保内容可验证、可复用。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "zkoner 的 Resources 包含哪些类型？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Resources 板块提供可直接使用的工具和模板，包括：GEO 自检清单（AI 可见度审计模板）、结构化数据 Schema 生成器与代码片段、n8n 工作流模板（可导入直接使用）、AI 内容策略画布、llms.txt 配置参考、AI 可见度监测模板等。全部资源免费开放，持续更新。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "zkoner 提供哪些服务？如何定价？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "zkoner 提供三类服务：AI 可见度诊断与咨询（包含 GEO 审计、结构化数据分析、优化方案）、AI 自动化系统建设（基于 n8n 的内容管线与监测系统）、AI 增长体系设计与实施。定价按项目范围和工作量定制，初次咨询免费。详细需求请通过 /contact/ 页面联系。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "我需要技术背景才能开始 GEO 吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "基础层面的 GEO 优化（如内容结构调整、FAQ 建设）不需要深入技术背景。但完整的 GEO 体系建设涉及结构化数据、知识图谱、自动化管线等技术组件，建议与技术团队协作或委托专业服务。zkoner 的内容和工具旨在降低技术门槛，让非技术人员也能理解并参与。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "GEO 适合哪些类型的网站或企业？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "任何希望在 AI 搜索结果中被发现和被推荐的网站都能从 GEO 受益。尤其适合：内容型网站（博客、媒体、文档站点）、知识密集型企业（咨询、教育、SaaS）、本地服务商（需要被 AI 推荐为可信来源）、电商平台（产品信息结构化）。B2B 企业受益尤为明显，因为 AI 搜索决策高度依赖结构化信息。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "如何监测我的 AI 可见度？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "监测 AI 可见度需要多维度方法：AI 对话测试（在 ChatGPT、Claude、DeepSeek 等平台测试品牌相关查询的响应）、结构化数据验证（使用 Google Rich Results Test、Schema.org Validator）、引用跟踪（监测 AI 输出中品牌名称和链接的出现频率）、竞争对比（与同行业品牌的 AI 可见度横向对比）。zkoner 提供 AI 可见度诊断服务，可输出详细的监测报告。"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://zkoner.com/faq/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://zkoner.com" },
+          { "@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://zkoner.com/faq/" }
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://zkoner.com/faq/#webpage",
+        "url": "https://zkoner.com/faq/",
+        "name": "FAQ · 常见问题 — zkoner",
+        "description": "关于 GEO、AI Ready Website、AI Automation、AI Growth、知识库、资源与定价的常见问题。",
+        "inLanguage": "zh-CN",
+        "isPartOf": { "@id": "https://zkoner.com/#website" },
+        "breadcrumb": { "@id": "https://zkoner.com/faq/#breadcrumb" },
+        "mainEntity": { "@id": "https://zkoner.com/faq/#faqpage" }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="canonical" href="https://zkoner.com/faq/">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ═══ Navigation ═══ -->
+  <div class="container">
+    <nav>
+      <div class="logo"><a href="/">zk<span>oner</span></a></div>
+      <button class="nav-toggle" aria-label="菜单">☰</button>
+      <ul class="nav-links">
+        <li class="nav-dropdown">
+          <a href="/geo/">GEO</a>
+          <div class="nav-dropdown-menu">
+            <a href="/geo/#definition">GEO 定义</a>
+            <a href="/geo/#vs-seo">GEO vs SEO</a>
+            <a href="/geo/#why">为什么需要</a>
+            <a href="/geo/#how">工作原理</a>
+            <a href="/geo/#best-practices">最佳实践</a>
+            <a href="/geo/#myths">常见误区</a>
+            <a href="/geo/#tools">工具</a>
+            <a href="/geo/#trends">未来趋势</a>
+          </div>
+        </li>
+        <li class="nav-dropdown">
+          <a href="/ai-ready/">AI Ready</a>
+          <div class="nav-dropdown-menu">
+            <a href="/ai-ready/#content">内容结构</a>
+            <a href="/ai-ready/#schema">Schema</a>
+            <a href="/ai-ready/#faq">FAQ</a>
+            <a href="/ai-ready/#knowledge">知识库</a>
+            <a href="/ai-ready/#api">API</a>
+            <a href="/ai-ready/#monitoring">效果监测</a>
+          </div>
+        </li>
+        <li><a href="/knowledge-base/">知识库</a></li>
+        <li><a href="/faq/" class="active">FAQ</a></li>
+        <li><a href="/case-studies/">案例</a></li>
+        <li><a href="/resources/">资源</a></li>
+        <li><a href="/blog/">博客</a></li>
+        <li><a href="/about/">关于</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- ═══ Page Hero ═══ -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="/">首页</a> / <span>FAQ</span>
+      </div>
+      <h1>FAQ</h1>
+      <p class="subtitle">常见问题</p>
+      <p>关于 GEO、AI Ready Website、AI Automation、AI Growth 以及 zkoner 服务的所有常见问题。按主题分类，方便快速查找。</p>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ List ═══ -->
+  <section id="faq-list">
+    <div class="container">
+
+      <!-- ── Category: GEO ── -->
+      <div class="section-label fade-in" style="margin-top:16px;">/ GEO</div>
+      <div class="faq-list fade-in">
+
+        <div class="faq-item open">
+          <div class="faq-question">什么是 GEO（Generative Engine Optimization）？</div>
+          <div class="faq-answer">
+            <p>GEO 是帮助企业在大模型（如 ChatGPT、Claude、DeepSeek 等）的搜索结果中获得更高可见度和推荐率的优化体系。包括结构化数据建设、AI 友好内容策略和知识图谱构建。</p>
+            <p>与 SEO 优化传统搜索引擎不同，GEO 优化的是大语言模型的语义理解和推荐逻辑。核心在于让 AI 能够准确理解你的品牌、产品和服务，并在生成回答时优先引用你的信息。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>GEO</span>
+              <span class="accent">Generative Engine</span>
+              <span>AI Search</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">GEO 和 SEO 有什么区别？</div>
+          <div class="faq-answer">
+            <p>SEO 优化的是搜索引擎（如 Google、Bing）的排名算法，核心是关键词、外链、页面技术指标。GEO 优化的是大语言模型的语义理解和推荐逻辑，核心是结构化知识、实体关系、信息可信度和权威性。</p>
+            <p>两者互补。SEO 侧重于让页面被搜到，GEO 侧重于让品牌被 AI 理解和推荐。在 AI 搜索时代，两者缺一不可。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>GEO vs SEO</span>
+              <span class="accent">区别</span>
+              <span>互补</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">GEO 需要多长时间才能看到效果？</div>
+          <div class="faq-answer">
+            <p>基础结构化数据部署后，AI 搜索可见度的改善通常在 2-4 周内开始显现。例如，在 ChatGPT 中测试品牌相关查询时，品牌信息的出现频率和准确性会有明显提升。</p>
+            <p>但完整的知识体系构建和 AI 品牌认知建立需要持续投入，一般 3-6 个月可以达到显著效果。GEO 是持续优化的过程，而非一次性项目。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>效果周期</span>
+              <span class="accent">时间线</span>
+              <span>持续优化</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">GEO 适合哪些类型的网站或企业？</div>
+          <div class="faq-answer">
+            <p>任何希望在 AI 搜索结果中被发现和被推荐的网站都能从 GEO 受益。尤其适合：</p>
+            <ul>
+              <li><strong>内容型网站</strong> — 博客、媒体、文档站点，通过结构化内容提升 AI 引用率</li>
+              <li><strong>知识密集型企业</strong> — 咨询、教育、SaaS，让 AI 准确理解你的专业领域</li>
+              <li><strong>本地服务商</strong> — 需要被 AI 推荐为可信来源，尤其适合本地搜索场景</li>
+              <li><strong>电商平台</strong> — 产品信息结构化，提升在 AI 购物推荐中的可见度</li>
+            </ul>
+            <p>B2B 企业受益尤为明显，因为 AI 搜索决策高度依赖结构化信息。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>适用场景</span>
+              <span class="accent">B2B</span>
+              <span>电商</span>
+              <span>内容站</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">如何监测我的 AI 可见度？</div>
+          <div class="faq-answer">
+            <p>监测 AI 可见度需要多维度方法：</p>
+            <ul>
+              <li><strong>AI 对话测试</strong> — 在 ChatGPT、Claude、DeepSeek 等平台测试品牌相关查询，记录是否被引用</li>
+              <li><strong>结构化数据验证</strong> — 使用 Google Rich Results Test、Schema.org Validator 验证标记正确性</li>
+              <li><strong>引用跟踪</strong> — 监测 AI 输出中品牌名称和链接的出现频率与上下文</li>
+              <li><strong>竞争对比</strong> — 与同行业品牌的 AI 可见度横向对比，找出差距</li>
+            </ul>
+            <p>zkoner 提供 AI 可见度诊断服务，可输出详细的监测报告与优化建议。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>监测</span>
+              <span class="accent">AI 可见度</span>
+              <span>诊断</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Category: AI Ready Website ── -->
+      <div class="section-label fade-in" style="margin-top:40px;">/ AI Ready Website</div>
+      <div class="faq-list fade-in">
+
+        <div class="faq-item">
+          <div class="faq-question">一个"AI Ready"的网站应该具备什么？</div>
+          <div class="faq-answer">
+            <p>AI Ready 的网站应该像一本对 AI 完全开放的数据手册：</p>
+            <ul>
+              <li>清晰的语义化 HTML 结构（标题层级、语义标签）</li>
+              <li>完整的 Schema.org 结构化数据（Organization、Article、FAQPage、Product 等类型）</li>
+              <li>标准化的 FAQ 体系（同时服务用户和 AI 爬虫）</li>
+              <li>开放的机器可读接口（API、llms.txt、优化的 robots.txt）</li>
+              <li>持续更新的内容管线（保持信息的新鲜度）</li>
+              <li>定期的 AI 可见度监测与迭代</li>
+            </ul>
+            <p>核心原则：让 AI 爬虫像读数据库一样理解你的网站内容。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>AI Ready</span>
+              <span class="accent">Schema.org</span>
+              <span>语义化</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Schema.org 结构化数据对 GEO 有多重要？</div>
+          <div class="faq-answer">
+            <p>Schema.org 结构化数据是 GEO 的基石。它为 AI 提供了理解网站内容的明确框架，包括实体类型、属性、关系等。没有结构化数据，AI 只能通过自然语言推测你的内容含义，准确性和效率都会大打折扣。</p>
+            <p>Google、Bing 等搜索引擎以及主流大模型都明确支持 Schema.org 数据。完整且准确的 Schema 标记是获得 AI 推荐的必要条件。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>Schema.org</span>
+              <span class="accent">结构化数据</span>
+              <span>基础</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">我需要技术背景才能开始 GEO 吗？</div>
+          <div class="faq-answer">
+            <p>基础层面的 GEO 优化不需要深入技术背景。内容结构调整、FAQ 建设、基本的结构化数据标记等，都可以通过学习文档和工具来完成。zkoner 的内容和资源旨在降低技术门槛。</p>
+            <p>但完整的 GEO 体系建设涉及结构化数据部署、知识图谱构建、自动化管线等技术组件，建议与技术团队协作或委托专业服务。可以先从内容优化开始，逐步深入。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>入门门槛</span>
+              <span class="accent">非技术</span>
+              <span>逐步深入</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Category: AI Automation ── -->
+      <div class="section-label fade-in" style="margin-top:40px;">/ AI Automation</div>
+      <div class="faq-list fade-in">
+
+        <div class="faq-item">
+          <div class="faq-question">AI Automation 如何与 GEO 协同工作？</div>
+          <div class="faq-answer">
+            <p>AI Automation 为 GEO 提供持续维护的能力，两者形成闭环：</p>
+            <ul>
+              <li>定时生成 AI 友好内容并自动部署</li>
+              <li>自动更新结构化数据，保持信息时效性</li>
+              <li>监测 AI 对话中品牌的提及率和情感倾向</li>
+              <li>自动提交站点更新通知给搜索引擎和 AI 爬虫</li>
+              <li>基于监测数据触发内容更新工作流</li>
+            </ul>
+            <p>自动化让 GEO 从一个静态项目变成一个持续运转的系统，无需人工干预即可保持 AI 可见度的持续优化。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>AI Automation</span>
+              <span class="accent">n8n</span>
+              <span>自动化管线</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">n8n 在 AI 自动化生态中扮演什么角色？</div>
+          <div class="faq-answer">
+            <p>n8n 是一个开源的工作流自动化平台，在 AI 自动化生态中充当"连接器"角色。它可以连接 400+ 应用和服务，通过可视化界面或编程方式编排复杂的自动化流程。</p>
+            <p>zkoner 使用 n8n 构建了多个 GEO 自动化工流，包括：每日 AI 内容生成与发布、多平台 AI 可见度监测、结构化数据批量更新、AI 对话测试结果采集与分析等。n8n 的灵活性和可扩展性使其成为 AI 自动化基础设施的理想选择。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>n8n</span>
+              <span class="accent">工作流</span>
+              <span>开源</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Category: AI Growth ── -->
+      <div class="section-label fade-in" style="margin-top:40px;">/ AI Growth</div>
+      <div class="faq-list fade-in">
+
+        <div class="faq-item">
+          <div class="faq-question">AI Growth 包含哪些具体内容？</div>
+          <div class="faq-answer">
+            <p>AI Growth 是指在 AI 主导的信息分发环境中实现持续增长的系统方法。核心内容包括：</p>
+            <ul>
+              <li><strong>AI 可见度监测与优化</strong> — 持续跟踪品牌在 AI 搜索中的出现频率和质量</li>
+              <li><strong>AI 友好内容策略</strong> — 常态化产出符合 AI 语义理解的内容</li>
+              <li><strong>知识图谱建设与维护</strong> — 构建品牌的知识体系，建立实体间关系</li>
+              <li><strong>多渠道 AI 引用策略</strong> — 确保在多个 AI 平台上都有品牌信息</li>
+              <li><strong>用户 AI 交互行为分析</strong> — 理解用户如何通过 AI 发现和消费内容</li>
+              <li><strong>基于 AI 反馈的迭代优化</strong> — 根据 AI 的响应模式持续调整策略</li>
+            </ul>
+            <p>核心目标：构建一个能被 AI 持续发现、理解和推荐的品牌知识体系。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>AI Growth</span>
+              <span class="accent">增长系统</span>
+              <span>持续迭代</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Category: Knowledge Base ── -->
+      <div class="section-label fade-in" style="margin-top:40px;">/ Knowledge Base</div>
+      <div class="faq-list fade-in">
+
+        <div class="faq-item">
+          <div class="faq-question">什么是 Knowledge Base？zkoner 的知识库有什么特点？</div>
+          <div class="faq-answer">
+            <p>Knowledge Base（知识库）是结构化的、机器可读的知识集合。它不同于传统博客或文档，而是以实体关系模型组织信息，让 AI 可以直接查询和理解。</p>
+            <p>zkoner 的知识库以 AI 可见性为核心，涵盖：GEO 概念体系、Schema.org 类型参考与模板、n8n 工作流模式库、AI 爬虫行为分析与应对策略、内容优化案例库。</p>
+            <p>特点包括：持续更新每季度迭代、附带可直接运行的代码和配置、与 zkoner-workflows 开源项目关联确保可验证、实战驱动而非理论堆砌。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>Knowledge Base</span>
+              <span class="accent">知识库</span>
+              <span>结构化知识</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Category: Resources ── -->
+      <div class="section-label fade-in" style="margin-top:40px;">/ Resources</div>
+      <div class="faq-list fade-in">
+
+        <div class="faq-item">
+          <div class="faq-question">zkoner 的 Resources 包含哪些类型？</div>
+          <div class="faq-answer">
+            <p>Resources 板块提供可直接使用的工具和模板，全部免费开放：</p>
+            <ul>
+              <li><strong>GEO 自检清单</strong> — AI 可见度审计模板，逐项检查你的网站现状</li>
+              <li><strong>Schema 生成器</strong> — 常用 Schema.org 类型代码片段，复制即用</li>
+              <li><strong>n8n 工作流模板</strong> — 可导入 n8n 直接运行的自动化工作流</li>
+              <li><strong>AI 内容策略画布</strong> — 规划 AI 友好内容的结构化框架</li>
+              <li><strong>llms.txt 配置参考</strong> — 为 AI 爬虫优化提供的标准配置文件</li>
+              <li><strong>AI 可见度监测模板</strong> — 监测品牌在 AI 搜索中表现的框架工具</li>
+            </ul>
+            <p>所有资源持续更新，部分与 zkoner-workflows 开源项目共享，欢迎贡献和改进。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>Resources</span>
+              <span class="accent">模板</span>
+              <span>免费</span>
+              <span>工具</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Category: Pricing / Contact ── -->
+      <div class="section-label fade-in" style="margin-top:40px;">/ Pricing &amp; Contact</div>
+      <div class="faq-list fade-in">
+
+        <div class="faq-item">
+          <div class="faq-question">zkoner 提供哪些服务？如何定价？</div>
+          <div class="faq-answer">
+            <p>zkoner 提供三类核心服务：</p>
+            <ul>
+              <li><strong>AI 可见度诊断与咨询</strong> — 包含 GEO 审计、结构化数据分析、优化路线图。适合初次了解自身 AI 可见度状况的企业。</li>
+              <li><strong>AI 自动化系统建设</strong> — 基于 n8n 构建内容管线与监测系统，实现自动化的 GEO 运营。适合已有基础但希望提升效率的团队。</li>
+              <li><strong>AI 增长体系设计与实施</strong> — 从知识图谱到内容策略，全方位构建 AI 增长系统。适合希望系统性布局 AI 渠道的企业。</li>
+            </ul>
+            <p>定价按项目范围和工作量定制。初次咨询 30 分钟免费，帮助明确需求和方向。具体需求欢迎通过联系页面沟通。</p>
+            <div class="tags-row" style="margin-top:10px;">
+              <span>定价</span>
+              <span class="accent">服务</span>
+              <span>咨询</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ CTA ═══ -->
+  <section class="cta-section" id="cta">
+    <div class="container">
+      <h2 class="fade-in">还有更多问题？</h2>
+      <p class="fade-in">如果你在 FAQ 中没有找到答案，欢迎直接联系。初次咨询免费。</p>
+      <a href="/contact/" class="cta-btn fade-in">
+        <span>联系 zkoner</span>
+        <span>→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>zkoner</h4>
+          <p>AI 时代企业数字基础设施构建者。<br>以系统思维驱动 AI 可见性与自动化。</p>
+        </div>
+        <div class="footer-col">
+          <h4>板块</h4>
+          <ul>
+            <li><a href="/geo/">What is GEO</a></li>
+            <li><a href="/ai-ready/">AI Ready Website</a></li>
+            <li><a href="/knowledge-base/">Knowledge Base</a></li>
+            <li><a href="/case-studies/">Case Studies</a></li>
+            <li><a href="/resources/">Resources</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系</h4>
+          <ul>
+            <li><a href="mailto:243922774@qq.com">243922774@qq.com</a></li>
+            <li><a href="/about/">关于</a></li>
+            <li><a href="/contact/">联系</a></li>
+            <li><a href="https://github.com/zhangxiaomingv/zkoner-workflows" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 — zkoner</p>
+        <p style="display:flex;align-items:center;gap:4px;">
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite;"></span>
+          BUILDING
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

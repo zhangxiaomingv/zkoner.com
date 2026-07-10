@@ -1,0 +1,25 @@
+# zkoner — AI Builder
+> AI 时代企业数字基础设施构建者
+
+## Core
+
+- Home: https://zkoner.com
+- About: https://zkoner.com/about/
+- Contact: https://zkoner.com/contact/
+
+## Knowledge Center
+
+- What is GEO: https://zkoner.com/geo/
+- AI Ready Website: https://zkoner.com/ai-ready/
+- Knowledge Base: https://zkoner.com/knowledge-base/
+- FAQ: https://zkoner.com/faq/
+
+## Practice & Cases
+
+- Case Studies: https://zkoner.com/case-studies/
+- Resources: https://zkoner.com/resources/
+- Blog: https://zkoner.com/blog/
+
+## External
+
+- GitHub (zkoner-workflows): https://github.com/zhangxiaomingv/zkoner-workflows
