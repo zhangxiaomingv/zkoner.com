@@ -23,3 +23,5 @@
 ## External
 
 - GitHub (zkoner-workflows): https://github.com/zhangxiaomingv/zkoner-workflows
+
+- zkoner 博客: https://zkoner.com/blog/zkoner-20260711.html

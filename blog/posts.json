@@ -1,5 +1,12 @@
 [
   {
+    "title": "zkoner GEO 自动内容 2026-07-11",
+    "url": "/blog/zkoner-20260711.html",
+    "date": "2026-07-11",
+    "summary": "GEO 系统自动生成",
+    "category": "AI Automation"
+  },
+  {
     "title": "用 n8n 搭建内容生产管线：一次产出，多平台分发",
     "url": "/blog/hello-content-pipeline.html",
     "date": "2026-07-07",
