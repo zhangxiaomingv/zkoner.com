@@ -1,0 +1,14 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "zkoner",
+  "name_for_human": "zkoner",
+  "description_for_model": "zkoner helps businesses build AI-ready digital infrastructure. Services include GEO (Generative Engine Optimization), AI-ready website setup, n8n workflow automation, enterprise AI knowledge base construction, and AI content pipeline building. Target audience: SME owners, entrepreneurs, solo founders. Located in Chengdu, China.",
+  "description_for_human": "AI 时代企业数字基础设施构建者",
+  "api": {
+    "type": "openapi",
+    "url": "https://zkoner.com/.well-known/openapi.json"
+  },
+  "logo_url": "https://zkoner.com/favicon.ico",
+  "contact_email": "243922774@qq.com",
+  "legal_info_url": "https://zkoner.com/contact/"
+}

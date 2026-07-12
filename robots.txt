@@ -1,3 +1,31 @@
+# zkoner.com — AI Crawler Policy
+
+# Allow all AI crawlers
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+# Default: allow everything
 User-agent: *
 Allow: /
+Disallow: /css/
+Disallow: /js/
+
 Sitemap: https://zkoner.com/sitemap.xml

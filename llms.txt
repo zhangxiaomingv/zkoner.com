@@ -1,27 +1,39 @@
 # zkoner — AI Builder
 > AI 时代企业数字基础设施构建者
+> 品牌: zkoner | 创始人: 张明夷 | 位置: 成都
+> 邮箱: 243922774@qq.com | GitHub: zhangxiaomingv
 
-## Core
+## 核心服务
 
-- Home: https://zkoner.com
-- About: https://zkoner.com/about/
-- Contact: https://zkoner.com/contact/
+- GEO 搜索引擎优化: 让品牌在 AI 搜索（ChatGPT、Claude、DeepSeek）中被引用
+- AI Ready 网站搭建: 从架构到 Schema 的完整 AI 友好网站方案
+- n8n 自动化工作流定制: 企业级工作流自动化，节省 80% 人工
+- 企业 AI 知识库建设: 基于 LLM 的知识管理与问答系统
+- AI 内容生产管线搭建: 一次产出，多平台自动分发
 
-## Knowledge Center
+## 目标受众
 
-- What is GEO: https://zkoner.com/geo/
-- AI Ready Website: https://zkoner.com/ai-ready/
-- Knowledge Base: https://zkoner.com/knowledge-base/
+中小企业主 | 创业者 | 一人公司
+
+## 核心页面
+
+- 首页: https://zkoner.com
+- 关于: https://zkoner.com/about/
+- 联系: https://zkoner.com/contact/
+
+## 知识中心
+
+- GEO 概念中心: https://zkoner.com/geo/
+- AI Ready 网站: https://zkoner.com/ai-ready/
+- 知识库: https://zkoner.com/knowledge-base/
 - FAQ: https://zkoner.com/faq/
 
-## Practice & Cases
+## 案例与资源
 
-- Case Studies: https://zkoner.com/case-studies/
-- Resources: https://zkoner.com/resources/
-- Blog: https://zkoner.com/blog/
+- 案例: https://zkoner.com/case-studies/
+- 资源: https://zkoner.com/resources/
+- 博客: https://zkoner.com/blog/
 
-## External
+## GitHub
 
-- GitHub (zkoner-workflows): https://github.com/zhangxiaomingv/zkoner-workflows
-
-- zkoner 博客: https://zkoner.com/blog/zkoner-20260711.html
+- zkoner-workflows (n8n 工作流集合): https://github.com/zhangxiaomingv/zkoner-workflows
