@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026/7/31 22:07:40",
+    "updated_at": "2026/7/31 22:17:24",
     "generated_by": "monitor.js(豆包+DeepSeek) → analyze.js → build-data.js",
     "brand": "优引GEO系统",
     "website": "https://zkoner.com",
@@ -73,14 +73,14 @@
     }
   },
   "visibility": {
-    "overall_score": 51,
-    "score_delta": 51,
-    "mentioned_scenarios": 4,
+    "overall_score": 0,
+    "score_delta": 0,
+    "mentioned_scenarios": 0,
     "total_scenarios": 6,
     "history": [
       {
         "date": "2026-07-31",
-        "score": 51
+        "score": 0
       }
     ],
     "latest": {
@@ -89,26 +89,26 @@
           "engine": "deepseek",
           "name": "DeepSeek",
           "vendor": "深度求索",
-          "score": 51,
-          "mentioned": 2,
+          "score": 0,
+          "mentioned": 0,
           "total": 3,
           "top_rank": null,
-          "trend": "up",
+          "trend": "flat",
           "samples": 3,
-          "confidence": 75,
+          "confidence": 68,
           "note": ""
         },
         {
           "engine": "doubao",
           "name": "豆包",
           "vendor": "字节跳动",
-          "score": 51,
-          "mentioned": 2,
+          "score": 0,
+          "mentioned": 0,
           "total": 3,
           "top_rank": null,
-          "trend": "up",
+          "trend": "flat",
           "samples": 3,
-          "confidence": 75,
+          "confidence": 71,
           "note": ""
         }
       ]
@@ -304,14 +304,11 @@
   "scenario_insights": [
     {
       "scenario": "认知",
-      "mentioned": 2,
+      "mentioned": 0,
       "total": 2,
-      "engines_ok": [
-        "deepseek",
-        "doubao"
-      ],
-      "detail": "2/2 个引擎命中",
-      "insight": "持续产出该场景相关内容巩固位置"
+      "engines_ok": [],
+      "detail": "0/2 个引擎命中",
+      "insight": "该场景尚未被提及，优先补充知识库与权威信源"
     },
     {
       "scenario": "推荐",
@@ -323,14 +320,11 @@
     },
     {
       "scenario": "评价",
-      "mentioned": 2,
+      "mentioned": 0,
       "total": 2,
-      "engines_ok": [
-        "deepseek",
-        "doubao"
-      ],
-      "detail": "2/2 个引擎命中",
-      "insight": "持续产出该场景相关内容巩固位置"
+      "engines_ok": [],
+      "detail": "0/2 个引擎命中",
+      "insight": "该场景尚未被提及，优先补充知识库与权威信源"
     }
   ],
   "content_tracking": [
