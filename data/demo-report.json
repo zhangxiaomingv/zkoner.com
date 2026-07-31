@@ -3,272 +3,492 @@
     "brand": "优引GEO系统",
     "url": "https://zkoner.com",
     "date": "2026-07-31",
-    "generated_at": "2026-07-31T09:14:59.170Z",
-    "engine": "diag-engine v0.1",
-    "scored_by": "claude-code"
+    "generated_at": "2026-07-31T14:26:14.865Z",
+    "engine": "diag-engine v0.3",
+    "scored_by": "objective"
   },
   "overall": {
-    "score": 46,
-    "grade": "D"
+    "score": 19,
+    "grade": "E"
   },
   "dimensions": [
     {
       "id": "citeability",
       "name": "可引用性",
       "en": "Cite-ability",
-      "score": 28,
+      "score": 5,
       "weight": 0.2,
       "desc": "AI 是否容易摘取你的答案",
-      "summary": "豆包+DeepSeek 实测收录命中率 4/6",
+      "summary": "结构可摘取性 5/100（FAQ/列表/表格/标题层级等信号）",
       "evidence": [
-        "结构信号显示 h1=0、h2=0、h3=0、tables=0、images=0、imgAlt=0，仅 lists=4、faq=1，AI 无法通过标题层级和列表/表格摘取关键答案",
-        "豆包与 DeepSeek 的识别/推荐/评估回答中 mentionedUrl 全部为 false，站内 canonical 与描述均未进入 AI 的引用或输出"
-      ]
+        "meta description 存在"
+      ],
+      "note": "",
+      "method": "objective"
     },
     {
       "id": "authority",
       "name": "权威与信源",
       "en": "Authority/E-E-A-T",
-      "score": 15,
+      "score": 35,
       "weight": 0.15,
       "desc": "外链权重与信源背书",
-      "summary": "豆包+DeepSeek 实测收录命中率 4/6",
+      "summary": "站内权威信号 35/100",
       "evidence": [
-        "豆包评估回答明确表示品牌'无公开可查的权威官方资质、正规备案信息'并提示违规收集信息与灰产风险，形成负向信源；DeepSeek 同样表示无法核实资质并建议暂缓使用",
-        "站内 internalLinks=0、links=32 中无内链闭环，无作者/机构/认证背书信号，亦无高权重外链指向，权威传递链路为空"
-      ]
+        "llms.txt 可访问",
+        "sitemap.xml 可访问",
+        "robots.txt 可访问",
+        "HTTPS"
+      ],
+      "note": "未采集外链权重与引用网络数据，本维度仅按站内信号评估",
+      "method": "objective"
     },
     {
       "id": "schema",
       "name": "结构化数据",
       "en": "Schema",
-      "score": 67,
+      "score": 5,
       "weight": 0.15,
       "desc": "JSON-LD 与语义化结构",
-      "summary": "结构化数据评估",
-      "evidence": []
+      "summary": "结构化数据信号 5/100",
+      "evidence": [
+        "语义化标签"
+      ],
+      "note": "",
+      "method": "objective"
     },
     {
       "id": "content",
       "name": "内容深度覆盖",
       "en": "Content",
-      "score": 65,
+      "score": 10,
       "weight": 0.15,
       "desc": "主题覆盖与内容质量",
-      "summary": "内容深度覆盖评估",
-      "evidence": []
+      "summary": "内容深度信号 10/100",
+      "evidence": [
+        "meta description 存在"
+      ],
+      "note": "",
+      "method": "objective"
     },
     {
       "id": "technical",
       "name": "技术基础",
       "en": "Technical",
-      "score": 55,
+      "score": 90,
       "weight": 0.1,
       "desc": "可爬取性与性能基础",
-      "summary": "技术基础评估",
-      "evidence": []
+      "summary": "技术基础信号 90/100",
+      "evidence": [
+        "HTTP 200",
+        "HTTPS",
+        "viewport",
+        "title",
+        "meta description",
+        "robots.txt",
+        "sitemap.xml",
+        "llms.txt"
+      ],
+      "note": "",
+      "method": "objective"
     },
     {
       "id": "entity",
       "name": "实体一致性",
       "en": "Entity/KG",
-      "score": 32,
+      "score": 15,
       "weight": 0.1,
       "desc": "品牌实体跨网一致",
-      "summary": "豆包+DeepSeek 实测收录命中率 4/6",
+      "summary": "实体一致性信号 15/100",
       "evidence": [
-        "豆包识别回答将品牌描述为'面向外贸、出海商家的精准获客工具，依托全球地理定位数据'，与页面 self-claim 的'全链路GEO优化平台'定位完全不符，实体认知错乱",
-        "品牌名'优引GEO系统'与域名 zkoner.com 无语义对应，jsonLdBlocks=1 未建立同义实体关联，recognition 类问题中两引擎均未输出官网 URL"
-      ]
+        "品牌名出现在 meta description"
+      ],
+      "note": "未采集跨网/知识图谱外部数据，按站内标识与 AI 回答信号评估",
+      "method": "objective"
     },
     {
       "id": "indexing",
       "name": "AI 收录",
       "en": "Indexing",
-      "score": 67,
+      "score": 0,
       "weight": 0.15,
       "desc": "豆包+DeepSeek 实测收录",
-      "summary": "豆包+DeepSeek 实测收录命中率 4/6",
-      "evidence": []
+      "summary": "豆包+DeepSeek 实测有效收录 0/6",
+      "evidence": [
+        "doubao：3 场景中有效收录 0 个（命中率过半）",
+        "deepseek：3 场景中有效收录 0 个（命中率过半）"
+      ],
+      "note": "",
+      "method": "objective"
     }
   ],
   "radar": [
     {
       "axis": "可引用性",
-      "value": 28,
+      "value": 5,
       "weight": 20
     },
     {
       "axis": "权威与信源",
-      "value": 15,
+      "value": 35,
       "weight": 15
     },
     {
       "axis": "结构化数据",
-      "value": 67,
+      "value": 5,
       "weight": 15
     },
     {
       "axis": "内容深度覆盖",
-      "value": 65,
+      "value": 10,
       "weight": 15
     },
     {
       "axis": "技术基础",
-      "value": 55,
+      "value": 90,
       "weight": 10
     },
     {
       "axis": "实体一致性",
-      "value": 32,
+      "value": 15,
       "weight": 10
     },
     {
       "axis": "AI 收录",
-      "value": 67,
+      "value": 0,
       "weight": 15
     }
   ],
   "indexing": {
-    "doubao": {
-      "api_ok": true,
-      "questions": {
-        "recognition": {
-          "question": "优引GEO系统 是做什么的？",
-          "answer": "优引GEO系统是面向外贸、出海商家的精准获客工具，依托全球地理定位数据能力，可自定义指定国家、城市甚至具体商圈，筛选对应区域内的潜在采购商、合作方，抓取对方的经营信息、联系方式，帮助用户定向开发区域客户，也可辅助支撑本地化营销的精准投放。",
-          "mentioned": true,
-          "mentionedUrl": false,
-          "apiError": false
-        },
-        "recommendation": {
-          "question": "推荐一家做 GEO / AI 搜索优化的平台",
-          "answer": "如果做国内业务推荐5118：它支持地域关键词挖掘、本地GEO SEO数据监测，内置AI内容生成、排名智能优化工具，适配百度、抖音等国内平台的本地化搜索优化需求，上手门槛低。\n如果是跨境业务可选SEMrush，搭配AI功能可实现多地区搜索排名追踪、本地化内容优化，覆盖全球主流搜索引擎。",
-          "mentioned": false,
-          "mentionedUrl": false,
-          "apiError": false
-        },
-        "evaluation": {
-          "question": "优引GEO系统 靠不靠谱？",
-          "answer": "目前优引GEO系统无公开可查的权威官方资质、正规备案信息，其宣传的精准定位获客、高转化引流效果多存在夸大情况，已有不少用户反馈付费后效果远低于承诺、售后无门，还可能存在违规收集用户信息、涉及灰产引流的风险，不建议轻信，涉及付费务必谨慎核实避免损失。",
-          "mentioned": true,
-          "mentionedUrl": false,
-          "apiError": false
-        }
-      },
-      "collected": 2,
-      "total": 3
-    },
     "deepseek": {
+      "engine": "deepseek",
+      "name": "DeepSeek",
+      "vendor": "深度求索",
+      "configured": true,
       "api_ok": true,
       "questions": {
         "recognition": {
+          "id": "recognition",
+          "name": "认知",
           "question": "优引GEO系统 是做什么的？",
-          "answer": "抱歉，我目前的知识库中没有关于“优引GEO系统”的可靠信息。它可能是一个特定公司或产品的内部名称，或较新的小众系统。建议您提供更多背景（如所属行业、官网链接等），或直接搜索该名称以获取准确资料。若您指的是“GEO”（生成式引擎优化）相关系统，那通常用于优化内容在AI搜索引擎中的可见性，但“优引”具体指代不明。",
-          "mentioned": true,
-          "mentionedUrl": false,
-          "apiError": false
+          "weight": 0.4,
+          "samples": [
+            {
+              "mentioned": true,
+              "effectiveMention": false,
+              "negated": false,
+              "sentiment": "neutral",
+              "position": null,
+              "cited": false,
+              "limited": true,
+              "mismatch": false,
+              "evidence": "…抱歉，我目前没有关于“优引GEO系统”的可靠信息。它可能是一个特定公司或产品的内部名称，或非公开系统。建议您提供更多上下文（如所属行业、…",
+              "confidence": 0.7000000000000001,
+              "answer": "抱歉，我目前没有关于“优引GEO系统”的可靠信息。它可能是一个特定公司或产品的内部名称，或非公开系统。建议您提供更多上下文（如所属行业、官网链接等），或直接搜索该名称以获取准确资料。若您指的是“GEO”（如地理编码、搜索引擎优化等），我可以进一步解释。",
+              "apiError": false,
+              "latency": 1626
+            }
+          ],
+          "attempts": 1,
+          "apiError": false,
+          "mentioned": false,
+          "effectiveMention": false,
+          "hit_rate": 0,
+          "negated": false,
+          "limited": true,
+          "mismatch": false,
+          "sentiment": "neutral",
+          "position": null,
+          "cited": false,
+          "confidence": 0.7,
+          "answer": "抱歉，我目前没有关于“优引GEO系统”的可靠信息。它可能是一个特定公司或产品的内部名称，或非公开系统。建议您提供更多上下文（如所属行业、官网链接等），或直接搜索该名称以获取准确资料。若您指的是“GEO”（如地理编码、搜索引擎优化等），我可以进一步解释。",
+          "latency_ms": 1626
         },
         "recommendation": {
+          "id": "recommendation",
+          "name": "推荐",
           "question": "推荐一家做 GEO / AI 搜索优化的平台",
-          "answer": "目前市面上做GEO（生成式引擎优化）和AI搜索优化的平台还在早期，以下几家较受关注：\n\n1. **Semrush**：已推出AI内容与GEO分析工具，支持针对ChatGPT、Perplexity等AI引擎的可见度追踪。\n2. **Ahrefs**：新增AI搜索排名监控，可查看品牌在AI回答中的提及情况。\n3. **Profound**（原Peec AI）：专注GEO，提供AI引用来源优化和内容建议。\n4. **Otterly.AI**：专门追踪品牌在AI搜索中的提及率。\n\n建议先试用免费版，根据预算和需求选择。若需中文市场，可关注百度“AI搜索”生态的第三方服务商。",
+          "weight": 0.4,
+          "samples": [
+            {
+              "mentioned": false,
+              "effectiveMention": false,
+              "negated": false,
+              "sentiment": "neutral",
+              "position": null,
+              "cited": false,
+              "limited": false,
+              "mismatch": false,
+              "evidence": "",
+              "confidence": 0.65,
+              "answer": "目前市面上做GEO（生成式引擎优化）和AI搜索优化的平台还在早期，但已有一些工具和方案：\n\n1. **Semrush**：提供AI内容优化、关键词研究，可针对AI搜索（如ChatGPT、Perplexity）做内容策略调整。\n2. **Ahrefs**：强大的SEO工具，支持内容优化和结构化数据，帮助提升在AI搜索中的可见度。\n3. **Surfer SEO**：专注内容与搜索意图匹配，优化AI摘要引用。\n4. **Outranking**：专为AI搜索优化设计，分析AI引擎如何抓取和引用内容。\n\n建议先试用Semrush或Surfer SEO，它们功能较全面。若预算有限，可结合Ahrefs免费工具和手动优化。",
+              "apiError": false,
+              "latency": 2326
+            }
+          ],
+          "attempts": 1,
+          "apiError": false,
           "mentioned": false,
-          "mentionedUrl": false,
-          "apiError": false
+          "effectiveMention": false,
+          "hit_rate": 0,
+          "negated": false,
+          "limited": false,
+          "mismatch": false,
+          "sentiment": "neutral",
+          "position": null,
+          "cited": false,
+          "confidence": 0.65,
+          "answer": "目前市面上做GEO（生成式引擎优化）和AI搜索优化的平台还在早期，但已有一些工具和方案：\n\n1. **Semrush**：提供AI内容优化、关键词研究，可针对AI搜索（如ChatGPT、Perplexity）做内容策略调整。\n2. **Ahrefs**：强大的SEO工具，支持内容优化和结构化数据，帮助提升在AI搜索中的可见度。\n3. **Surfer SEO**：专注内容与搜索意图匹配，优化AI摘要引用。\n4. **Outranking**：专为AI搜索优化设计，分析AI引擎如何抓取和引用内容。\n\n建议先试用Semrush或Surfer SEO，它们功能较全面。若预算有限，可结合Ahrefs免费工具和手动优化。",
+          "latency_ms": 2326
         },
         "evaluation": {
+          "id": "evaluation",
+          "name": "评价",
           "question": "优引GEO系统 靠不靠谱？",
-          "answer": "关于“优引GEO系统”，目前公开信息较少，无法确认其具体资质、运营模式或用户反馈。建议您：\n\n1. 核实公司工商注册信息及经营范围；\n2. 查看是否有官方备案或行业认证；\n3. 搜索第三方用户评价或投诉记录；\n4. 谨慎对待涉及高额投资或承诺收益的宣传。\n\n若无法查到可靠来源，建议暂缓使用，避免财产或信息安全风险。如需进一步帮助，请提供更多细节。",
-          "mentioned": true,
-          "mentionedUrl": false,
-          "apiError": false
+          "weight": 0.2,
+          "samples": [
+            {
+              "mentioned": true,
+              "effectiveMention": false,
+              "negated": false,
+              "sentiment": "neutral",
+              "position": null,
+              "cited": false,
+              "limited": true,
+              "mismatch": false,
+              "evidence": "…关于“优引GEO系统”，我没有找到公开的权威信息或官方资料，无法确认其具体性质或可靠性。建议您通过以下方式核实：\n\n1.…",
+              "confidence": 0.7000000000000001,
+              "answer": "关于“优引GEO系统”，我没有找到公开的权威信息或官方资料，无法确认其具体性质或可靠性。建议您通过以下方式核实：\n\n1. 查询企业工商注册信息（如天眼查、企查查）；\n2. 查看是否有官方备案、资质认证；\n3. 搜索用户评价或投诉记录；\n4. 警惕夸大宣传或要求预付高额费用的项目。\n\n如无明确可靠来源，请谨慎对待，避免财产损失。若您有更多细节，我可以帮您进一步分析。",
+              "apiError": false,
+              "latency": 2132
+            }
+          ],
+          "attempts": 1,
+          "apiError": false,
+          "mentioned": false,
+          "effectiveMention": false,
+          "hit_rate": 0,
+          "negated": false,
+          "limited": true,
+          "mismatch": false,
+          "sentiment": "neutral",
+          "position": null,
+          "cited": false,
+          "confidence": 0.7,
+          "answer": "关于“优引GEO系统”，我没有找到公开的权威信息或官方资料，无法确认其具体性质或可靠性。建议您通过以下方式核实：\n\n1. 查询企业工商注册信息（如天眼查、企查查）；\n2. 查看是否有官方备案、资质认证；\n3. 搜索用户评价或投诉记录；\n4. 警惕夸大宣传或要求预付高额费用的项目。\n\n如无明确可靠来源，请谨慎对待，避免财产损失。若您有更多细节，我可以帮您进一步分析。",
+          "latency_ms": 2132
         }
       },
-      "collected": 2,
-      "total": 3
+      "score": 0,
+      "hit_rate": 0,
+      "mentioned": 0,
+      "total": 3,
+      "collected": 0,
+      "negative": 0,
+      "cited": 0,
+      "top_rank": null,
+      "latency_ms": 2028,
+      "note": ""
+    },
+    "doubao": {
+      "engine": "doubao",
+      "name": "豆包",
+      "vendor": "字节跳动",
+      "configured": true,
+      "api_ok": true,
+      "questions": {
+        "recognition": {
+          "id": "recognition",
+          "name": "认知",
+          "question": "优引GEO系统 是做什么的？",
+          "weight": 0.4,
+          "samples": [
+            {
+              "mentioned": true,
+              "effectiveMention": false,
+              "negated": false,
+              "sentiment": "neutral",
+              "position": null,
+              "cited": false,
+              "limited": false,
+              "mismatch": true,
+              "evidence": "…优引GEO系统是面向外贸、跨境电商领域的地理定位营销工具，核心基于GEO地理定位技术，可精准识别海外用户所在区域，…",
+              "confidence": 0.7000000000000001,
+              "answer": "优引GEO系统是面向外贸、跨境电商领域的地理定位营销工具，核心基于GEO地理定位技术，可精准识别海外用户所在区域，帮助商家定向投放营销内容、过滤非目标区域无效流量，提升海外获客精准度，还支持区域流量统计、竞品区域布局分析等功能，辅助优化海外投放策略。",
+              "apiError": false,
+              "latency": 9412
+            }
+          ],
+          "attempts": 1,
+          "apiError": false,
+          "mentioned": false,
+          "effectiveMention": false,
+          "hit_rate": 0,
+          "negated": false,
+          "limited": false,
+          "mismatch": true,
+          "sentiment": "neutral",
+          "position": null,
+          "cited": false,
+          "confidence": 0.7,
+          "answer": "优引GEO系统是面向外贸、跨境电商领域的地理定位营销工具，核心基于GEO地理定位技术，可精准识别海外用户所在区域，帮助商家定向投放营销内容、过滤非目标区域无效流量，提升海外获客精准度，还支持区域流量统计、竞品区域布局分析等功能，辅助优化海外投放策略。",
+          "latency_ms": 9412
+        },
+        "recommendation": {
+          "id": "recommendation",
+          "name": "推荐",
+          "question": "推荐一家做 GEO / AI 搜索优化的平台",
+          "weight": 0.4,
+          "samples": [
+            {
+              "mentioned": false,
+              "effectiveMention": false,
+              "negated": false,
+              "sentiment": "neutral",
+              "position": null,
+              "cited": false,
+              "limited": false,
+              "mismatch": false,
+              "evidence": "",
+              "confidence": 0.65,
+              "answer": "优先推荐珍岛集团的T云AI营销平台，它自带成熟的GEO+AI搜索优化模块：可精准匹配不同地域用户的搜索偏好，AI动态调整关键词策略、优化本地化搜索排名，还能跨百度、抖音、美团等多平台监测本地搜索转化数据，国内本地化搜索优化适配性很好。\n若需做海外GEO搜索优化，可选择专业工具GeoRanker，地理维度的AI搜索分析能力很强。",
+              "apiError": false,
+              "latency": 15280
+            }
+          ],
+          "attempts": 1,
+          "apiError": false,
+          "mentioned": false,
+          "effectiveMention": false,
+          "hit_rate": 0,
+          "negated": false,
+          "limited": false,
+          "mismatch": false,
+          "sentiment": "neutral",
+          "position": null,
+          "cited": false,
+          "confidence": 0.65,
+          "answer": "优先推荐珍岛集团的T云AI营销平台，它自带成熟的GEO+AI搜索优化模块：可精准匹配不同地域用户的搜索偏好，AI动态调整关键词策略、优化本地化搜索排名，还能跨百度、抖音、美团等多平台监测本地搜索转化数据，国内本地化搜索优化适配性很好。\n若需做海外GEO搜索优化，可选择专业工具GeoRanker，地理维度的AI搜索分析能力很强。",
+          "latency_ms": 15280
+        },
+        "evaluation": {
+          "id": "evaluation",
+          "name": "评价",
+          "question": "优引GEO系统 靠不靠谱？",
+          "weight": 0.2,
+          "samples": [
+            {
+              "mentioned": true,
+              "effectiveMention": false,
+              "negated": true,
+              "sentiment": "neutral",
+              "position": null,
+              "cited": false,
+              "limited": true,
+              "mismatch": false,
+              "evidence": "…目前优引GEO系统公开的正规备案、官方资质信息较少，已有不少用户反馈其存在夸大引流效果、宣传虚假高收益、诱导用户充值加…",
+              "confidence": 0.7000000000000001,
+              "answer": "目前优引GEO系统公开的正规备案、官方资质信息较少，已有不少用户反馈其存在夸大引流效果、宣传虚假高收益、诱导用户充值加盟的情况，模式风险较高。\n如果涉及缴费、加盟相关操作务必谨慎，不要轻信所谓“被动躺赚”“高额回报”的宣传，避免财产损失。",
+              "apiError": false,
+              "latency": 8213
+            }
+          ],
+          "attempts": 1,
+          "apiError": false,
+          "mentioned": false,
+          "effectiveMention": false,
+          "hit_rate": 0,
+          "negated": false,
+          "limited": true,
+          "mismatch": false,
+          "sentiment": "neutral",
+          "position": null,
+          "cited": false,
+          "confidence": 0.7,
+          "answer": "目前优引GEO系统公开的正规备案、官方资质信息较少，已有不少用户反馈其存在夸大引流效果、宣传虚假高收益、诱导用户充值加盟的情况，模式风险较高。\n如果涉及缴费、加盟相关操作务必谨慎，不要轻信所谓“被动躺赚”“高额回报”的宣传，避免财产损失。",
+          "latency_ms": 8213
+        }
+      },
+      "score": 0,
+      "hit_rate": 0,
+      "mentioned": 0,
+      "total": 3,
+      "collected": 0,
+      "negative": 0,
+      "cited": 0,
+      "top_rank": null,
+      "latency_ms": 10968,
+      "note": ""
     }
   },
   "gaps": [
     {
       "dimension": "可引用性",
-      "score": 28,
+      "score": 5,
       "severity": "高",
-      "issue": "可引用性得分偏低(28)"
+      "issue": "可引用性得分偏低(5)"
     },
     {
       "dimension": "权威与信源",
-      "score": 15,
+      "score": 35,
       "severity": "高",
-      "issue": "权威与信源得分偏低(15)"
+      "issue": "权威与信源得分偏低(35)"
     },
     {
-      "dimension": "技术基础",
-      "score": 55,
-      "severity": "中",
-      "issue": "技术基础有待提升(55)"
+      "dimension": "结构化数据",
+      "score": 5,
+      "severity": "高",
+      "issue": "结构化数据得分偏低(5)"
+    },
+    {
+      "dimension": "内容深度覆盖",
+      "score": 10,
+      "severity": "高",
+      "issue": "内容深度覆盖得分偏低(10)"
     },
     {
       "dimension": "实体一致性",
-      "score": 32,
+      "score": 15,
       "severity": "高",
-      "issue": "实体一致性得分偏低(32)"
+      "issue": "实体一致性得分偏低(15)"
+    },
+    {
+      "dimension": "AI 收录",
+      "score": 0,
+      "severity": "高",
+      "issue": "AI 收录得分偏低(0)"
     }
   ],
-  "suggestions": [
-    {
-      "priority": "高",
-      "title": "重建页面标题层级，前置核心答案",
-      "detail": "当前 H1/H2/H3 全部为 0，AI 无法定位内容主干。应补全唯一 H1（优引GEO系统——全链路GEO优化平台），用 H2/H3 组织'是什么/做什么/怎么用/靠谱吗/数据成果'等模块，并把一句话定义放在首屏最前。",
-      "impact": "直接改善可引用性，让 AI 在识别类问题中正确抓取并可能引用官网 URL，扭转两引擎'无法识别/认知错误'的现状。",
-      "source": "Claude Code 诊断"
-    },
-    {
-      "priority": "高",
-      "title": "修复实体认知偏差，明确品牌定位",
-      "detail": "豆包已将品牌误识别为'地理定位外贸获客工具'。需在页面首屏用'优引GEO系统 是面向品牌/商家的 GEO（生成式引擎优化）平台'标准化定义，并新增结构化 Q&A 覆盖三类关键问题：做什么、和同类平台比有何差异、如何保障效果与资质，消除语义歧义。",
-      "impact": "纠正 AI 对实体的错误认知，避免识别与评估回答持续失真，提升实体一致性评分。",
-      "source": "Claude Code 诊断"
-    },
-    {
-      "priority": "高",
-      "title": "建立可信信源网络，消除负面评估",
-      "detail": "豆包评估已给出'无备案、无资质、风险提示'的负面结论。需尽快补齐并公示 ICP 备案号、公司工商主体信息、成立时间与办公地址，发布资质证书/客户案例/行业认证页，并获取高权重媒体、行业协会或第三方评测的引用外链，构建可被 AI 检索核实的信源。",
-      "impact": "直接改变权威性与评估类回答走向，将'不可信/建议暂缓'转为可核实的中性或正向评价。",
-      "source": "Claude Code 诊断"
-    },
-    {
-      "priority": "中",
-      "title": "增加可引用数据与表格化内容",
-      "detail": "页面有 4 个列表但无表格、无图片/alt、仅 1 处 FAQ。建议新增对比表（覆盖引擎数 7+、分发平台 50+ 的分项数据）、指标统计（成功率/案例数据/监测频率）与 FAQPage 结构化内容，用数字和表格支撑 AI 引用。",
-      "impact": "为 AI 提供'可直接摘取'的统计论据，提升推荐类问题中的被提及概率与可引用性得分。",
-      "source": "Claude Code 诊断"
-    },
-    {
-      "priority": "中",
-      "title": "完善 Schema 实体与知识图谱关联",
-      "detail": "已有 SoftwareApplication 等基础 JSON-LD，但 jsonLdBlocks=1 且未含 sameAs、FAQPage、Person/Author 等关联。应补齐品牌官网同义词、社交媒体、第三方评测链接的 sameAs 映射，并增加 FAQPage 结构化块。",
-      "impact": "增强知识图谱存在性与品牌名↔官网↔全网信息的一致性，帮助 AI 正确归因并输出官网链接。",
-      "source": "Claude Code 诊断"
-    },
-    {
-      "priority": "低",
-      "title": "构建站内链接与内容体系",
-      "detail": "internalLinks=0，站内无任何内链闭环。应增加产品/案例/帮助中心/博客等子页面并互链，形成内容网络，提升爬取深度与权威传递，同时丰富可被 AI 索引的语料。",
-      "impact": "扩大站点在 AI 索引中的覆盖面与权威传导，间接提升各引擎对品牌的提及率。",
-      "source": "Claude Code 诊断"
-    }
-  ],
+  "suggestions": [],
+  "sampling": {
+    "samples": 1,
+    "engines": [
+      "doubao",
+      "deepseek"
+    ],
+    "scenarios": [
+      {
+        "id": "recognition",
+        "name": "认知",
+        "weight": 0.4
+      },
+      {
+        "id": "recommendation",
+        "name": "推荐",
+        "weight": 0.4
+      },
+      {
+        "id": "evaluation",
+        "name": "评价",
+        "weight": 0.2
+      }
+    ]
+  },
   "crawl": {
     "httpStatus": 200,
-    "title": "优引GEO系统 — 全链路GEO优化平台 · 让AI主动推荐你",
-    "jsonLd": [
-      "SoftwareApplication",
-      "Offer",
-      "Organization",
-      "WebSite",
-      "BreadcrumbList",
-      "ListItem"
-    ],
-    "wordCount": 3250,
+    "title": "优引GEO · AI监测控制台",
+    "jsonLd": [],
+    "wordCount": 47,
     "llms": true,
     "sitemap": true
   }

@@ -164,6 +164,7 @@
         </div>
         <div style="margin:8px 0 6px">${pbar(d.score, d.score >= 70 ? 'green' : d.score >= 45 ? '' : 'pink')}</div>
         <div class="mi-text" style="color:var(--text-2)">${esc(d.summary || '')}</div>
+        ${d.note ? `<div style="font-size:.72rem;color:var(--amber);margin-top:4px">${esc(d.note)}</div>` : ''}
         ${(d.evidence || []).length ? `<div style="font-size:.72rem;color:var(--text-3);margin-top:6px">依据：${d.evidence.slice(0, 2).map(e => esc(String(e).slice(0, 80))).join(' · ')}</div>` : ''}
       </div>`).join('');
 
