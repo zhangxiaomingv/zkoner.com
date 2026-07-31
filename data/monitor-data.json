@@ -1,7 +1,7 @@
 {
   "meta": {
-    "updated_at": "2026-07-31 09:30",
-    "generated_by": "n8n 监测工作流 + Claude Code 分析",
+    "updated_at": "2026/7/31 22:07:40",
+    "generated_by": "monitor.js(豆包+DeepSeek) → analyze.js → build-data.js",
     "brand": "优引GEO系统",
     "website": "https://zkoner.com",
     "data_version": "0.1.0"
@@ -26,79 +26,39 @@
         "name": "DeepSeek",
         "vendor": "深度求索",
         "enabled": true,
-        "api": "configured"
-      },
-      {
-        "id": "kimi",
-        "name": "Kimi",
-        "vendor": "月之暗面",
-        "enabled": true,
-        "api": "configured"
+        "api": "configured",
+        "api_key": "configured"
       },
       {
         "id": "doubao",
         "name": "豆包",
         "vendor": "字节跳动",
         "enabled": true,
-        "api": "configured"
-      },
-      {
-        "id": "yuanbao",
-        "name": "腾讯元宝",
-        "vendor": "腾讯",
-        "enabled": true,
-        "api": "configured"
-      },
-      {
-        "id": "ernie",
-        "name": "文心一言",
-        "vendor": "百度",
-        "enabled": true,
-        "api": "configured"
-      },
-      {
-        "id": "tongyi",
-        "name": "通义千问",
-        "vendor": "阿里",
-        "enabled": true,
-        "api": "configured"
-      },
-      {
-        "id": "zhipu",
-        "name": "智谱清言",
-        "vendor": "智谱AI",
-        "enabled": false,
-        "api": "未配置"
-      },
-      {
-        "id": "claude",
-        "name": "Claude",
-        "vendor": "Anthropic",
-        "enabled": false,
-        "api": "未配置"
+        "api": "configured",
+        "api_key": "configured"
       }
     ],
     "scenarios": [
       {
         "id": "recognition",
         "name": "认知",
-        "question": "优引GEO系统是做什么的？",
-        "desc": "AI 能否正确描述品牌",
-        "weight": 0.4
+        "weight": 0.4,
+        "question": "优引GEO系统 是做什么的？",
+        "desc": ""
       },
       {
         "id": "recommendation",
         "name": "推荐",
-        "question": "推荐一家做GEO优化的平台",
-        "desc": "AI 是否在推荐场景主动提及",
-        "weight": 0.4
+        "weight": 0.4,
+        "question": "推荐一家做 GEO / AI 搜索优化的平台",
+        "desc": ""
       },
       {
         "id": "evaluation",
         "name": "评价",
-        "question": "优引GEO系统靠谱吗？",
-        "desc": "AI 对品牌的评价倾向",
-        "weight": 0.2
+        "weight": 0.2,
+        "question": "优引GEO系统 靠不靠谱？",
+        "desc": ""
       }
     ],
     "monitor": {
@@ -113,199 +73,43 @@
     }
   },
   "visibility": {
-    "overall_score": 62,
-    "score_delta": 8,
-    "mentioned_scenarios": 11,
-    "total_scenarios": 21,
+    "overall_score": 51,
+    "score_delta": 51,
+    "mentioned_scenarios": 4,
+    "total_scenarios": 6,
     "history": [
       {
-        "date": "2026-07-02",
-        "score": 61.9
-      },
-      {
-        "date": "2026-07-03",
-        "score": 58.7
-      },
-      {
-        "date": "2026-07-04",
-        "score": 63.5
-      },
-      {
-        "date": "2026-07-05",
-        "score": 55.5
-      },
-      {
-        "date": "2026-07-06",
-        "score": 59.9
-      },
-      {
-        "date": "2026-07-07",
-        "score": 56.7
-      },
-      {
-        "date": "2026-07-08",
-        "score": 51.9
-      },
-      {
-        "date": "2026-07-09",
-        "score": 56.2
-      },
-      {
-        "date": "2026-07-10",
-        "score": 49.4
-      },
-      {
-        "date": "2026-07-11",
-        "score": 53.0
-      },
-      {
-        "date": "2026-07-12",
-        "score": 47.5
-      },
-      {
-        "date": "2026-07-13",
-        "score": 46.6
-      },
-      {
-        "date": "2026-07-14",
-        "score": 49.5
-      },
-      {
-        "date": "2026-07-15",
-        "score": 53.2
-      },
-      {
-        "date": "2026-07-16",
-        "score": 43.6
-      },
-      {
-        "date": "2026-07-17",
-        "score": 43.7
-      },
-      {
-        "date": "2026-07-18",
-        "score": 47.4
-      },
-      {
-        "date": "2026-07-19",
-        "score": 50.1
-      },
-      {
-        "date": "2026-07-20",
-        "score": 44.5
-      },
-      {
-        "date": "2026-07-21",
-        "score": 41.2
-      },
-      {
-        "date": "2026-07-22",
-        "score": 47.0
-      },
-      {
-        "date": "2026-07-23",
-        "score": 34.8
-      },
-      {
-        "date": "2026-07-24",
-        "score": 43.4
-      },
-      {
-        "date": "2026-07-25",
-        "score": 35.4
-      },
-      {
-        "date": "2026-07-26",
-        "score": 32.5
-      },
-      {
-        "date": "2026-07-27",
-        "score": 31.1
-      },
-      {
-        "date": "2026-07-28",
-        "score": 32.2
-      },
-      {
-        "date": "2026-07-29",
-        "score": 37.2
-      },
-      {
-        "date": "2026-07-30",
-        "score": 28.4
-      },
-      {
         "date": "2026-07-31",
-        "score": 32.1
+        "score": 51
       }
     ],
     "latest": {
       "engines": [
         {
           "engine": "deepseek",
-          "score": 82,
-          "mentioned": 3,
-          "total": 3,
-          "top_rank": 1,
-          "trend": "up"
-        },
-        {
-          "engine": "kimi",
-          "score": 71,
+          "name": "DeepSeek",
+          "vendor": "深度求索",
+          "score": 51,
           "mentioned": 2,
           "total": 3,
-          "top_rank": 2,
-          "trend": "up"
+          "top_rank": null,
+          "trend": "up",
+          "samples": 3,
+          "confidence": 75,
+          "note": ""
         },
         {
           "engine": "doubao",
-          "score": 66,
+          "name": "豆包",
+          "vendor": "字节跳动",
+          "score": 51,
           "mentioned": 2,
           "total": 3,
-          "top_rank": 3,
-          "trend": "up"
-        },
-        {
-          "engine": "yuanbao",
-          "score": 58,
-          "mentioned": 2,
-          "total": 3,
-          "top_rank": 4,
-          "trend": "flat"
-        },
-        {
-          "engine": "ernie",
-          "score": 52,
-          "mentioned": 1,
-          "total": 3,
-          "top_rank": 5,
-          "trend": "flat"
-        },
-        {
-          "engine": "tongyi",
-          "score": 44,
-          "mentioned": 1,
-          "total": 3,
-          "top_rank": 6,
-          "trend": "down"
-        },
-        {
-          "engine": "zhipu",
-          "score": 0,
-          "mentioned": 0,
-          "total": 3,
           "top_rank": null,
-          "trend": "-",
-          "note": "引擎未启用"
-        },
-        {
-          "engine": "claude",
-          "score": 0,
-          "mentioned": 0,
-          "total": 3,
-          "top_rank": null,
-          "trend": "-",
-          "note": "API 未配置"
+          "trend": "up",
+          "samples": 3,
+          "confidence": 75,
+          "note": ""
         }
       ]
     }
@@ -500,39 +304,33 @@
   "scenario_insights": [
     {
       "scenario": "认知",
-      "mentioned": 4,
-      "total": 6,
+      "mentioned": 2,
+      "total": 2,
       "engines_ok": [
         "deepseek",
-        "kimi",
-        "doubao",
-        "yuanbao"
+        "doubao"
       ],
-      "detail": "多数引擎能正确描述品牌定位",
-      "insight": "认知基本建立，可在知识库补充「全链路」细分词，提升准确率"
+      "detail": "2/2 个引擎命中",
+      "insight": "持续产出该场景相关内容巩固位置"
     },
     {
       "scenario": "推荐",
-      "mentioned": 3,
-      "total": 6,
-      "engines_ok": [
-        "deepseek",
-        "kimi",
-        "doubao"
-      ],
-      "detail": "DeepSeek/Kimi 已在推荐场景主动提及",
-      "insight": "文心/通义推荐率低，需增强答案池内容与权威信源"
+      "mentioned": 0,
+      "total": 2,
+      "engines_ok": [],
+      "detail": "0/2 个引擎命中",
+      "insight": "该场景尚未被提及，优先补充知识库与权威信源"
     },
     {
       "scenario": "评价",
       "mentioned": 2,
-      "total": 6,
+      "total": 2,
       "engines_ok": [
-        "kimi",
+        "deepseek",
         "doubao"
       ],
-      "detail": "评价以中性为主，未见负面",
-      "insight": "补充客户案例与数据背书，提升评价可信度"
+      "detail": "2/2 个引擎命中",
+      "insight": "持续产出该场景相关内容巩固位置"
     }
   ],
   "content_tracking": [
