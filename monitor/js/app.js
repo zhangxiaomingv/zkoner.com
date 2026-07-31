@@ -4,6 +4,9 @@
 
   /* ═══ 菜单结构（仅监测与监控系统）═══ */
   const MENU = [
+    { group: '诊断', items: [
+      { id: 'diagnose', label: 'GEO 诊断', icon: '🔬' },
+    ]},
     { group: 'AI监测', items: [
       { id: 'overview',       label: '总览',        icon: '◈' },
       { id: 'visibility',     label: '品牌可见度',  icon: '◎' },
@@ -26,7 +29,7 @@
   MENU.forEach(g => g.items.forEach(i => { NAV_TITLES[i.id] = { label: i.label, group: g.group }; }));
 
   const D = () => DataStore.get();
-  const { esc, toast, badge, statusBadge, pbar, lineChart, hbarChart, donutChart, empty, loading, SERIES } = UI;
+  const { esc, toast, badge, statusBadge, pbar, lineChart, hbarChart, donutChart, radarChart, empty, loading, SERIES } = UI;
 
   /* ═══ 持久化设置覆盖 ═══ */
   const LS_KEY = 'youyin-console-settings';
@@ -63,7 +66,7 @@
 
   /* ═══ 路由 ═══ */
   function parseHash() {
-    const h = location.hash.replace(/^#\/?/, '');
+    const h = location.hash.replace(/^#\/?/, '').split('?')[0];
     return NAV_TITLES[h] ? h : 'overview';
   }
   function go(id) {
@@ -71,11 +74,16 @@
   }
   function render() {
     const id = parseHash();
+    // #/diagnose?demo=1 → 直接展示内嵌示例报告（线上演示用）
+    if (id === 'diagnose' && location.hash.includes('?demo') && window.DEMO_REPORT) {
+      diagState.report = window.DEMO_REPORT;
+      diagState.mode = 'result';
+    }
     renderSidebar(id);
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg };
+    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -87,6 +95,183 @@
       <p>${esc(sub)}</p>
       ${actions ? `<div class="sub-actions">${actions}</div>` : ''}
     </div>`;
+  }
+
+  /* ═══ 诊断：本地 API 客户端 ═══ */
+  const DIAG_API = 'http://localhost:8788';
+  async function diagFetch(path, opts, timeout) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), timeout || 20000);
+    try {
+      const res = await fetch(DIAG_API + path, { ...opts, signal: ctrl.signal });
+      clearTimeout(t);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return await res.json();
+    } catch (e) { clearTimeout(t); throw e; }
+  }
+  const diagState = { mode: 'input', report: null, engineOk: null };
+
+  /* ═══ 视图：GEO 诊断 ═══ */
+  function diagnose(c) {
+    if (diagState.mode === 'result' && diagState.report) return renderDiagResult(c, diagState.report);
+    if (diagState.mode === 'loading') { c.innerHTML = pageHead('GEO 诊断', '正在对目标网站进行深度诊断…') + loading(); return; }
+    const note = diagState.engineOk === false
+      ? '<div style="margin-top:14px;font-size:.78rem;color:var(--amber);border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.06);padding:10px 14px;border-radius:8px">⚠ 本地诊断服务未启动，将展示示例报告。运行 <span class="mono">node scripts/diag-server.js</span> 后即可对任意网址真实诊断。</div>'
+      : '<div style="margin-top:14px;font-size:.78rem;color:var(--text-3)">诊断引擎本地运行（豆包 + DeepSeek 实测收录 + Claude Code 评估）。输入任意网址/品牌名即可出报告。</div>';
+    c.innerHTML = `
+      ${pageHead('GEO 诊断', '输入网址 / 品牌名 → 7 维 GEO 诊断得分与图谱')}
+      <div class="card">
+        <div class="card-head"><h3>开始诊断</h3><span class="hint">基于 GEO 底层原理 · 豆包 + DeepSeek 收录实测</span></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group full"><label>网站地址 <span class="req">*</span></label><input id="dg-url" type="url" placeholder="https://你的网站.com" value="https://zkoner.com"></div>
+            <div class="form-group full"><label>品牌名</label><input id="dg-brand" type="text" placeholder="留空则用域名" value="优引GEO系统"></div>
+          </div>
+          <div style="margin-top:16px"><button class="btn btn-primary" data-action="diag-start">🔬 立即诊断</button></div>
+          ${note}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>诊断维度（7 项）</h3></div>
+        <div class="card-body">
+          <div class="grid-3">
+            ${['可引用性（AI 是否容易摘取答案）','权威与信源（E-E-A-T / 外链背书）','结构化数据（Schema / JSON-LD）','内容深度覆盖（主题与质量）','技术基础（可爬取 / 性能）','实体一致性（品牌跨网一致）','AI 收录（豆包 + DeepSeek 实测）'].map((t, i) => `
+              <div class="mention-item"><div class="mi-head"><span class="mi-src">${i + 1}. ${esc(t.split('（')[0])}</span></div><div class="mi-text" style="color:var(--text-3)">${esc(t.split('（')[1]?.replace('）', '') || '')}</div></div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function renderDiagResult(c, report) {
+    const dims = report.dimensions || [];
+    const radar = report.radar || dims.map(d => ({ axis: d.name, value: d.score }));
+    const idx = report.indexing || {};
+    const engNames = { doubao: '豆包', deepseek: 'DeepSeek' };
+    const scNames = { recognition: '认知', recommendation: '推荐', evaluation: '评价' };
+    const gradeColor = { A: 'green', B: 'green', C: 'amber', D: 'amber', E: 'red' }[report.overall.grade] || '';
+    const dimRows = dims.map(d => `
+      <div class="mention-item">
+        <div class="mi-head">
+          <span class="mi-src">${esc(d.name)}</span>
+          <span style="margin-left:auto;font-family:monospace;color:var(--accent);font-weight:700">${d.score}</span>
+        </div>
+        <div style="margin:8px 0 6px">${pbar(d.score, d.score >= 70 ? 'green' : d.score >= 45 ? '' : 'pink')}</div>
+        <div class="mi-text" style="color:var(--text-2)">${esc(d.summary || '')}</div>
+        ${(d.evidence || []).length ? `<div style="font-size:.72rem;color:var(--text-3);margin-top:6px">依据：${d.evidence.slice(0, 2).map(e => esc(String(e).slice(0, 80))).join(' · ')}</div>` : ''}
+      </div>`).join('');
+
+    // 收录明细
+    let idxCards = '<div class="empty">未获取收录数据</div>';
+    if (idx && Object.keys(idx).length) {
+      idxCards = Object.entries(idx).map(([eng, r]) => {
+        const qs = Object.values(r.questions || {});
+        const cells = qs.map(q => {
+          if (q.apiError) return `<span class="badge amber">未配置</span>`;
+          return q.mentioned ? badge('已收录', 'green') : badge('未收录', 'red');
+        }).join(' ');
+        return `<div class="mention-item">
+          <div class="mi-head"><span class="mi-src">${esc(engNames[eng] || eng)}</span>${badge(r.collected + '/' + r.total + ' 场景收录', r.total && r.collected / r.total >= 0.5 ? 'green' : 'amber')}</div>
+          <div class="mi-text">${Object.entries(r.questions || {}).map(([k, q]) => `<div style="margin:4px 0;display:flex;gap:8px;align-items:center"><span class="badge violet">${scNames[k] || k}</span><span style="color:var(--text-2);flex:1;font-size:.78rem">${esc(q.question)}</span>${q.apiError ? badge('未配置','amber') : q.mentioned ? badge('已收录','green') : badge('未收录','red')}</div>`).join('')}</div>
+        </div>`;
+      }).join('');
+    }
+
+    const gapRows = (report.gaps || []).map(g => `
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border-soft)">
+        ${badge(g.severity === '高' ? '高优' : '中优', g.severity === '高' ? 'red' : 'amber')}
+        <span style="flex:1;font-size:.85rem">${esc(g.issue)}</span>
+        <span class="mono" style="color:var(--text-3)">${g.score}</span>
+      </div>`).join('') || '<div class="empty">无显著差距</div>';
+
+    const sugRows = (report.suggestions || []).map(s => `
+      <div class="mention-item">
+        <div class="mi-head">
+          <span class="mi-src">${esc(s.title)}</span>
+          ${badge('优先级 ' + s.priority, s.priority === '高' ? 'red' : s.priority === '中' ? 'amber' : '')}
+          ${badge(s.category || '', 'violet')}
+        </div>
+        <div class="mi-text">${esc(s.detail)}<br><span style="color:var(--green)">📈 ${esc(s.impact || '')}</span></div>
+      </div>`).join('');
+
+    c.innerHTML = `
+      ${pageHead('GEO 诊断报告', `${esc(report.meta.brand)} · ${esc(report.meta.url)} · ${report.meta.date}`, '<button class="btn btn-ghost" data-action="diag-again">↺ 重新诊断</button>')}
+      <div class="grid-2-1">
+        <div class="card">
+          <div class="card-head"><h3>综合 GEO 得分</h3></div>
+          <div class="card-body" style="display:flex;align-items:center;gap:28px;flex-wrap:wrap;">
+            <div style="text-align:center;">
+              <div style="font-size:4rem;font-weight:800;line-height:1;background:linear-gradient(120deg,var(--indigo),var(--accent),var(--pink));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">${report.overall.score}</div>
+              <div style="margin-top:6px">${badge('等级 ' + report.overall.grade, gradeColor)}</div>
+            </div>
+            <div style="flex:1;min-width:200px">
+              <div style="font-size:.8rem;color:var(--text-2);margin-bottom:8px">维度权重分布</div>
+              <div class="mention-list">
+                ${dims.map(d => `<div style="display:flex;align-items:center;gap:8px"><span style="width:52px;font-size:.74rem;color:var(--text-2)">${esc(d.name)}</span><div class="pbar" style="flex:1"><i style="width:${d.score}%;background:linear-gradient(90deg,var(--indigo),var(--accent))"></i></div><span class="mono" style="font-size:.72rem">${d.weight * 100}%</span></div>`).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>七维雷达图</h3></div>
+          <div class="card-body">${radarChart(radar)}</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><h3>豆包 + DeepSeek 收录检测</h3><span class="hint">实测 AI 回答是否收录品牌</span></div>
+          <div class="card-body"><div class="mention-list">${idxCards}</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>维度详情</h3></div>
+          <div class="card-body"><div class="mention-list">${dimRows}</div></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><h3>差距清单</h3></div>
+          <div class="card-body flush" style="padding:0 18px">${gapRows}</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>优化建议</h3><span class="hint">Claude Code 生成</span></div>
+          <div class="card-body"><div class="mention-list">${sugRows}</div></div>
+        </div>
+      </div>`;
+  }
+
+  /* ═══ 诊断动作 ═══ */
+  async function startDiag() {
+    const g = id => document.getElementById(id);
+    const url = g('dg-url').value.trim();
+    const brand = g('dg-brand').value.trim();
+    if (!url) return toast('请填写网站地址', 'warn');
+    diagState.mode = 'loading';
+    render();
+    toast('正在诊断：爬取审计 + 豆包/DeepSeek 收录实测 + Claude 评分…');
+
+    // 检查本地服务
+    let serverUp = false;
+    try { const h = await diagFetch('/health', {}, 2500); serverUp = !!h.ok; } catch { }
+    diagState.engineOk = serverUp;
+
+    let report = null;
+    if (serverUp) {
+      try {
+        const r = await diagFetch('/diagnose', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url, brand }) }, 240000);
+        report = r.report || null;
+        if (!report) throw new Error('诊断无返回');
+      } catch (e) { report = null; }
+    }
+    if (!report) {
+      // 兜底：内嵌示例报告（公开站/服务未启动时）
+      report = window.DEMO_REPORT || null;
+      if (!report) { diagState.mode = 'input'; render(); return toast('诊断服务未启动，且无示例报告', 'err'); }
+      toast('使用示例报告展示（本地诊断服务未启动）', 'warn');
+    } else {
+      toast('诊断完成！', 'good');
+    }
+    diagState.report = report;
+    diagState.mode = 'result';
+    render();
   }
 
   /* ═══ 视图：总览 ═══ */
@@ -592,6 +777,10 @@
     document.getElementById('content').addEventListener('click', e => {
       const run = e.target.closest('[data-action="runmon"]');
       if (run) return runMonitor();
+      if (e.target.closest('[data-action="diag-start"]')) return startDiag();
+      if (e.target.closest('[data-action="diag-again"]')) {
+        diagState.mode = 'input'; diagState.report = null; render(); return;
+      }
       if (e.target.closest('[data-action="save-brand"]')) return saveSettings();
       if (e.target.closest('[data-action="save-monitor"]')) return saveMonitor();
       if (e.target.closest('[data-action="add-scenario"]')) {
@@ -629,7 +818,7 @@
     loadOverlay();
     await DataStore.load();
     bindEvents();
-    if (!location.hash) location.hash = '#/overview';
+    if (!location.hash) location.hash = '#/diagnose';
     render();
     document.getElementById('sysMeta').textContent = DataStore.meta();
   }

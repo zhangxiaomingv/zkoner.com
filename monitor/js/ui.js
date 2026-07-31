@@ -113,6 +113,46 @@ const UI = (() => {
       </div>`;
   }
 
+  // ── 雷达图（蜘蛛图）──
+  function radarChart(items, opts = {}) {
+    const { size = 340, max = 100, levels = 5, fill = 'rgba(139,92,246,0.25)', stroke = '#8B5CF6' } = opts;
+    if (!items || items.length < 3) return '<div class="empty">暂无维度数据</div>';
+    const cx = size / 2, cy = size / 2, r = size / 2 - 42;
+    const n = items.length;
+    const ang = i => -Math.PI / 2 + (2 * Math.PI * i) / n;
+    const pt = (i, v) => {
+      const a = ang(i), rad = r * v / max;
+      return [cx + rad * Math.cos(a), cy + rad * Math.sin(a)];
+    };
+    const poly = items.map((it, i) => pt(i, it.value).map(v => v.toFixed(1)).join(',')).join(' ');
+    // 网格多边形
+    const grids = [];
+    for (let lv = 1; lv <= levels; lv++) {
+      const rad = r * lv / levels;
+      const pts = items.map((it, i) => { const a = ang(i); return [cx + rad * Math.cos(a), cy + rad * Math.sin(a)].map(v => v.toFixed(1)).join(','); }).join(' ');
+      grids.push(`<polygon points="${pts}" fill="none" stroke="#1c1c30" stroke-width="1"/>`);
+    }
+    // 轴与标签
+    const axes = items.map((it, i) => {
+      const a = ang(i);
+      const x1 = cx, y1 = cy, x2 = cx + r * Math.cos(a), y2 = cy + r * Math.sin(a);
+      const lx = cx + (r + 20) * Math.cos(a), ly = cy + (r + 20) * Math.sin(a);
+      const anchor = Math.abs(Math.cos(a)) < 0.3 ? 'middle' : (Math.cos(a) > 0 ? 'start' : 'end');
+      return `<line x1="${x1}" y1="${y1}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#1c1c30" stroke-width="1"/>
+        <text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="${anchor}" font-size="11" fill="#9a9ab4">${esc(it.axis)}</text>
+        <text x="${pt(i, it.value)[0].toFixed(1)}" y="${(pt(i, it.value)[1] - 6).toFixed(1)}" text-anchor="middle" font-size="10" fill="#e4e4ef" font-family="monospace">${it.value}</text>`;
+    }).join('');
+    return `
+      <svg width="100%" viewBox="0 0 ${size} ${size}" preserveAspectRatio="xMidYMid meet" role="img">
+        ${grids.join('')}
+        <line x1="${cx}" y1="${cy - r}" x2="${cx}" y2="${cy + r}" stroke="#1c1c30" stroke-width="1"/>
+        <line x1="${cx - r}" y1="${cy}" x2="${cx + r}" y2="${cy}" stroke="#1c1c30" stroke-width="1"/>
+        ${axes}
+        <polygon points="${poly}" fill="${fill}" stroke="${stroke}" stroke-width="2.5" stroke-linejoin="round"/>
+        ${items.map((it, i) => pt(i, it.value).map(v => v.toFixed(1)).join(',')).map((p, i) => `<circle cx="${p.split(',')[0]}" cy="${p.split(',')[1]}" r="3.5" fill="#fff" stroke="${stroke}" stroke-width="2"/>`).join('')}
+      </svg>`;
+  }
+
   // ── 空状态 ──
   function empty(text = '暂无数据') {
     return `<div class="empty">${esc(text)}</div>`;
@@ -122,5 +162,5 @@ const UI = (() => {
     return `<div class="loading"><div class="spinner"></div>正在监测…</div>`;
   }
 
-  return { esc, el, toast, badge, statusBadge, pbar, lineChart, hbarChart, donutChart, empty, loading, SERIES };
+  return { esc, el, toast, badge, statusBadge, pbar, lineChart, hbarChart, donutChart, radarChart, empty, loading, SERIES };
 })();

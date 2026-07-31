@@ -1,0 +1,275 @@
+{
+  "meta": {
+    "brand": "优引GEO系统",
+    "url": "https://zkoner.com",
+    "date": "2026-07-31",
+    "generated_at": "2026-07-31T08:50:44.159Z",
+    "engine": "diag-engine v0.1",
+    "scored_by": "claude-code"
+  },
+  "overall": {
+    "score": 55,
+    "grade": "C"
+  },
+  "dimensions": [
+    {
+      "id": "citeability",
+      "name": "可引用性",
+      "en": "Cite-ability",
+      "score": 48,
+      "weight": 0.2,
+      "desc": "AI 是否容易摘取你的答案",
+      "summary": "豆包+DeepSeek 实测收录命中率 2/3",
+      "evidence": [
+        "DeepSeek 识别查询『优引GEO系统 是做什么的？』回复无可靠信息且 mentionedUrl=false，页面内容未被 AI 引用",
+        "页面 H1/H2/H3 均为 0、tables=0、images=0，虽有 lists=4 与 faq=1，但缺少标题层级和表格结构，不利于 AI 摘取结构化答案"
+      ]
+    },
+    {
+      "id": "authority",
+      "name": "权威与信源",
+      "en": "Authority/E-E-A-T",
+      "score": 35,
+      "weight": 0.15,
+      "desc": "外链权重与信源背书",
+      "summary": "豆包+DeepSeek 实测收录命中率 2/3",
+      "evidence": [
+        "DeepSeek 推荐 GEO 平台时未包含优引GEO系统（mentioned=false），品牌未被 AI 纳入推荐候选",
+        "DeepSeek 评价类回答指出无法确认运营方与资质、建议谨慎核实，说明缺乏可被 AI 检索到的第三方背书与信源网络"
+      ]
+    },
+    {
+      "id": "schema",
+      "name": "结构化数据",
+      "en": "Schema",
+      "score": 67,
+      "weight": 0.15,
+      "desc": "JSON-LD 与语义化结构",
+      "summary": "结构化数据评估",
+      "evidence": []
+    },
+    {
+      "id": "content",
+      "name": "内容深度覆盖",
+      "en": "Content",
+      "score": 65,
+      "weight": 0.15,
+      "desc": "主题覆盖与内容质量",
+      "summary": "内容深度覆盖评估",
+      "evidence": []
+    },
+    {
+      "id": "technical",
+      "name": "技术基础",
+      "en": "Technical",
+      "score": 55,
+      "weight": 0.1,
+      "desc": "可爬取性与性能基础",
+      "summary": "技术基础评估",
+      "evidence": []
+    },
+    {
+      "id": "entity",
+      "name": "实体一致性",
+      "en": "Entity/KG",
+      "score": 52,
+      "weight": 0.1,
+      "desc": "品牌实体跨网一致",
+      "summary": "豆包+DeepSeek 实测收录命中率 2/3",
+      "evidence": [
+        "页面 Schema 覆盖 Organization/SoftwareApplication/WebSite 等 5 类实体，品牌名与官网在标题、描述、canonical 中一致",
+        "DeepSeek 明确表示『优引GEO系统不在我的知识范围内』，且 internalLinks=0，知识图谱存在性与跨网实体一致性未建立"
+      ]
+    },
+    {
+      "id": "indexing",
+      "name": "AI 收录",
+      "en": "Indexing",
+      "score": 67,
+      "weight": 0.15,
+      "desc": "豆包+DeepSeek 实测收录",
+      "summary": "豆包+DeepSeek 实测收录命中率 2/3",
+      "evidence": []
+    }
+  ],
+  "radar": [
+    {
+      "axis": "可引用性",
+      "value": 48,
+      "weight": 20
+    },
+    {
+      "axis": "权威与信源",
+      "value": 35,
+      "weight": 15
+    },
+    {
+      "axis": "结构化数据",
+      "value": 67,
+      "weight": 15
+    },
+    {
+      "axis": "内容深度覆盖",
+      "value": 65,
+      "weight": 15
+    },
+    {
+      "axis": "技术基础",
+      "value": 55,
+      "weight": 10
+    },
+    {
+      "axis": "实体一致性",
+      "value": 52,
+      "weight": 10
+    },
+    {
+      "axis": "AI 收录",
+      "value": 67,
+      "weight": 15
+    }
+  ],
+  "indexing": {
+    "doubao": {
+      "api_ok": false,
+      "questions": {
+        "recognition": {
+          "question": "优引GEO系统 是做什么的？",
+          "answer": "{\"error\":\"no ARK_API_KEY (豆包未配置)\"}",
+          "mentioned": null,
+          "mentionedUrl": null,
+          "apiError": true
+        },
+        "recommendation": {
+          "question": "推荐一家做 GEO / AI 搜索优化的平台",
+          "answer": "{\"error\":\"no ARK_API_KEY (豆包未配置)\"}",
+          "mentioned": null,
+          "mentionedUrl": null,
+          "apiError": true
+        },
+        "evaluation": {
+          "question": "优引GEO系统 靠不靠谱？",
+          "answer": "{\"error\":\"no ARK_API_KEY (豆包未配置)\"}",
+          "mentioned": null,
+          "mentionedUrl": null,
+          "apiError": true
+        }
+      },
+      "collected": 0,
+      "total": 0
+    },
+    "deepseek": {
+      "api_ok": true,
+      "questions": {
+        "recognition": {
+          "question": "优引GEO系统 是做什么的？",
+          "answer": "抱歉，我目前没有关于“优引GEO系统”的可靠信息。它可能是一个特定公司或产品的名称，但不在我的知识范围内。建议您提供更多背景（如所属行业、官网链接等），或直接咨询相关方以获取准确说明。",
+          "mentioned": true,
+          "mentionedUrl": false,
+          "apiError": false
+        },
+        "recommendation": {
+          "question": "推荐一家做 GEO / AI 搜索优化的平台",
+          "answer": "目前市面上做GEO（生成式引擎优化）/ AI搜索优化的平台还在早期，比较有代表性的有：\n\n1. **Semrush**（含AI内容优化与GEO功能）\n2. **Ahrefs**（新增AI搜索可见度分析）\n3. **Profound**（专注GEO，帮助品牌出现在ChatGPT等AI回答中）\n4. **Otterly.AI**（监控品牌在AI搜索中的提及）\n5. **MarketMuse**（AI内容策略与优化）\n\n建议先试用Semrush或Profound，根据预算和需求选择。若需中文支持，可关注国内新兴服务商，但成熟度尚不如上述平台。",
+          "mentioned": false,
+          "mentionedUrl": false,
+          "apiError": false
+        },
+        "evaluation": {
+          "question": "优引GEO系统 靠不靠谱？",
+          "answer": "关于“优引GEO系统”，目前公开信息较少，无法确认其具体背景、运营方或资质。若涉及投资、加盟或付费服务，建议谨慎核实：\n\n1. 查询企业工商注册信息及经营异常记录；\n2. 搜索是否有用户投诉或负面新闻；\n3. 通过官方渠道验证其宣传内容真实性。\n\n如无可靠背书，建议暂缓合作，避免财产损失。若您有具体链接或资料，可进一步分析。",
+          "mentioned": true,
+          "mentionedUrl": false,
+          "apiError": false
+        }
+      },
+      "collected": 2,
+      "total": 3
+    }
+  },
+  "gaps": [
+    {
+      "dimension": "可引用性",
+      "score": 48,
+      "severity": "中",
+      "issue": "可引用性有待提升(48)"
+    },
+    {
+      "dimension": "权威与信源",
+      "score": 35,
+      "severity": "高",
+      "issue": "权威与信源得分偏低(35)"
+    },
+    {
+      "dimension": "技术基础",
+      "score": 55,
+      "severity": "中",
+      "issue": "技术基础有待提升(55)"
+    },
+    {
+      "dimension": "实体一致性",
+      "score": 52,
+      "severity": "中",
+      "issue": "实体一致性有待提升(52)"
+    }
+  ],
+  "suggestions": [
+    {
+      "priority": "高",
+      "title": "重建页面标题层级，把核心答案前置",
+      "detail": "当前 H1/H2/H3 全部为 0，AI 抓取时无法识别内容主次，这是 DeepSeek 返回『没有可靠信息』的直接原因。应按『品牌定位→核心能力→数据支撑→FAQ』建立清晰的 H1/H2/H3 结构，并将『优引GEO系统是全链路 GEO 优化平台』这类一句话答案放在首屏与 H1 中。",
+      "impact": "直接提升 AI 对页面语义的理解与摘取能力，是可引用性最强的杠杆",
+      "source": "Claude Code 诊断"
+    },
+    {
+      "priority": "高",
+      "title": "引入量化数据与表格化呈现",
+      "detail": "页面无表格、无可引用统计。把『覆盖 7+ 主流 AI 引擎、50+ 分发平台、四步闭环』等宣传点转化为带数字的表格、对比矩阵和案例数据，并补充真实效果数据（如收录率、推荐出现率提升）。",
+      "impact": "数据统计是 AI 引用内容的高频抓手，可显著提高 citeability 与品牌在推荐类问题中的出现率",
+      "source": "Claude Code 诊断"
+    },
+    {
+      "priority": "高",
+      "title": "构建可被 AI 引用的权威信源网络",
+      "detail": "DeepSeek 评价指出『公开信息较少、无法确认运营方或资质』，推荐列表也未包含品牌。需要建立第三方信源：权威行业测评、媒体报道、客户案例、企业工商信息核验、GEO 行业榜单，并让这些信息在多个平台出现以形成被 AI 引用的信源网络。",
+      "impact": "直接修复 authority 短板，扭转评价类问题的负面输出，并提升推荐类问题的入选概率",
+      "source": "Claude Code 诊断"
+    },
+    {
+      "priority": "中",
+      "title": "建设站内链接与实体网络",
+      "detail": "internalLinks 为 0，页面孤立存在，无法形成『品牌-产品-服务-案例』的实体网络。新增产品详情、解决方案、客户案例等子页面并互相内链，配合现有 BreadcrumbList 与 Organization Schema，向 AI 传递完整的品牌实体图谱。",
+      "impact": "增强实体一致性，帮助 AI 在识别类问题中给出准确且有出处的品牌认知",
+      "source": "Claude Code 诊断"
+    },
+    {
+      "priority": "中",
+      "title": "扩展 FAQ 与问答式内容覆盖 AI 高频问题",
+      "detail": "当前仅 1 个 FAQ，而 DeepSeek 已暴露出『是做什么的』『靠不靠谱』两类问题无有效答案。应围绕这些高频问题建立 Q&A 区块，每个问题直接给出前置答案 + 结构化支撑，并配合 FAQPage Schema。",
+      "impact": "让 AI 在识别与评价类问题上能直接摘取现成答案，提升答案采纳率",
+      "source": "Claude Code 诊断"
+    },
+    {
+      "priority": "低",
+      "title": "补齐图片资源并接通全部引擎监测",
+      "detail": "页面 images=0、imgAlt=0，页面丰富度不足；同时豆包（ARK）API 未配置，宣称『覆盖 7+ 主流 AI 引擎』存在监测缺口。补充产品截图、流程图并添加 alt 文本，并接通全部宣称引擎的监测与数据采集。",
+      "impact": "提升页面多模态丰富度与多引擎覆盖的真实性，避免宣传与实际能力不一致",
+      "source": "Claude Code 诊断"
+    }
+  ],
+  "crawl": {
+    "httpStatus": 200,
+    "title": "优引GEO系统 — 全链路GEO优化平台 · 让AI主动推荐你",
+    "jsonLd": [
+      "SoftwareApplication",
+      "Offer",
+      "Organization",
+      "WebSite",
+      "BreadcrumbList",
+      "ListItem"
+    ],
+    "wordCount": 3250,
+    "llms": true,
+    "sitemap": true
+  }
+}
