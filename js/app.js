@@ -18,6 +18,21 @@
       { id: 'suggestions',    label: '优化建议',    icon: '✦' },
       { id: 'tasks',          label: '监测任务',    icon: '▶' },
     ]},
+    { group: '内容生产', items: [
+      { id: 'ai-create',      label: 'AI 创作',     icon: '✦' },
+      { id: 'batch-generate', label: '批量生成',    icon: '▦' },
+      { id: 'art-manage',     label: '文章管理',    icon: '☰' },
+      { id: 'traffic-clone',  label: '流量复刻',    icon: '↻' },
+      { id: 'keywords',       label: '关键词库',    icon: '⌕' },
+      { id: 'titles',         label: '标题库',      icon: '❝' },
+      { id: 'images',         label: '图片库',      icon: '▧' },
+      { id: 'knowledge',      label: '知识库',      icon: '▣' },
+      { id: 'url-import',     label: 'URL 导入',    icon: '⇣' },
+      { id: 'dist-manage',    label: '分发管理',    icon: '⇶' },
+      { id: 'media-accounts', label: '媒体账号',    icon: '✉' },
+      { id: 'dist-nodes',     label: '分发节点',    icon: '⌬' },
+      { id: 'dist-logs',      label: '分发日志',    icon: '≡' },
+    ]},
     { group: '设置', items: [
       { id: 'brand',          label: '品牌设置',    icon: '♛' },
       { id: 'scenario-cfg',   label: '场景管理',    icon: '❏' },
@@ -90,7 +105,7 @@
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg };
+    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -739,6 +754,444 @@
     }
   }
 
+  /* ═══ 内容生产模块 ═══ */
+  const CONTENT_KEY = 'youyin-content';
+  const CONTENT_SEED = {
+    articles: [
+      { id: 'a1', title: '2026 GEO 与 SEO 的本质区别', scene: '科普文章', status: '草稿', createdAt: '2026-07-30', content: 'GEO 衡量的是 AI 引用，而不是点击。本文直接给出答案：GEO 优化品牌在 AI 问答中的提及、引用与推荐。' },
+      { id: 'a2', title: '全链路 GEO 平台怎么选？', scene: '榜单文章', status: '已发布', createdAt: '2026-07-28', content: '选择 GEO 平台看三件事：引擎实测覆盖、优化闭环、数据归属。' },
+    ],
+    keywords: [
+      { id: 'k1', word: 'GEO 优化', group: '核心词' },
+      { id: 'k2', word: 'AI 搜索优化', group: '核心词' },
+      { id: 'k3', word: '品牌 AI 可见度', group: '长尾词' },
+    ],
+    titles: [
+      { id: 't1', title: '为什么你的品牌没被 AI 推荐？', scene: '认知' },
+      { id: 't2', title: 'GEO 平台横向对比：覆盖、闭环与成本', scene: '榜单' },
+    ],
+    images: [
+      { id: 'i1', name: 'GEO 轨道示意图', url: '', tags: 'GEO,配图' },
+    ],
+    knowledge: [
+      { id: 'n1', title: '品牌定位', type: '品牌资料', content: '全链路 GEO 优化平台，让 AI 主动推荐你。' },
+    ],
+    urlImports: [
+      { id: 'u1', url: 'https://zkoner.com/geo.html', category: '官网内容', status: '已导入', createdAt: '2026-07-31' },
+    ],
+    clones: [],
+    distTasks: [],
+    accounts: [
+      { id: 'ac1', platform: '微信公众号', name: '优引GEO', status: '已绑定' },
+      { id: 'ac2', platform: '知乎', name: '优引GEO', status: '已绑定' },
+    ],
+    nodes: [
+      { id: 'nd1', platform: '知乎', name: '科技·默认节点', weight: 60, status: '启用' },
+      { id: 'nd2', platform: '百家号', name: 'AI 科技频道', weight: 40, status: '启用' },
+    ],
+    logs: [
+      { id: 'l1', date: '2026-07-31 10:02', title: '全链路 GEO 平台怎么选？', platform: '知乎', status: '成功', note: '已发布' },
+    ],
+  };
+  let contentStore = loadContent();
+  let contentPreview = null;
+
+  function loadContent() {
+    try {
+      const d = JSON.parse(localStorage.getItem(CONTENT_KEY));
+      if (!d || typeof d !== 'object') return JSON.parse(JSON.stringify(CONTENT_SEED));
+      return { ...JSON.parse(JSON.stringify(CONTENT_SEED)), ...d };
+    } catch { return JSON.parse(JSON.stringify(CONTENT_SEED)); }
+  }
+  function saveContent() { localStorage.setItem(CONTENT_KEY, JSON.stringify(contentStore)); }
+  function cInput(label, id, ph, val = '', type = 'text') {
+    return `<div class="form-group"><label>${esc(label)}</label><input id="${id}" type="${type}" placeholder="${esc(ph)}" value="${esc(val)}"></div>`;
+  }
+  function cSelect(label, id, opts, val = '') {
+    return `<div class="form-group"><label>${esc(label)}</label><select id="${id}">${opts.map(o => `<option value="${o}" ${o === val ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>`;
+  }
+  function contentLog(title, platform, status, note) {
+    contentStore.logs.unshift({ id: 'l' + Date.now(), date: new Date().toLocaleString('zh-CN', { hour12: false }), title, platform, status, note });
+    saveContent();
+  }
+
+  function aiCreate(c) {
+    const b = effSettings().brand || {};
+    c.innerHTML = `
+      ${pageHead('AI 创作', '单篇生成 GEO 友好内容，产出后进入文章管理')}
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><h3>创作参数</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              ${cInput('文章标题', 'c-title', '例如：2026 GEO 优化完整指南')}
+              ${cSelect('场景类型', 'c-scene', ['科普文章', '榜单文章', '问答 FAQ', '客户案例'])}
+              ${cInput('品牌名', 'c-brand', '品牌名', b.name || '')}
+              ${cInput('关键词（逗号分隔）', 'c-kw', 'GEO,AI搜索优化', (b.keywords || []).join('，'))}
+              ${cInput('目标字数', 'c-words', '1200', '1200', 'number')}
+              <div class="form-group full"><label>创作要求</label><textarea id="c-brief" rows="3" placeholder="例如：答案前置、含 FAQ、给出数据支撑"></textarea></div>
+            </div>
+            <div style="margin-top:16px"><button class="btn btn-primary" data-action="content-ai-gen">✦ 开始创作</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>生成预览</h3><span class="hint">保存后进入文章管理</span></div>
+          <div class="card-body" id="c-preview">${contentPreview ? esc(contentPreview.content.slice(0, 600)) : '<div class="empty">生成后会在这里显示文章预览</div>'}</div>
+        </div>
+      </div>`;
+  }
+
+  function batchGenerate(c) {
+    const count = contentStore.articles.filter(x => x.status === '草稿').length;
+    c.innerHTML = `
+      ${pageHead('批量生成', '按主题方向批量产出文章，写入文章管理')}
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><h3>批量配置</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              ${cInput('批量数量', 'c-batch-num', '10', '10', 'number')}
+              ${cSelect('内容模式', 'c-batch-mode', ['科普文章', '榜单文章', '问答 FAQ', '混合'])}
+              ${cInput('主题方向', 'c-batch-topic', '例如：GEO 优化、AI 搜索、品牌可见度', 'GEO 优化')}
+              <div class="form-group full"><label>补充要求</label><textarea id="c-batch-brief" rows="3" placeholder="每个标题必须包含关键词，答案前置"></textarea></div>
+            </div>
+            <div style="margin-top:16px"><button class="btn btn-primary" data-action="content-batch">▦ 开始批量生成</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>当前状态</h3></div>
+          <div class="card-body">
+            <div class="tile-grid" style="grid-template-columns:repeat(2,1fr)">
+              ${tile('草稿文章', contentStore.articles.filter(a => a.status === '草稿').length, '待完善', '')}
+              ${tile('已发布', contentStore.articles.filter(a => a.status === '已发布').length, '待分发', 'up', 'grad')}
+              ${tile('关键词', contentStore.keywords.length, '素材中心', '')}
+              ${tile('标题模板', contentStore.titles.length, '素材中心', '')}
+            </div>
+            <div style="margin-top:16px" class="mention-list">
+              ${contentStore.articles.slice(0, 3).map(a => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(a.title)}</span>${badge(a.status, a.status === '已发布' ? 'green' : 'amber')}</div></div>`).join('') || empty('暂无文章')}
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function artManage(c) {
+    c.innerHTML = `
+      ${pageHead('文章管理', '查看、编辑、分发与删除生成的文章')}
+      <div class="card">
+        <div class="card-head"><h3>文章列表</h3><span class="hint">数据保存在本地浏览器</span></div>
+        <div class="card-body">
+          <input id="c-art-q" class="input" type="search" placeholder="搜索标题…" style="max-width:320px;margin-bottom:12px">
+          <div class="table-wrap"><table class="tbl">
+            <thead><tr><th>标题</th><th>场景</th><th>状态</th><th>创建日期</th><th></th></tr></thead>
+            <tbody id="c-art-body">${contentArtRows('')}</tbody>
+          </table></div>
+        </div>
+      </div>`;
+  }
+  function contentArtRows(q) {
+    const query = (q || '').trim().toLowerCase();
+    const rows = contentStore.articles.filter(a => !query || a.title.toLowerCase().includes(query)).map(a => `
+      <tr>
+        <td><span style="font-weight:600">${esc(a.title)}</span></td>
+        <td>${esc(a.scene)}</td>
+        <td>${badge(a.status, a.status === '已发布' ? 'green' : 'amber')}</td>
+        <td class="mono" style="font-size:.8rem">${esc(a.createdAt)}</td>
+        <td style="text-align:right">
+          <button class="btn btn-sm btn-ghost" data-action="content-art-view" data-id="${a.id}">查看</button>
+          <button class="btn btn-sm btn-ghost" data-action="content-art-dist" data-id="${a.id}">分发</button>
+          <button class="btn btn-sm btn-ghost" data-action="content-art-del" data-id="${a.id}">删除</button>
+        </td>
+      </tr>`).join('');
+    return rows || '<tr><td colspan="5"><div class="empty">没有匹配文章</div></td></tr>';
+  }
+
+  function trafficClone(c) {
+    c.innerHTML = `
+      ${pageHead('流量复刻', '分析高流量内容/账号，生成同主题内容任务')}
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><h3>复刻配置</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              ${cInput('对标链接 / 账号', 'c-clone-src', 'https://example.com/hot-article')}
+              ${cSelect('对标平台', 'c-clone-platform', ['知乎', '微信公众号', '百家号', '小红书', '今日头条'])}
+              ${cInput('复刻主题', 'c-clone-topic', '例如：GEO 平台怎么选')}
+              ${cSelect('复刻范围', 'c-clone-scope', ['标题结构', '内容结构', '关键词覆盖', '全量复刻'])}
+            </div>
+            <div style="margin-top:16px"><button class="btn btn-primary" data-action="content-clone-add">↻ 创建复刻任务</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>复刻任务</h3></div>
+          <div class="card-body">
+            ${contentStore.clones.map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.topic)}</span>${badge(x.status, 'violet')}</div><div class="mi-text">${esc(x.platform)} · ${esc(x.source)}</div></div>`).join('') || empty('暂无复刻任务')}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function keywordsView(c) {
+    c.innerHTML = `
+      ${pageHead('关键词库', '收集与分组 GEO 关键词，供创作与监测使用')}
+      <div class="card">
+        <div class="card-head"><h3>添加关键词</h3></div>
+        <div class="card-body"><div class="form-grid">
+          ${cInput('关键词', 'c-kw-word', '例如：AI 搜索优化')}
+          ${cSelect('分组', 'c-kw-group', ['核心词', '长尾词', '场景词', '竞品词'])}
+        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-kw-add">添加</button></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>关键词列表</h3><span class="hint">${contentStore.keywords.length} 个</span></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>关键词</th><th>分组</th><th></th></tr></thead>
+          <tbody>${contentStore.keywords.map(x => `<tr><td>${esc(x.word)}</td><td>${badge(x.group, 'violet')}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-kw-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
+        </table></div></div>
+      </div>`;
+  }
+
+  function titlesView(c) {
+    c.innerHTML = `
+      ${pageHead('标题库', '沉淀高点击标题模板')}
+      <div class="card">
+        <div class="card-head"><h3>添加标题模板</h3></div>
+        <div class="card-body"><div class="form-grid">
+          ${cInput('标题模板', 'c-title-text', '例如：为什么你的品牌没被 AI 推荐？')}
+          ${cSelect('场景', 'c-title-scene', ['认知', '榜单', '问答', '案例'])}
+        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-title-add">添加</button></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>标题列表</h3><span class="hint">${contentStore.titles.length} 条</span></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>标题</th><th>场景</th><th></th></tr></thead>
+          <tbody>${contentStore.titles.map(x => `<tr><td>${esc(x.title)}</td><td>${badge(x.scene, '')}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-title-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
+        </table></div></div>
+      </div>`;
+  }
+
+  function imagesView(c) {
+    c.innerHTML = `
+      ${pageHead('图片库', '管理配图素材')}
+      <div class="card">
+        <div class="card-head"><h3>添加图片素材</h3></div>
+        <div class="card-body"><div class="form-grid">
+          ${cInput('素材名称', 'c-img-name', 'GEO 轨道示意图')}
+          ${cInput('图片 URL', 'c-img-url', 'https://…')}
+          ${cInput('标签', 'c-img-tags', 'GEO,配图')}
+        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-img-add">添加</button></div></div>
+      </div>
+      <div class="grid grid-3">${contentStore.images.map(x => `
+        <div class="card" style="padding:14px">
+          <div style="height:120px;border-radius:10px;background:var(--panel-strong);display:grid;place-items:center;color:var(--text-3);font-size:2rem;overflow:hidden">${x.url ? `<img src="${esc(x.url)}" alt="${esc(x.name)}" style="width:100%;height:100%;object-fit:cover">` : '▧'}</div>
+          <div style="margin-top:10px;font-weight:600">${esc(x.name)}</div>
+          <div class="faint" style="font-size:.76rem">${esc(x.tags || '')}</div>
+          <div style="margin-top:8px"><button class="btn btn-sm btn-ghost" data-action="content-img-del" data-id="${x.id}">删除</button></div>
+        </div>`).join('')}</div>`;
+  }
+
+  function knowledgeView(c) {
+    c.innerHTML = `
+      ${pageHead('知识库', '品牌资料与行业知识沉淀')}
+      <div class="card">
+        <div class="card-head"><h3>添加知识条目</h3></div>
+        <div class="card-body"><div class="form-grid">
+          ${cInput('标题', 'c-know-title', '品牌定位')}
+          ${cSelect('类型', 'c-know-type', ['品牌资料', '行业知识', '产品能力', '案例数据'])}
+          <div class="form-group full"><label>内容</label><textarea id="c-know-content" rows="3" placeholder="直接写出可被 AI 引用的表述"></textarea></div>
+        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-know-add">添加</button></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>知识条目</h3><span class="hint">${contentStore.knowledge.length} 条</span></div>
+        <div class="card-body">${contentStore.knowledge.map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.title)}</span>${badge(x.type, 'violet')}</div><div class="mi-text">${esc(x.content)}</div><div style="text-align:right;margin-top:6px"><button class="btn btn-sm btn-ghost" data-action="content-know-del" data-id="${x.id}">删除</button></div></div>`).join('') || empty('暂无知识条目')}</div>
+      </div>`;
+  }
+
+  function urlImportView(c) {
+    c.innerHTML = `
+      ${pageHead('URL 导入', '从网址抓取内容与素材进入素材中心')}
+      <div class="card">
+        <div class="card-head"><h3>导入配置</h3></div>
+        <div class="card-body"><div class="form-grid">
+          ${cInput('目标 URL', 'c-url-src', 'https://…/article')}
+          ${cSelect('导入分类', 'c-url-cat', ['官网内容', '竞品内容', '行业资讯', '品牌资料'])}
+        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-url-add">⇣ 导入</button></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>导入记录</h3></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>URL</th><th>分类</th><th>状态</th><th>日期</th></tr></thead>
+          <tbody>${contentStore.urlImports.map(x => `<tr><td class="mono" style="font-size:.8rem">${esc(x.url)}</td><td>${esc(x.category)}</td><td>${badge(x.status, x.status === '已导入' ? 'green' : 'amber')}</td><td class="mono" style="font-size:.8rem">${esc(x.createdAt)}</td></tr>`).join('')}</tbody>
+        </table></div></div>
+      </div>`;
+  }
+
+  function distManage(c) {
+    c.innerHTML = `
+      ${pageHead('分发管理', '把文章分发到已绑定媒体账号')}
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><h3>新建分发</h3></div>
+          <div class="card-body"><div class="form-grid">
+            <div class="form-group"><label>选择文章</label><select id="c-dist-art">${contentStore.articles.map(a => `<option value="${a.id}">${esc(a.title)}</option>`).join('')}</select></div>
+            <div class="form-group full"><label>目标平台</label><div style="display:flex;gap:12px;flex-wrap:wrap">${contentStore.accounts.map(a => `<label style="display:flex;align-items:center;gap:6px;font-size:.84rem"><input type="checkbox" data-dist-platform="${esc(a.platform)}" checked>${esc(a.platform)}</label>`).join('')}</div></div>
+          </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-dist-run">⇶ 开始分发</button></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>分发任务</h3></div>
+          <div class="card-body">${contentStore.distTasks.map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.title)}</span>${badge(x.status, x.status === '完成' ? 'green' : 'violet')}</div><div class="mi-text">${esc(x.platform)} · ${esc(x.date)}</div></div>`).join('') || empty('暂无分发任务')}</div>
+        </div>
+      </div>`;
+  }
+
+  function mediaAccounts(c) {
+    c.innerHTML = `
+      ${pageHead('媒体账号', '管理已接入的分发账号')}
+      <div class="card">
+        <div class="card-head"><h3>添加账号</h3></div>
+        <div class="card-body"><div class="form-grid">
+          ${cSelect('平台', 'c-acc-platform', ['微信公众号', '知乎', '百家号', '小红书', '今日头条'])}
+          ${cInput('账号名称', 'c-acc-name', '优引GEO')}
+        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-acc-add">添加</button></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>账号列表</h3></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>平台</th><th>账号</th><th>状态</th><th></th></tr></thead>
+          <tbody>${contentStore.accounts.map(x => `<tr><td>${esc(x.platform)}</td><td>${esc(x.name)}</td><td>${badge(x.status, 'green')}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-acc-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
+        </table></div></div>
+      </div>`;
+  }
+
+  function distNodes(c) {
+    c.innerHTML = `
+      ${pageHead('分发节点', '配置各平台分发权重与节点')}
+      <div class="card">
+        <div class="card-head"><h3>添加节点</h3></div>
+        <div class="card-body"><div class="form-grid">
+          ${cSelect('平台', 'c-node-platform', ['微信公众号', '知乎', '百家号', '小红书', '今日头条'])}
+          ${cInput('节点名称', 'c-node-name', 'AI 科技频道')}
+          ${cInput('权重（%）', 'c-node-weight', '50', '50', 'number')}
+        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-node-add">添加</button></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>节点列表</h3></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>平台</th><th>节点</th><th>权重</th><th>状态</th><th></th></tr></thead>
+          <tbody>${contentStore.nodes.map(x => `<tr><td>${esc(x.platform)}</td><td>${esc(x.name)}</td><td>${x.weight}%</td><td>${badge(x.status, 'green')}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-node-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
+        </table></div></div>
+      </div>`;
+  }
+
+  function distLogs(c) {
+    c.innerHTML = `
+      ${pageHead('分发日志', '每次分发的状态与结果')}
+      <div class="card">
+        <div class="card-head"><h3>日志</h3><button class="btn btn-sm btn-ghost" data-action="content-log-clear">清空日志</button></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>时间</th><th>内容</th><th>平台</th><th>状态</th><th>备注</th></tr></thead>
+          <tbody>${contentStore.logs.map(x => `<tr><td class="mono" style="font-size:.78rem">${esc(x.date)}</td><td>${esc(x.title)}</td><td>${esc(x.platform)}</td><td>${badge(x.status, x.status === '成功' ? 'green' : 'red')}</td><td>${esc(x.note)}</td></tr>`).join('') || '<tr><td colspan="5"><div class="empty">暂无日志</div></td></tr>'}</tbody>
+        </table></div></div>
+      </div>`;
+  }
+
+  function contentAction(btn) {
+    const act = btn.dataset.action;
+    const g = id => document.getElementById(id);
+    if (act === 'content-ai-gen') {
+      const title = g('c-title').value.trim() || 'AI 创作文章 ' + new Date().toLocaleDateString();
+      const article = {
+        id: 'a' + Date.now(),
+        title,
+        scene: g('c-scene').value,
+        status: '草稿',
+        createdAt: new Date().toISOString().slice(0, 10),
+        content: `${title}\n\n${g('c-brand').value || '优引GEO系统'} 是品牌 AI 可见性诊断与监测平台。本文回答用户最关心的问题，并给出可直接引用的结论。\n\n关键词：${g('c-kw').value}\n\nFAQ：\n1. 什么是 GEO？\n2. 为什么品牌需要监测 AI 可见度？`,
+      };
+      contentStore.articles.unshift(article);
+      contentPreview = article;
+      saveContent();
+      render();
+      return toast('文章已生成并保存到文章管理', 'good');
+    }
+    if (act === 'content-batch') {
+      const num = Math.max(1, +g('c-batch-num').value || 10);
+      const topic = g('c-batch-topic').value.trim() || 'GEO 优化';
+      for (let i = 0; i < num; i += 1) {
+        contentStore.articles.unshift({ id: 'a' + Date.now() + i, title: `${topic}（批量 ${i + 1}）`, scene: g('c-batch-mode').value, status: '草稿', createdAt: new Date().toISOString().slice(0, 10), content: `${topic}（批量 ${i + 1}）\n\n答案前置。` });
+      }
+      saveContent();
+      render();
+      return toast(`已批量生成 ${num} 篇文章`, 'good');
+    }
+    if (act === 'content-art-del' || act === 'content-art-dist' || act === 'content-art-view') {
+      const a = contentStore.articles.find(x => x.id === btn.dataset.id);
+      if (!a) return;
+      if (act === 'content-art-del') { contentStore.articles = contentStore.articles.filter(x => x.id !== a.id); saveContent(); render(); return toast('文章已删除', 'good'); }
+      if (act === 'content-art-dist') {
+        a.status = '已发布';
+        const plats = contentStore.accounts.slice(0, 2).map(x => x.platform);
+        contentStore.distTasks.unshift({ id: 'd' + Date.now(), title: a.title, platform: plats.join('、'), status: '完成', date: new Date().toLocaleDateString() });
+        plats.forEach(p => contentLog(a.title, p, '成功', '已发布'));
+        saveContent(); render();
+        return toast('已加入分发并记录日志', 'good');
+      }
+      toast(a.content.slice(0, 120), 'info');
+      return;
+    }
+    if (act === 'content-clone-add') {
+      contentStore.clones.unshift({ id: 'c' + Date.now(), source: g('c-clone-src').value.trim() || '未填写', platform: g('c-clone-platform').value, topic: g('c-clone-topic').value.trim() || '未命名主题', scope: g('c-clone-scope').value, status: '分析中' });
+      saveContent(); render();
+      return toast('复刻任务已创建', 'good');
+    }
+    if (act === 'content-kw-add') {
+      const w = g('c-kw-word').value.trim();
+      if (!w) return toast('请填写关键词', 'warn');
+      contentStore.keywords.push({ id: 'k' + Date.now(), word: w, group: g('c-kw-group').value });
+      saveContent(); render(); return toast('关键词已添加', 'good');
+    }
+    if (act === 'content-kw-del') { contentStore.keywords = contentStore.keywords.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
+    if (act === 'content-title-add') {
+      const t = g('c-title-text').value.trim();
+      if (!t) return toast('请填写标题模板', 'warn');
+      contentStore.titles.push({ id: 't' + Date.now(), title: t, scene: g('c-title-scene').value });
+      saveContent(); render(); return toast('标题已添加', 'good');
+    }
+    if (act === 'content-title-del') { contentStore.titles = contentStore.titles.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
+    if (act === 'content-img-add') {
+      contentStore.images.push({ id: 'i' + Date.now(), name: g('c-img-name').value.trim() || '未命名素材', url: g('c-img-url').value.trim(), tags: g('c-img-tags').value.trim() });
+      saveContent(); render(); return toast('图片素材已添加', 'good');
+    }
+    if (act === 'content-img-del') { contentStore.images = contentStore.images.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
+    if (act === 'content-know-add') {
+      contentStore.knowledge.push({ id: 'n' + Date.now(), title: g('c-know-title').value.trim() || '未命名', type: g('c-know-type').value, content: g('c-know-content').value.trim() });
+      saveContent(); render(); return toast('知识条目已添加', 'good');
+    }
+    if (act === 'content-know-del') { contentStore.knowledge = contentStore.knowledge.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
+    if (act === 'content-url-add') {
+      const u = g('c-url-src').value.trim();
+      if (!u) return toast('请填写 URL', 'warn');
+      contentStore.urlImports.unshift({ id: 'u' + Date.now(), url: u, category: g('c-url-cat').value, status: '已导入', createdAt: new Date().toISOString().slice(0, 10) });
+      saveContent(); render(); return toast('URL 已导入素材中心', 'good');
+    }
+    if (act === 'content-dist-run') {
+      const artId = g('c-dist-art').value;
+      const a = contentStore.articles.find(x => x.id === artId);
+      if (!a) return toast('请先创建文章', 'warn');
+      const plats = [...document.querySelectorAll('[data-dist-platform]:checked')].map(x => x.dataset.distPlatform);
+      if (!plats.length) return toast('请选择分发平台', 'warn');
+      a.status = '已发布';
+      contentStore.distTasks.unshift({ id: 'd' + Date.now(), title: a.title, platform: plats.join('、'), status: '完成', date: new Date().toLocaleDateString() });
+      plats.forEach(p => contentLog(a.title, p, '成功', '分发完成'));
+      saveContent(); render();
+      return toast('分发完成，日志已记录', 'good');
+    }
+    if (act === 'content-acc-add') {
+      contentStore.accounts.push({ id: 'ac' + Date.now(), platform: g('c-acc-platform').value, name: g('c-acc-name').value.trim() || '未命名', status: '已绑定' });
+      saveContent(); render(); return toast('媒体账号已添加', 'good');
+    }
+    if (act === 'content-acc-del') { contentStore.accounts = contentStore.accounts.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
+    if (act === 'content-node-add') {
+      contentStore.nodes.push({ id: 'nd' + Date.now(), platform: g('c-node-platform').value, name: g('c-node-name').value.trim() || '默认节点', weight: +g('c-node-weight').value || 50, status: '启用' });
+      saveContent(); render(); return toast('分发节点已添加', 'good');
+    }
+    if (act === 'content-node-del') { contentStore.nodes = contentStore.nodes.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
+    if (act === 'content-log-clear') { contentStore.logs = []; saveContent(); render(); return toast('日志已清空', 'good'); }
+  }
+
   /* ═══ 引用列表组件 ═══ */
   function mentionList(list) {
     if (!list.length) return empty();
@@ -839,6 +1292,8 @@
       }
       if (e.target.closest('[data-action="save-brand"]')) return saveSettings();
       if (e.target.closest('[data-action="save-monitor"]')) return saveMonitor();
+      const cBtn = e.target.closest('[data-action^="content-"]');
+      if (cBtn) return contentAction(cBtn);
       if (e.target.closest('[data-action="add-scenario"]')) {
         const name = document.getElementById('sc-name').value.trim();
         const q = document.getElementById('sc-q').value.trim();
@@ -855,6 +1310,12 @@
         overlay.scenarios = (effSettings().scenarios || []).filter(s => s.id !== del.dataset.del);
         saveOverlay(); render();
         toast('场景已删除', 'good');
+      }
+    });
+    document.getElementById('content').addEventListener('input', e => {
+      if (e.target && e.target.id === 'c-art-q') {
+        const body = document.getElementById('c-art-body');
+        if (body) body.innerHTML = contentArtRows(e.target.value);
       }
     });
     document.getElementById('btnRunMonitor').addEventListener('click', runMonitor);
