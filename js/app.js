@@ -795,6 +795,8 @@
   };
   let contentStore = loadContent();
   let contentPreview = null;
+  let contentState = { view: 'list', articleId: null };
+  let contentPrefill = null;
 
   function loadContent() {
     try {
@@ -817,6 +819,7 @@
 
   function aiCreate(c) {
     const b = effSettings().brand || {};
+    const titleVal = contentPrefill && contentPrefill.title ? contentPrefill.title : '';
     c.innerHTML = `
       ${pageHead('AI 创作', '单篇生成 GEO 友好内容，产出后进入文章管理')}
       <div class="grid-2">
@@ -824,14 +827,19 @@
           <div class="card-head"><h3>创作参数</h3></div>
           <div class="card-body">
             <div class="form-grid">
-              ${cInput('文章标题', 'c-title', '例如：2026 GEO 优化完整指南')}
+              ${cInput('文章标题', 'c-title', '例如：2026 GEO 优化完整指南', titleVal)}
+              <div class="form-group"><label>标题模板</label><select id="c-title-tpl"><option value="">不使用模板</option>${contentStore.titles.map(t => `<option value="${esc(t.title)}">${esc(t.title)}</option>`).join('')}</select></div>
               ${cSelect('场景类型', 'c-scene', ['科普文章', '榜单文章', '问答 FAQ', '客户案例'])}
               ${cInput('品牌名', 'c-brand', '品牌名', b.name || '')}
               ${cInput('关键词（逗号分隔）', 'c-kw', 'GEO,AI搜索优化', (b.keywords || []).join('，'))}
               ${cInput('目标字数', 'c-words', '1200', '1200', 'number')}
               <div class="form-group full"><label>创作要求</label><textarea id="c-brief" rows="3" placeholder="例如：答案前置、含 FAQ、给出数据支撑"></textarea></div>
             </div>
-            <div style="margin-top:16px"><button class="btn btn-primary" data-action="content-ai-gen">✦ 开始创作</button></div>
+            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn btn-primary" data-action="content-ai-gen">✦ 开始创作</button>
+              <button class="btn btn-ghost" data-action="content-title-fill">填入标题模板</button>
+              <button class="btn btn-ghost" data-action="content-kw-fill">填入关键词库</button>
+            </div>
           </div>
         </div>
         <div class="card">
@@ -876,34 +884,64 @@
   }
 
   function artManage(c) {
+    if (contentState.view === 'edit') return artEdit(c, contentState.articleId);
     c.innerHTML = `
       ${pageHead('文章管理', '查看、编辑、分发与删除生成的文章')}
       <div class="card">
         <div class="card-head"><h3>文章列表</h3><span class="hint">数据保存在本地浏览器</span></div>
-        <div class="card-body">
-          <input id="c-art-q" class="input" type="search" placeholder="搜索标题…" style="max-width:320px;margin-bottom:12px">
+          <div class="card-body">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+            <input id="c-art-q" class="input" type="search" placeholder="搜索标题…" style="max-width:260px">
+            <select id="c-art-status" class="input" style="max-width:140px"><option value="">全部状态</option><option>草稿</option><option>待审核</option><option>已发布</option></select>
+            <button class="btn btn-sm btn-ghost" data-action="content-art-batch-del">批量删除选中</button>
+          </div>
           <div class="table-wrap"><table class="tbl">
-            <thead><tr><th>标题</th><th>场景</th><th>状态</th><th>创建日期</th><th></th></tr></thead>
-            <tbody id="c-art-body">${contentArtRows('')}</tbody>
+            <thead><tr><th><input type="checkbox" id="c-art-all"></th><th>标题</th><th>场景</th><th>状态</th><th>字数</th><th>创建日期</th><th></th></tr></thead>
+            <tbody id="c-art-body">${contentArtRows('', '')}</tbody>
           </table></div>
         </div>
       </div>`;
   }
-  function contentArtRows(q) {
+  function contentArtRows(q, status) {
     const query = (q || '').trim().toLowerCase();
-    const rows = contentStore.articles.filter(a => !query || a.title.toLowerCase().includes(query)).map(a => `
+    const rows = contentStore.articles.filter(a => (!query || a.title.toLowerCase().includes(query)) && (!status || a.status === status)).map(a => `
       <tr>
+        <td><input type="checkbox" data-art-check="${a.id}"></td>
         <td><span style="font-weight:600">${esc(a.title)}</span></td>
         <td>${esc(a.scene)}</td>
-        <td>${badge(a.status, a.status === '已发布' ? 'green' : 'amber')}</td>
+        <td>${badge(a.status, a.status === '已发布' ? 'green' : a.status === '待审核' ? 'violet' : 'amber')}</td>
+        <td class="mono">${(a.content || '').length}</td>
         <td class="mono" style="font-size:.8rem">${esc(a.createdAt)}</td>
         <td style="text-align:right">
-          <button class="btn btn-sm btn-ghost" data-action="content-art-view" data-id="${a.id}">查看</button>
+          <button class="btn btn-sm btn-ghost" data-action="content-art-edit" data-id="${a.id}">编辑</button>
           <button class="btn btn-sm btn-ghost" data-action="content-art-dist" data-id="${a.id}">分发</button>
           <button class="btn btn-sm btn-ghost" data-action="content-art-del" data-id="${a.id}">删除</button>
         </td>
       </tr>`).join('');
-    return rows || '<tr><td colspan="5"><div class="empty">没有匹配文章</div></td></tr>';
+    return rows || '<tr><td colspan="7"><div class="empty">没有匹配文章</div></td></tr>';
+  }
+
+  function artEdit(c, id) {
+    const a = contentStore.articles.find(x => x.id === id);
+    if (!a) { contentState = { view: 'list', articleId: null }; return artManage(c); }
+    const kws = (a.content.match(/关键词[:：]([^\n]+)/) || [])[1] || '';
+    c.innerHTML = `
+      ${pageHead('编辑文章', esc(a.title), '<button class="btn btn-ghost" data-action="content-art-back">← 返回列表</button>')}
+      <div class="card">
+        <div class="card-body">
+          <div class="form-grid">
+            ${cInput('标题', 'e-title', '标题', a.title)}
+            ${cSelect('场景', 'e-scene', ['科普文章', '榜单文章', '问答 FAQ', '客户案例'], a.scene)}
+            ${cSelect('状态', 'e-status', ['草稿', '待审核', '已发布'], a.status)}
+            ${cInput('关键词（逗号分隔）', 'e-kw', 'GEO,AI搜索优化', kws)}
+            <div class="form-group full"><label>正文内容</label><textarea id="e-content" rows="16" style="font-family:var(--mono);font-size:.86rem">${esc(a.content)}</textarea></div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:16px">
+            <button class="btn btn-primary" data-action="content-art-save" data-id="${a.id}">保存</button>
+            <button class="btn btn-ghost" data-action="content-art-back">取消</button>
+          </div>
+        </div>
+      </div>`;
   }
 
   function trafficClone(c) {
@@ -932,17 +970,25 @@
   }
 
   function keywordsView(c) {
+    const groups = ['核心词', '长尾词', '场景词', '竞品词'];
     c.innerHTML = `
       ${pageHead('关键词库', '收集与分组 GEO 关键词，供创作与监测使用')}
       <div class="card">
         <div class="card-head"><h3>添加关键词</h3></div>
         <div class="card-body"><div class="form-grid">
           ${cInput('关键词', 'c-kw-word', '例如：AI 搜索优化')}
-          ${cSelect('分组', 'c-kw-group', ['核心词', '长尾词', '场景词', '竞品词'])}
+          ${cSelect('分组', 'c-kw-group', groups)}
         </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-kw-add">添加</button></div></div>
       </div>
       <div class="card">
-        <div class="card-head"><h3>关键词列表</h3><span class="hint">${contentStore.keywords.length} 个</span></div>
+        <div class="card-head"><h3>批量导入</h3><span class="hint">每行一个关键词，自动去重</span></div>
+        <div class="card-body"><div class="form-grid">
+          <div class="form-group full"><label>关键词列表</label><textarea id="c-kw-bulk" rows="5" placeholder="GEO 优化&#10;AI 搜索优化&#10;品牌可见度"></textarea></div>
+          ${cSelect('导入分组', 'c-kw-bulk-group', groups)}
+        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-kw-bulk">批量导入</button></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>关键词列表</h3><span class="hint">${contentStore.keywords.length} 个 · ${groups.map(g => `${g} ${contentStore.keywords.filter(x => x.group === g).length}`).join(' / ')}</span></div>
         <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>关键词</th><th>分组</th><th></th></tr></thead>
           <tbody>${contentStore.keywords.map(x => `<tr><td>${esc(x.word)}</td><td>${badge(x.group, 'violet')}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-kw-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
         </table></div></div>
@@ -955,14 +1001,15 @@
       <div class="card">
         <div class="card-head"><h3>添加标题模板</h3></div>
         <div class="card-body"><div class="form-grid">
-          ${cInput('标题模板', 'c-title-text', '例如：为什么你的品牌没被 AI 推荐？')}
+          ${cInput('标题模板', 'c-title-text', '例如：为什么你的品牌没被 AI 推荐？{kw}')}
           ${cSelect('场景', 'c-title-scene', ['认知', '榜单', '问答', '案例'])}
+          <div class="form-group"><label>模板说明</label><input id="c-title-desc" type="text" placeholder="可选：{kw} 会被关键词替换"></div>
         </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-title-add">添加</button></div></div>
       </div>
       <div class="card">
         <div class="card-head"><h3>标题列表</h3><span class="hint">${contentStore.titles.length} 条</span></div>
-        <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>标题</th><th>场景</th><th></th></tr></thead>
-          <tbody>${contentStore.titles.map(x => `<tr><td>${esc(x.title)}</td><td>${badge(x.scene, '')}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-title-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>标题</th><th>场景</th><th>预览</th><th></th></tr></thead>
+          <tbody>${contentStore.titles.map(x => `<tr><td>${esc(x.title)}</td><td>${badge(x.scene, '')}</td><td class="muted" style="font-size:.82rem">${esc(x.title.replace(/\{kw\}/g, contentStore.keywords[0]?.word || 'GEO'))}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-title-use" data-id="${x.id}">去创作</button> <button class="btn btn-sm btn-ghost" data-action="content-title-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
         </table></div></div>
       </div>`;
   }
@@ -976,6 +1023,7 @@
           ${cInput('素材名称', 'c-img-name', 'GEO 轨道示意图')}
           ${cInput('图片 URL', 'c-img-url', 'https://…')}
           ${cInput('标签', 'c-img-tags', 'GEO,配图')}
+          <div class="form-group"><label>本地上传</label><input id="c-img-file" type="file" accept="image/*"></div>
         </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-img-add">添加</button></div></div>
       </div>
       <div class="grid grid-3">${contentStore.images.map(x => `
@@ -1010,9 +1058,9 @@
       <div class="card">
         <div class="card-head"><h3>导入配置</h3></div>
         <div class="card-body"><div class="form-grid">
-          ${cInput('目标 URL', 'c-url-src', 'https://…/article')}
+          <div class="form-group full"><label>目标 URL（每行一个）</label><textarea id="c-url-src" rows="4" placeholder="https://…/article-1&#10;https://…/article-2"></textarea></div>
           ${cSelect('导入分类', 'c-url-cat', ['官网内容', '竞品内容', '行业资讯', '品牌资料'])}
-        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-url-add">⇣ 导入</button></div></div>
+        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-url-add">⇣ 批量导入</button></div></div>
       </div>
       <div class="card">
         <div class="card-head"><h3>导入记录</h3></div>
@@ -1023,18 +1071,21 @@
   }
 
   function distManage(c) {
+    const ok = contentStore.logs.filter(x => x.status === '成功').length;
+    const fail = contentStore.logs.length - ok;
     c.innerHTML = `
       ${pageHead('分发管理', '把文章分发到已绑定媒体账号')}
       <div class="grid-2">
         <div class="card">
           <div class="card-head"><h3>新建分发</h3></div>
           <div class="card-body"><div class="form-grid">
-            <div class="form-group"><label>选择文章</label><select id="c-dist-art">${contentStore.articles.map(a => `<option value="${a.id}">${esc(a.title)}</option>`).join('')}</select></div>
+            <div class="form-group full"><label>选择文章（可多选）</label><div style="max-height:180px;overflow:auto;border:1px solid var(--border-soft);border-radius:10px;padding:8px">${contentStore.articles.slice(0, 30).map(a => `<label style="display:flex;align-items:center;gap:8px;font-size:.84rem;padding:4px 2px"><input type="checkbox" data-art-pick="${a.id}">${esc(a.title)}</label>`).join('') || empty('暂无文章')}</div></div>
             <div class="form-group full"><label>目标平台</label><div style="display:flex;gap:12px;flex-wrap:wrap">${contentStore.accounts.map(a => `<label style="display:flex;align-items:center;gap:6px;font-size:.84rem"><input type="checkbox" data-dist-platform="${esc(a.platform)}" checked>${esc(a.platform)}</label>`).join('')}</div></div>
+            ${cInput('定时分发（可选）', 'c-dist-time', '立即或选择时间', '', 'datetime-local')}
           </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-dist-run">⇶ 开始分发</button></div></div>
         </div>
         <div class="card">
-          <div class="card-head"><h3>分发任务</h3></div>
+          <div class="card-head"><h3>分发任务</h3><span class="hint">${contentStore.distTasks.length} 个任务</span></div>
           <div class="card-body">${contentStore.distTasks.map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.title)}</span>${badge(x.status, x.status === '完成' ? 'green' : 'violet')}</div><div class="mi-text">${esc(x.platform)} · ${esc(x.date)}</div></div>`).join('') || empty('暂无分发任务')}</div>
         </div>
       </div>`;
@@ -1048,6 +1099,7 @@
         <div class="card-body"><div class="form-grid">
           ${cSelect('平台', 'c-acc-platform', ['微信公众号', '知乎', '百家号', '小红书', '今日头条'])}
           ${cInput('账号名称', 'c-acc-name', '优引GEO')}
+          ${cInput('Token / 密钥', 'c-acc-token', '用于分发鉴权', '', 'password')}
         </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-acc-add">添加</button></div></div>
       </div>
       <div class="card">
@@ -1072,18 +1124,27 @@
       <div class="card">
         <div class="card-head"><h3>节点列表</h3></div>
         <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>平台</th><th>节点</th><th>权重</th><th>状态</th><th></th></tr></thead>
-          <tbody>${contentStore.nodes.map(x => `<tr><td>${esc(x.platform)}</td><td>${esc(x.name)}</td><td>${x.weight}%</td><td>${badge(x.status, 'green')}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-node-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
+          <tbody>${contentStore.nodes.map(x => `<tr><td>${esc(x.platform)}</td><td>${esc(x.name)}</td><td>${x.weight}%</td><td>${badge(x.status, x.status === '启用' ? 'green' : 'amber')}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-node-toggle" data-id="${x.id}">${x.status === '启用' ? '停用' : '启用'}</button> <button class="btn btn-sm btn-ghost" data-action="content-node-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
         </table></div></div>
       </div>`;
   }
 
   function distLogs(c) {
+    const ok = contentStore.logs.filter(x => x.status === '成功').length;
+    const fail = contentStore.logs.length - ok;
+    const rate = contentStore.logs.length ? Math.round(ok / contentStore.logs.length * 100) : 0;
     c.innerHTML = `
       ${pageHead('分发日志', '每次分发的状态与结果')}
+      <div class="tile-grid">
+        ${tile('分发总数', contentStore.logs.length, '全部平台', '')}
+        ${tile('成功', ok, '', 'up', 'grad')}
+        ${tile('失败', fail, fail ? '需要重试' : '', fail ? 'down' : '')}
+        ${tile('成功率', rate + '%', '近 30 天', rate >= 90 ? 'up' : '')}
+      </div>
       <div class="card">
-        <div class="card-head"><h3>日志</h3><button class="btn btn-sm btn-ghost" data-action="content-log-clear">清空日志</button></div>
+        <div class="card-head"><h3>日志</h3><span class="hint"><select id="c-log-filter" class="input" style="width:auto;display:inline-block"><option value="">全部平台</option>${[...new Set(contentStore.logs.map(x => x.platform))].map(p => `<option>${esc(p)}</option>`).join('')}</select></span><button class="btn btn-sm btn-ghost" data-action="content-log-clear">清空日志</button></div>
         <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>时间</th><th>内容</th><th>平台</th><th>状态</th><th>备注</th></tr></thead>
-          <tbody>${contentStore.logs.map(x => `<tr><td class="mono" style="font-size:.78rem">${esc(x.date)}</td><td>${esc(x.title)}</td><td>${esc(x.platform)}</td><td>${badge(x.status, x.status === '成功' ? 'green' : 'red')}</td><td>${esc(x.note)}</td></tr>`).join('') || '<tr><td colspan="5"><div class="empty">暂无日志</div></td></tr>'}</tbody>
+          <tbody id="c-log-body">${contentStore.logs.map(x => `<tr data-log-platform="${esc(x.platform)}"><td class="mono" style="font-size:.78rem">${esc(x.date)}</td><td>${esc(x.title)}</td><td>${esc(x.platform)}</td><td>${badge(x.status, x.status === '成功' ? 'green' : 'red')}</td><td>${esc(x.note)}</td></tr>`).join('') || '<tr><td colspan="5"><div class="empty">暂无日志</div></td></tr>'}</tbody>
         </table></div></div>
       </div>`;
   }
@@ -1091,15 +1152,36 @@
   function contentAction(btn) {
     const act = btn.dataset.action;
     const g = id => document.getElementById(id);
+    if (act === 'content-title-fill') {
+      const tpl = g('c-title-tpl') && g('c-title-tpl').value;
+      if (!tpl) return toast('请先选择标题模板', 'warn');
+      const kw = (g('c-kw') && g('c-kw').value.split(/[,，]/)[0]) || 'GEO';
+      g('c-title').value = tpl.replace(/\{kw\}/g, kw.trim());
+      return toast('标题模板已填入', 'good');
+    }
+    if (act === 'content-kw-fill') {
+      const el = g('c-kw');
+      if (!el) return;
+      el.value = contentStore.keywords.map(x => x.word).join('，');
+      return toast('已从关键词库填入 ' + contentStore.keywords.length + ' 个关键词', 'good');
+    }
     if (act === 'content-ai-gen') {
       const title = g('c-title').value.trim() || 'AI 创作文章 ' + new Date().toLocaleDateString();
+      const scene = g('c-scene').value;
+      const outline = scene === '榜单文章'
+        ? '1. 为什么选择标准很重要\n2. 覆盖引擎对比\n3. 平台横向对比表\n4. 选择建议'
+        : scene === '问答 FAQ'
+          ? 'Q1: 什么是 GEO？\nQ2: 为什么品牌需要监测 AI 可见度？\nQ3: 如何提升 AI 收录？'
+          : scene === '客户案例'
+            ? '1. 背景与目标\n2. 诊断发现\n3. 优化动作\n4. 结果与复盘'
+            : '1. 直接给出答案\n2. 展开关键概念\n3. 数据与依据\n4. 行动建议';
       const article = {
         id: 'a' + Date.now(),
         title,
-        scene: g('c-scene').value,
+        scene,
         status: '草稿',
         createdAt: new Date().toISOString().slice(0, 10),
-        content: `${title}\n\n${g('c-brand').value || '优引GEO系统'} 是品牌 AI 可见性诊断与监测平台。本文回答用户最关心的问题，并给出可直接引用的结论。\n\n关键词：${g('c-kw').value}\n\nFAQ：\n1. 什么是 GEO？\n2. 为什么品牌需要监测 AI 可见度？`,
+        content: `${title}\n\n关键词：${g('c-kw').value}\n\n${g('c-brand').value || '优引GEO系统'} 是品牌 AI 可见性诊断与监测平台。本文回答用户最关心的问题，并给出可直接引用的结论。\n\n目录：\n${outline}\n\n正文：\n- 答案前置：直接回答用户问题。\n- 数据支撑：用可验证的数字和案例说明。\n- 结构清晰：使用 H2/H3、列表与 FAQ，方便 AI 摘取。`,
       };
       contentStore.articles.unshift(article);
       contentPreview = article;
@@ -1117,7 +1199,20 @@
       render();
       return toast(`已批量生成 ${num} 篇文章`, 'good');
     }
-    if (act === 'content-art-del' || act === 'content-art-dist' || act === 'content-art-view') {
+    if (act === 'content-art-del' || act === 'content-art-dist' || act === 'content-art-edit' || act === 'content-art-save' || act === 'content-art-back') {
+      if (act === 'content-art-back') { contentState = { view: 'list', articleId: null }; render(); return; }
+      if (act === 'content-art-edit') { contentState = { view: 'edit', articleId: btn.dataset.id }; render(); return; }
+      if (act === 'content-art-save') {
+        const a = contentStore.articles.find(x => x.id === btn.dataset.id);
+        if (!a) return;
+        a.title = g('e-title').value.trim() || a.title;
+        a.scene = g('e-scene').value;
+        a.status = g('e-status').value;
+        const kw = g('e-kw').value.trim();
+        a.content = (kw ? `关键词：${kw}\n\n` : '') + g('e-content').value;
+        saveContent(); contentState = { view: 'list', articleId: null }; render();
+        return toast('文章已保存', 'good');
+      }
       const a = contentStore.articles.find(x => x.id === btn.dataset.id);
       if (!a) return;
       if (act === 'content-art-del') { contentStore.articles = contentStore.articles.filter(x => x.id !== a.id); saveContent(); render(); return toast('文章已删除', 'good'); }
@@ -1129,8 +1224,14 @@
         saveContent(); render();
         return toast('已加入分发并记录日志', 'good');
       }
-      toast(a.content.slice(0, 120), 'info');
       return;
+    }
+    if (act === 'content-art-batch-del') {
+      const ids = [...document.querySelectorAll('[data-art-check]:checked')].map(x => x.dataset.artCheck);
+      if (!ids.length) return toast('请先勾选文章', 'warn');
+      contentStore.articles = contentStore.articles.filter(x => !ids.includes(x.id));
+      saveContent(); render();
+      return toast('已删除 ' + ids.length + ' 篇文章', 'good');
     }
     if (act === 'content-clone-add') {
       contentStore.clones.unshift({ id: 'c' + Date.now(), source: g('c-clone-src').value.trim() || '未填写', platform: g('c-clone-platform').value, topic: g('c-clone-topic').value.trim() || '未命名主题', scope: g('c-clone-scope').value, status: '分析中' });
@@ -1143,6 +1244,21 @@
       contentStore.keywords.push({ id: 'k' + Date.now(), word: w, group: g('c-kw-group').value });
       saveContent(); render(); return toast('关键词已添加', 'good');
     }
+    if (act === 'content-kw-bulk') {
+      const group = g('c-kw-bulk-group').value;
+      const words = g('c-kw-bulk').value.split(/\n/).map(x => x.trim()).filter(Boolean);
+      const exist = new Set(contentStore.keywords.map(x => x.word + '|' + x.group));
+      let added = 0;
+      words.forEach(w => {
+        if (!exist.has(w + '|' + group)) {
+          contentStore.keywords.push({ id: 'k' + Date.now() + added, word: w, group });
+          exist.add(w + '|' + group);
+          added += 1;
+        }
+      });
+      saveContent(); render();
+      return toast(`批量导入完成：新增 ${added} 个，跳过重复 ${words.length - added} 个`, 'good');
+    }
     if (act === 'content-kw-del') { contentStore.keywords = contentStore.keywords.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
     if (act === 'content-title-add') {
       const t = g('c-title-text').value.trim();
@@ -1151,6 +1267,15 @@
       saveContent(); render(); return toast('标题已添加', 'good');
     }
     if (act === 'content-title-del') { contentStore.titles = contentStore.titles.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
+    if (act === 'content-title-use') {
+      const t = contentStore.titles.find(x => x.id === btn.dataset.id);
+      if (!t) return;
+      const kw = contentStore.keywords[0]?.word || 'GEO';
+      contentPrefill = { title: t.title.replace(/\{kw\}/g, kw) };
+      go('ai-create');
+      render();
+      return toast('标题模板已带入 AI 创作', 'good');
+    }
     if (act === 'content-img-add') {
       contentStore.images.push({ id: 'i' + Date.now(), name: g('c-img-name').value.trim() || '未命名素材', url: g('c-img-url').value.trim(), tags: g('c-img-tags').value.trim() });
       saveContent(); render(); return toast('图片素材已添加', 'good');
@@ -1162,25 +1287,29 @@
     }
     if (act === 'content-know-del') { contentStore.knowledge = contentStore.knowledge.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
     if (act === 'content-url-add') {
-      const u = g('c-url-src').value.trim();
-      if (!u) return toast('请填写 URL', 'warn');
-      contentStore.urlImports.unshift({ id: 'u' + Date.now(), url: u, category: g('c-url-cat').value, status: '已导入', createdAt: new Date().toISOString().slice(0, 10) });
-      saveContent(); render(); return toast('URL 已导入素材中心', 'good');
+      const urls = g('c-url-src').value.split(/\n/).map(x => x.trim()).filter(Boolean);
+      if (!urls.length) return toast('请填写至少一个 URL', 'warn');
+      urls.forEach((u, i) => contentStore.urlImports.unshift({ id: 'u' + Date.now() + i, url: u, category: g('c-url-cat').value, status: '已导入', createdAt: new Date().toISOString().slice(0, 10) }));
+      saveContent(); render(); return toast(`已导入 ${urls.length} 个 URL`, 'good');
     }
     if (act === 'content-dist-run') {
-      const artId = g('c-dist-art').value;
-      const a = contentStore.articles.find(x => x.id === artId);
-      if (!a) return toast('请先创建文章', 'warn');
+      const ids = [...document.querySelectorAll('[data-art-pick]:checked')].map(x => x.dataset.artPick);
+      const arts = contentStore.articles.filter(x => ids.includes(x.id));
+      if (!arts.length) return toast('请先勾选文章', 'warn');
       const plats = [...document.querySelectorAll('[data-dist-platform]:checked')].map(x => x.dataset.distPlatform);
       if (!plats.length) return toast('请选择分发平台', 'warn');
-      a.status = '已发布';
-      contentStore.distTasks.unshift({ id: 'd' + Date.now(), title: a.title, platform: plats.join('、'), status: '完成', date: new Date().toLocaleDateString() });
-      plats.forEach(p => contentLog(a.title, p, '成功', '分发完成'));
+      const when = g('c-dist-time') ? g('c-dist-time').value : '';
+      arts.forEach(a => {
+        a.status = '已发布';
+        contentStore.distTasks.unshift({ id: 'd' + Date.now() + a.id, title: a.title, platform: plats.join('、'), status: '完成', date: new Date().toLocaleDateString(), when: when || '立即' });
+        plats.forEach(p => contentLog(a.title, p, '成功', when ? '定时分发 ' + when : '分发完成'));
+      });
       saveContent(); render();
-      return toast('分发完成，日志已记录', 'good');
+      return toast(`已分发 ${arts.length} 篇文章到 ${plats.length} 个平台`, 'good');
     }
     if (act === 'content-acc-add') {
-      contentStore.accounts.push({ id: 'ac' + Date.now(), platform: g('c-acc-platform').value, name: g('c-acc-name').value.trim() || '未命名', status: '已绑定' });
+      const tokenVal = g('c-acc-token') ? g('c-acc-token').value.trim() : '';
+      contentStore.accounts.push({ id: 'ac' + Date.now(), platform: g('c-acc-platform').value, name: g('c-acc-name').value.trim() || '未命名', token: tokenVal ? '••••' + tokenVal.slice(-4) : '', status: tokenVal ? '已绑定' : '待授权' });
       saveContent(); render(); return toast('媒体账号已添加', 'good');
     }
     if (act === 'content-acc-del') { contentStore.accounts = contentStore.accounts.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
@@ -1189,6 +1318,11 @@
       saveContent(); render(); return toast('分发节点已添加', 'good');
     }
     if (act === 'content-node-del') { contentStore.nodes = contentStore.nodes.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
+    if (act === 'content-node-toggle') {
+      const n = contentStore.nodes.find(x => x.id === btn.dataset.id);
+      if (n) { n.status = n.status === '启用' ? '停用' : '启用'; saveContent(); render(); }
+      return;
+    }
     if (act === 'content-log-clear') { contentStore.logs = []; saveContent(); render(); return toast('日志已清空', 'good'); }
   }
 
@@ -1315,7 +1449,39 @@
     document.getElementById('content').addEventListener('input', e => {
       if (e.target && e.target.id === 'c-art-q') {
         const body = document.getElementById('c-art-body');
-        if (body) body.innerHTML = contentArtRows(e.target.value);
+        const status = document.getElementById('c-art-status') ? document.getElementById('c-art-status').value : '';
+        if (body) body.innerHTML = contentArtRows(e.target.value, status);
+      }
+    });
+    document.getElementById('content').addEventListener('change', e => {
+      const t = e.target;
+      if (t && t.id === 'c-art-all') {
+        document.querySelectorAll('[data-art-check]').forEach(x => x.checked = t.checked);
+        return;
+      }
+      if (t && t.id === 'c-art-status') {
+        const body = document.getElementById('c-art-body');
+        const q = document.getElementById('c-art-q') ? document.getElementById('c-art-q').value : '';
+        if (body) body.innerHTML = contentArtRows(q, t.value);
+        return;
+      }
+      if (t && t.id === 'c-img-file' && t.files && t.files[0]) {
+        const file = t.files[0];
+        if (file.size > 2 * 1024 * 1024) return toast('图片超过 2MB，请压缩后上传', 'warn');
+        const reader = new FileReader();
+        reader.onload = () => {
+          contentStore.images.unshift({ id: 'i' + Date.now(), name: file.name.replace(/\.[^.]+$/, '') || '本地图片', url: reader.result, tags: '本地' });
+          saveContent(); render();
+          toast('图片已上传到图片库', 'good');
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+      if (t && t.id === 'c-log-filter') {
+        const f = t.value;
+        document.querySelectorAll('#c-log-body tr').forEach(tr => {
+          tr.style.display = (!f || tr.dataset.logPlatform === f) ? '' : 'none';
+        });
       }
     });
     document.getElementById('btnRunMonitor').addEventListener('click', runMonitor);
