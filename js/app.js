@@ -109,8 +109,10 @@
   async function diagFetch(path, opts, timeout) {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), timeout || 20000);
+    const headers = { ...(opts.headers || {}) };
+    if (window.Account && Account.token) headers.Authorization = 'Bearer ' + Account.token;
     try {
-      const res = await fetch(DIAG_API + path, { ...opts, signal: ctrl.signal });
+      const res = await fetch(DIAG_API + path, { ...opts, headers, signal: ctrl.signal });
       clearTimeout(t);
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return await res.json();
@@ -264,7 +266,8 @@
     let report = null;
     if (serverUp) {
       try {
-        const r = await diagFetch('/diagnose', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url, brand }) }, 240000);
+        const apiPath = window.Account && Account.user ? '/api/me/diagnose' : '/diagnose';
+        const r = await diagFetch(apiPath, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url, brand }) }, 240000);
         report = r.report || null;
         if (!report) throw new Error('诊断无返回');
       } catch (e) { report = null; }
@@ -734,6 +737,10 @@
     nb.industry = g('f-ind').value;
     nb.description = g('f-desc').value;
     nb.keywords = g('f-kw').value.split(/[,，]/).map(x => x.trim()).filter(Boolean);
+    if (window.Account && Account.user) {
+      Account.saveBrand(nb).then(r => toast(r.ok ? '品牌设置已保存到账号' : (r.error || '保存失败'), r.ok ? 'good' : 'err'));
+      return;
+    }
     saveOverlay();
     toast('品牌设置已保存（本地）', 'good');
   }
@@ -828,6 +835,8 @@
     loadOverlay();
     await DataStore.load();
     bindEvents();
+    window.__renderApp = render;
+    await Account.init();
     if (!location.hash) location.hash = '#/diagnose';
     render();
     document.getElementById('sysMeta').textContent = DataStore.meta();

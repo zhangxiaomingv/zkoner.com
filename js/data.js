@@ -28,6 +28,17 @@ const DataStore = {
     return false;
   },
 
+  /* 登录后加载客户自己的监测数据 */
+  loadAccount(data, email) {
+    if (data && data.visibility) {
+      this.data = data;
+      this.source = 'account:' + (email || '');
+      this.loaded = true;
+      return true;
+    }
+    return false;
+  },
+
   get() { return this.data; },
 
   meta() {

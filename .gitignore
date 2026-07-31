@@ -2,3 +2,6 @@ data/config.json
 data/history.json
 data/visibility-result.json
 data/monitor-result.json
+data/accounts.json
+data/sessions.json
+data/accounts/
