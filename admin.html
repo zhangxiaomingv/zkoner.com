@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>优引GEO · 内部客户管理</title>
+  <style>
+    :root {
+      --bg:#0a0a16; --panel:#131324; --panel-2:#191933; --line:#24243c;
+      --text:#e4e4ef; --muted:#9a9ab4; --accent:#8B5CF6; --green:#22c55e;
+      --amber:#f59e0b; --red:#ef4444; --radius:12px;
+      --font:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+      --mono:"SF Mono",Consolas,monospace;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.6; }
+    .wrap { max-width:1180px; margin:0 auto; padding:24px; }
+    .topbar { display:flex; align-items:center; gap:14px; padding:16px 24px; border-bottom:1px solid var(--line); background:#0d0d1c; position:sticky; top:0; z-index:10; }
+    .topbar h1 { font-size:1.05rem; margin:0; }
+    .muted { color:var(--muted); }
+    .mono { font-family:var(--mono); }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:20px; margin-bottom:18px; }
+    .grid { display:grid; gap:14px; }
+    .g4 { grid-template-columns:repeat(4,1fr); }
+    .g2 { grid-template-columns:repeat(2,1fr); }
+    .tile { background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:16px; }
+    .tile b { font-size:1.5rem; display:block; }
+    .tile span { color:var(--muted); font-size:.78rem; }
+    .btn { border:1px solid var(--line); background:var(--panel-2); color:var(--text); border-radius:9px; padding:8px 14px; cursor:pointer; font-size:.88rem; }
+    .btn:hover { border-color:var(--accent); }
+    .btn-primary { background:linear-gradient(135deg,#6366F1,#8B5CF6); border:0; color:#fff; }
+    .btn-sm { padding:5px 10px; font-size:.78rem; }
+    input, select, textarea { width:100%; background:#0d0d1c; border:1px solid var(--line); color:var(--text); border-radius:9px; padding:9px 12px; font-size:.9rem; }
+    label { display:block; font-size:.78rem; color:var(--muted); margin-bottom:5px; }
+    table { width:100%; border-collapse:collapse; }
+    th, td { text-align:left; padding:11px 12px; border-bottom:1px solid var(--line); font-size:.86rem; }
+    th { color:var(--muted); font-weight:600; background:#0d0d1c; }
+    tr[data-id] { cursor:pointer; }
+    tr[data-id]:hover { background:rgba(139,92,246,.07); }
+    .badge { display:inline-block; padding:3px 9px; border-radius:999px; font-size:.74rem; border:1px solid var(--line); color:var(--muted); }
+    .b-green { color:#86efac; border-color:rgba(34,197,94,.4); }
+    .b-amber { color:#fcd34d; border-color:rgba(245,158,11,.4); }
+    .b-red { color:#fca5a5; border-color:rgba(239,68,68,.4); }
+    .b-violet { color:#c4b5fd; border-color:rgba(139,92,246,.4); }
+    .bar { height:8px; border-radius:99px; background:#1c1c30; overflow:hidden; margin-top:5px; }
+    .bar i { display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#6366F1,#8B5CF6); }
+    .form-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .form-grid .full { grid-column:1 / -1; }
+    #login { max-width:380px; margin:120px auto; }
+    .detail-grid { display:grid; grid-template-columns:1fr 320px; gap:18px; }
+    .stack { display:flex; flex-direction:column; gap:12px; }
+    .kv { display:flex; justify-content:space-between; gap:10px; border-bottom:1px solid var(--line); padding:8px 0; font-size:.86rem; }
+    .kv span:first-child { color:var(--muted); }
+    .toolbar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px; }
+    .toolbar input { max-width:320px; }
+    @media (max-width:860px) { .g4, .g2, .detail-grid, .form-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div id="login" class="card">
+    <h2 style="margin-top:0">优引GEO · 内部系统</h2>
+    <p class="muted" style="font-size:.86rem">客户管理仅限运营人员使用，请输入访问密码。</p>
+    <label>访问密码</label>
+    <input id="pass-input" type="password" placeholder="请输入密码" style="margin-bottom:12px">
+    <button class="btn btn-primary" id="login-btn" style="width:100%">进入系统</button>
+    <p id="login-err" class="muted" style="color:var(--red);font-size:.8rem"></p>
+  </div>
+
+  <div id="app" hidden>
+    <div class="topbar">
+      <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#5eead4,#fbbf24);display:grid;place-items:center;font-weight:800;color:#08111f">优</div>
+      <h1>优引GEO · 内部客户管理</h1>
+      <span class="muted" style="margin-left:auto;font-size:.8rem">仅运营人员可见</span>
+      <button class="btn btn-sm" id="logout-btn">退出</button>
+    </div>
+    <div class="wrap" id="content"></div>
+  </div>
+
+  <script>
+  'use strict';
+  const PASS_KEY = 'youyin-admin-pass';
+  const SESSION_KEY = 'youyin-admin-session';
+  const DATA_KEY = 'youyin-admin-crm';
+  const DEFAULT_PASS = 'youyin-admin-2026';
+  const STATUS = { lead:'线索', contacted:'已联系', trial:'试用中', paid:'已签约', renew:'续费中', lost:'流失' };
+  const PLAN = { trial:'试用', basic:'基础版', pro:'专业版', custom:'定制' };
+  const SEED = [
+    { id:'c1', company:'成都本地餐饮连锁', brand:'某火锅品牌', contact:'王经理', phone:'138****0001', email:'w@example.com', website:'', industry:'本地生活', status:'trial', plan:'trial', amount:0, startDate:'2026-07-20', endDate:'2026-08-20', nextFollowup:'2026-08-02', source:'官网演示', score:32, note:'试用中，待出基线诊断报告', createdAt:'2026-07-20' },
+    { id:'c2', company:'某跨境电商品牌', brand:'出海DTC品牌', contact:'李总', phone:'139****0002', email:'li@example.com', website:'https://example.com', industry:'跨境电商', status:'paid', plan:'pro', amount:19900, startDate:'2026-07-01', endDate:'2026-12-31', nextFollowup:'2026-08-15', source:'老客户转介绍', score:51, note:'已签约专业版，含内容陪跑', createdAt:'2026-06-28' },
+    { id:'c3', company:'某SaaS工具团队', brand:'办公效率工具', contact:'陈女士', phone:'136****0003', email:'chen@example.com', website:'', industry:'SaaS', status:'lead', plan:'trial', amount:0, startDate:'', endDate:'', nextFollowup:'2026-08-05', source:'GEO 指南页', score:null, note:'看完 GEO 指南后留资，待首轮沟通', createdAt:'2026-07-30' },
+    { id:'c4', company:'某健康管理机构', brand:'健康咨询品牌', contact:'赵总', phone:'137****0004', email:'zhao@example.com', website:'', industry:'大健康', status:'renew', plan:'basic', amount:9800, startDate:'2026-01-01', endDate:'2026-12-31', nextFollowup:'2026-08-10', source:'历史客户续费', score:68, note:'续费中，重点补推荐场景', createdAt:'2025-12-20' },
+    { id:'c5', company:'某教育培训机构', brand:'职业教育品牌', contact:'孙老师', phone:'135****0005', email:'sun@example.com', website:'', industry:'教育', status:'lost', plan:'basic', amount:9800, startDate:'2026-03-01', endDate:'2026-06-30', nextFollowup:'', source:'行业活动', score:40, note:'预算收紧暂停，计划季度末回访', createdAt:'2026-02-10' },
+  ];
+
+  let list = load();
+  let state = { view:'list', id:null, q:'' };
+
+  function load() { try { const d = JSON.parse(localStorage.getItem(DATA_KEY)); return Array.isArray(d) ? d : JSON.parse(JSON.stringify(SEED)); } catch { return JSON.parse(JSON.stringify(SEED)); } }
+  function save() { localStorage.setItem(DATA_KEY, JSON.stringify(list)); }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function badge(text, cls='') { return '<span class="badge '+cls+'">'+esc(text)+'</span>'; }
+  function money(v) { return v ? '¥'+Number(v).toLocaleString('zh-CN') : '-'; }
+  function statusBadge(s) { const map={paid:'b-green',renew:'b-green',lost:'b-red',trial:'b-violet',contacted:'b-amber'}; return badge(STATUS[s]||s, map[s]||''); }
+  function age(c) {
+    if (!c.nextFollowup) return '';
+    const d = Math.ceil((new Date(c.nextFollowup)-new Date())/86400000);
+    return d < 0 ? '<span style="color:var(--red)">已逾期 '+Math.abs(d)+' 天</span>' : d <= 2 ? '<span style="color:var(--amber)">'+d+' 天后</span>' : d+' 天后';
+  }
+  function get(id) { return list.find(x => x.id === id); }
+
+  function render() {
+    const c = document.getElementById('content');
+    if (state.view === 'edit') return renderEdit(c);
+    if (state.view === 'detail') return renderDetail(c, state.id);
+    renderList(c);
+  }
+
+  function renderList(c) {
+    const counts = {}; Object.keys(STATUS).forEach(k => counts[k]=0);
+    list.forEach(x => counts[x.status] = (counts[x.status]||0)+1);
+    const total = list.reduce((s,x)=>s+(Number(x.amount)||0),0);
+    const active = list.filter(x => ['trial','paid','renew'].includes(x.status));
+    const q = state.q.trim().toLowerCase();
+    const rows = list.filter(x => !q || [x.company,x.brand,x.contact,x.industry].join(' ').toLowerCase().includes(q)).map(x => `
+      <tr data-id="${x.id}">
+        <td><b>${esc(x.company)}</b><br><span class="muted" style="font-size:.74rem">${esc(x.brand)}</span></td>
+        <td>${esc(x.contact)}</td>
+        <td>${statusBadge(x.status)}</td>
+        <td>${esc(PLAN[x.plan]||x.plan)}</td>
+        <td class="mono">${money(x.amount)}</td>
+        <td class="mono" style="font-size:.78rem">${esc(x.nextFollowup||'-')}<br>${age(x)}</td>
+        <td><button class="btn btn-sm" data-act="edit" data-id="${x.id}">编辑</button> <button class="btn btn-sm" data-act="del" data-id="${x.id}">删除</button></td>
+      </tr>`).join('');
+    const max = Math.max(1, list.length);
+    c.innerHTML = `
+      <div class="grid g4">
+        <div class="tile"><b>${active.length}</b><span>活跃客户</span></div>
+        <div class="tile"><b>${counts.paid+counts.renew}</b><span>已签约/续费</span></div>
+        <div class="tile"><b>${counts.trial}</b><span>试用中</span></div>
+        <div class="tile"><b class="mono">${money(total)}</b><span>存量合同金额</span></div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">客户漏斗</h3>
+        <div class="grid" style="grid-template-columns:repeat(6,1fr)">
+          ${Object.keys(STATUS).map(k => `<div><div class="muted" style="font-size:.74rem">${STATUS[k]}</div><div style="height:9px;background:#1c1c30;border-radius:99px;margin-top:6px"><i style="display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#6366F1,#8B5CF6);width:${Math.max(4, counts[k]/max*100)}%"></i></div><b class="mono">${counts[k]}</b></div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="toolbar">
+          <input id="crm-q" type="search" placeholder="搜索公司、品牌、联系人、行业…" value="${esc(state.q)}">
+          <button class="btn" id="export-btn">导出 CSV</button>
+          <button class="btn btn-primary" id="add-btn">＋ 新增客户</button>
+        </div>
+        <table>
+          <thead><tr><th>客户 / 品牌</th><th>联系人</th><th>阶段</th><th>套餐</th><th>合同金额</th><th>下次跟进</th><th></th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="7" class="muted">没有匹配客户</td></tr>'}</tbody>
+        </table>
+      </div>`;
+  }
+
+  function renderDetail(c, id) {
+    const x = get(id); if (!x) { state={view:'list',id:null,q:state.q}; return render(); }
+    c.innerHTML = `
+      <button class="btn" id="back-btn">← 返回列表</button>
+      <div class="detail-grid" style="margin-top:14px">
+        <div class="card">
+          <h2 style="margin-top:0">${esc(x.company)} ${statusBadge(x.status)}</h2>
+          <div class="grid g2">
+            ${[['品牌',x.brand],['联系人',x.contact],['电话',x.phone],['邮箱',x.email],['官网',x.website||'-'],['行业',x.industry],['来源',x.source],['最近可见度',x.score!=null?x.score+' 分':'未诊断']].map(([k,v])=>`<div><span class="muted" style="font-size:.76rem">${esc(k)}</span><div>${esc(v)}</div></div>`).join('')}
+          </div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><span class="muted" style="font-size:.76rem">备注</span><div>${esc(x.note||'无')}</div></div>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <div class="kv"><span>套餐</span><b>${esc(PLAN[x.plan]||x.plan)}</b></div>
+            <div class="kv"><span>合同金额</span><b class="mono">${money(x.amount)}</b></div>
+            <div class="kv"><span>合同周期</span><span>${esc(x.startDate||'-')} → ${esc(x.endDate||'-')}</span></div>
+            <div class="kv"><span>下次跟进</span><span>${esc(x.nextFollowup||'-')} ${age(x)}</span></div>
+          </div>
+          <button class="btn btn-primary" data-act="edit" data-id="${x.id}">编辑客户</button>
+          <button class="btn" data-act="del" data-id="${x.id}">删除客户</button>
+        </div>
+      </div>`;
+  }
+
+  function renderEdit(c, id) {
+    const x = id ? get(id) : null;
+    const v = k => x ? (x[k]||'') : '';
+    c.innerHTML = `
+      <button class="btn" id="back-btn">← 返回列表</button>
+      <div class="card" style="margin-top:14px">
+        <h3 style="margin-top:0">${x ? '编辑客户' : '新增客户'}</h3>
+        <div class="form-grid">
+          <div><label>公司名称 *</label><input id="f-company" value="${esc(v('company'))}"></div>
+          <div><label>品牌名</label><input id="f-brand" value="${esc(v('brand'))}"></div>
+          <div><label>联系人</label><input id="f-contact" value="${esc(v('contact'))}"></div>
+          <div><label>电话</label><input id="f-phone" value="${esc(v('phone'))}"></div>
+          <div><label>邮箱</label><input id="f-email" value="${esc(v('email'))}"></div>
+          <div><label>官网</label><input id="f-website" value="${esc(v('website'))}"></div>
+          <div><label>行业</label><input id="f-industry" value="${esc(v('industry'))}"></div>
+          <div><label>来源</label><input id="f-source" value="${esc(v('source'))}"></div>
+          <div><label>阶段</label><select id="f-status">${Object.entries(STATUS).map(([k,n])=>`<option value="${k}" ${(x?x.status:'lead')===k?'selected':''}>${n}</option>`).join('')}</select></div>
+          <div><label>套餐</label><select id="f-plan">${Object.entries(PLAN).map(([k,n])=>`<option value="${k}" ${(x?x.plan:'trial')===k?'selected':''}>${n}</option>`).join('')}</select></div>
+          <div><label>合同金额（元）</label><input id="f-amount" type="number" min="0" value="${esc(v('amount')||0)}"></div>
+          <div><label>可见度得分</label><input id="f-score" type="number" min="0" max="100" value="${esc(v('score')??'')}"></div>
+          <div><label>开始日期</label><input id="f-start" type="date" value="${esc(v('startDate'))}"></div>
+          <div><label>结束日期</label><input id="f-end" type="date" value="${esc(v('endDate'))}"></div>
+          <div><label>下次跟进</label><input id="f-next" type="date" value="${esc(v('nextFollowup'))}"></div>
+          <div class="full"><label>备注</label><textarea id="f-note" rows="3">${esc(v('note'))}</textarea></div>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:10px"><button class="btn btn-primary" id="save-btn">保存客户</button><button class="btn" id="cancel-btn">取消</button></div>
+      </div>`;
+  }
+
+  function saveForm() {
+    const g = id => document.getElementById(id);
+    const company = g('f-company').value.trim();
+    if (!company) return alert('请填写公司名称');
+    const data = { company, brand:g('f-brand').value.trim(), contact:g('f-contact').value.trim(), phone:g('f-phone').value.trim(), email:g('f-email').value.trim(), website:g('f-website').value.trim(), industry:g('f-industry').value.trim(), source:g('f-source').value.trim(), status:g('f-status').value, plan:g('f-plan').value, amount:+g('f-amount').value||0, score:g('f-score').value===''?null:+g('f-score').value, startDate:g('f-start').value, endDate:g('f-end').value, nextFollowup:g('f-next').value, note:g('f-note').value.trim() };
+    if (state.id) Object.assign(get(state.id), data);
+    else { data.id='c'+Date.now(); data.createdAt=new Date().toISOString().slice(0,10); list.unshift(data); }
+    save(); state={view:'list',id:null,q:state.q}; render();
+  }
+
+  function exportCsv() {
+    const head = ['公司','品牌','联系人','电话','邮箱','行业','阶段','套餐','合同金额','开始日期','结束日期','下次跟进','备注'];
+    const escCsv = s => '"'+String(s==null?'':s).replace(/"/g,'""')+'"';
+    const lines = [head.join(',')].concat(list.map(x => [x.company,x.brand,x.contact,x.phone,x.email,x.industry,STATUS[x.status]||x.status,PLAN[x.plan]||x.plan,x.amount,x.startDate,x.endDate,x.nextFollowup,x.note].map(escCsv).join(',')));
+    const blob = new Blob(['\ufeff'+lines.join('\n')], { type:'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = '优引GEO-客户.csv'; a.click();
+  }
+
+  document.addEventListener('click', e => {
+    const act = e.target.closest('[data-act]');
+    if (act) {
+      const id = act.dataset.id;
+      if (act.dataset.act === 'edit') { state = { view:'edit', id, q:state.q }; render(); return; }
+      if (act.dataset.act === 'del') {
+        const x = get(id);
+        if (x && confirm('确认删除客户：'+x.company+'？')) { list = list.filter(v=>v.id!==id); save(); state={view:'list',id:null,q:state.q}; render(); }
+        return;
+      }
+    }
+    const row = e.target.closest('tr[data-id]');
+    if (row) { state = { view:'detail', id:row.dataset.id, q:state.q }; render(); return; }
+    if (e.target.id === 'back-btn' || e.target.id === 'cancel-btn') { state={view:'list',id:null,q:state.q}; render(); return; }
+    if (e.target.id === 'add-btn') { state={view:'edit',id:null,q:state.q}; render(); return; }
+    if (e.target.id === 'save-btn') return saveForm();
+    if (e.target.id === 'export-btn') return exportCsv();
+  });
+  document.addEventListener('input', e => { if (e.target.id === 'crm-q') { state.q = e.target.value; render(); } });
+
+  function checkSession() {
+    return sessionStorage.getItem(SESSION_KEY) === '1';
+  }
+  function enter() {
+    document.getElementById('login').hidden = true;
+    document.getElementById('app').hidden = false;
+    sessionStorage.setItem(SESSION_KEY, '1');
+    render();
+  }
+  document.getElementById('login-btn').addEventListener('click', () => {
+    const pass = localStorage.getItem(PASS_KEY) || DEFAULT_PASS;
+    if (document.getElementById('pass-input').value === pass) enter();
+    else document.getElementById('login-err').textContent = '密码错误';
+  });
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    sessionStorage.removeItem(SESSION_KEY);
+    location.reload();
+  });
+  document.getElementById('pass-input').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('login-btn').click(); });
+  if (checkSession()) enter();
+  </script>
+</body>
+</html>

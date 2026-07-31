@@ -27,5 +27,6 @@ User-agent: *
 Allow: /
 Disallow: /css/
 Disallow: /js/
+Disallow: /admin.html
 
 Sitemap: https://zkoner.com/sitemap.xml
