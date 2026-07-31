@@ -1,39 +1,18 @@
-# 优引GEO系统 — Youyin GEO System
-> 全链路GEO优化平台 · 让AI主动推荐你
-> 从「等客户上门」变成「客户主动AI搜索找到你」：让AI看见你、引用你、记住你
+# 优引GEO系统 · AI监测与诊断控制台
+> GEO 诊断系统 + AI 可见性监控系统
 > 官网: https://zkoner.com | 联系: 243922774@qq.com
 
 ## 产品
 
-优引GEO系统是一站式 GEO（Generative Engine Optimization）平台，通过四步闭环持续提升品牌在 AI 问答场景中的被推荐概率：
+优引GEO系统是品牌 AI 可见性（GEO）的诊断与监控工具：
 
-1. **AI监控** — 覆盖 7+ 主流 AI 引擎（DeepSeek/豆包/Kimi/腾讯元宝/文心一言/通义千问/智谱清言），监测品牌提及率、排名位置、前三占比、竞品对比、来源溯源与趋势追踪
-2. **智能内容生产** — 上传资料自动构建企业专属知识库，批量产出专业、可信、原创的 AI 偏爱内容（多风格标题+智能配图）
-3. **全媒体分发** — 50+ 平台统一调度（百家号/知乎/头条/公众号/大鱼号/企鹅号/CSDN/网易号/搜狐号），统一账号管理、独立发布策略、定时发布、平台规则适配
-4. **数据驱动优化** — 数据采集→诊断分析→策略生成→内容迭代，内容策略建议、效果可视化评估、爆款特征分析、自动质量评估
-
-## 核心价值
-
-- 更准的流量：精准锁定 AI 推荐的答案位，触达高意向客户
-- 更低的成本：自动生成 AI 偏爱推荐的内容，告别人工撰稿
-- 更高的转化：AI 推荐自带信任感，购买意愿更强，建立行业权威
-
-## 目标受众
-
-企业营销团队 | SEO/GEO服务商 | 内容运营团队 | 品牌方
+1. **GEO 诊断** — 输入网址/品牌名 → 7 维诊断报告（可引用性/权威信源/结构化数据/内容深度/技术基础/实体一致性/AI收录），豆包 + DeepSeek 实测收录
+2. **AI 可见性监控** — 品牌在主流 AI 引擎中的提及率、命中、排名、趋势监测
+3. **引用追踪** — 品牌被 AI 引用的来源与内容明细
+4. **场景洞察** — 认知/推荐/评价三场景命中分析
+5. **优化建议** — Claude Code 自动生成的优先级建议
 
 ## 核心页面
 
-- 首页: https://zkoner.com
-- GEO概念: https://zkoner.com/geo/
-- FAQ: https://zkoner.com/faq/
-- 案例: https://zkoner.com/case-studies/
-- 知识库: https://zkoner.com/knowledge-base/
-- 关于: https://zkoner.com/about/
-- 联系/免费试用: https://zkoner.com/contact/
-
-## 资源
-
-- AI Ready 网站: https://zkoner.com/ai-ready/
-- 模板与清单: https://zkoner.com/resources/
-- 行业观察: https://zkoner.com/blog/
+- 诊断与监控控制台: https://zkoner.com
+- 本地部署：Claude Code + n8n 驱动，客户自带 API 密钥（BYOK）
