@@ -47,9 +47,8 @@ body {
 }
 .brand-mark {
   width: 38px; height: 38px; flex: 0 0 38px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--indigo), var(--accent), var(--pink));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.15rem; font-weight: 700; color: #fff;
+  display: block; object-fit: contain;
+  box-shadow: 0 0 0 1px rgba(94, 234, 212, 0.22), 0 8px 22px rgba(56, 189, 248, 0.14);
 }
 .brand-text { display: flex; flex-direction: column; line-height: 1.2; }
 .brand-text strong { font-size: 0.98rem; letter-spacing: 0.5px; }

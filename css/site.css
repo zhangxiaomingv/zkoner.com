@@ -44,12 +44,16 @@ a:hover { color: #a5f3e7; }
   border-bottom: 1px solid var(--line);
 }
 .nav-inner { display: flex; align-items: center; gap: 28px; height: 70px; }
-.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .02em; }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: .02em; color: var(--ink); }
 .logo-mark {
   width: 34px; height: 34px; border-radius: 10px;
-  display: grid; place-items: center;
-  background: linear-gradient(135deg, var(--teal), var(--gold));
-  color: #08111f; font-family: var(--serif); font-weight: 900;
+  display: block; object-fit: contain;
+  box-shadow: 0 0 0 1px rgba(94, 234, 212, 0.25), 0 8px 22px rgba(56, 189, 248, 0.18);
+}
+.logo em {
+  font-style: normal;
+  background: linear-gradient(120deg, var(--teal), #38bdf8);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .nav-links { display: flex; gap: 6px; margin-left: auto; align-items: center; }
 .nav-links a {

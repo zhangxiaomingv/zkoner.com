@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="优引GEO系统">
+  <defs>
+    <linearGradient id="youyinGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5eead4"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="youyinGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#fb7185"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="#0c1220"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" fill="none" stroke="url(#youyinGrad)" stroke-width="2.4"/>
+  <ellipse cx="32" cy="31" rx="21" ry="9.5" fill="none" stroke="url(#youyinGold)" stroke-width="2" transform="rotate(-26 32 31)" opacity="0.9"/>
+  <circle cx="48" cy="19.5" r="3.2" fill="#fbbf24"/>
+  <text x="32" y="40.2" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',serif" font-size="27" font-weight="700" fill="#eef4ff" text-anchor="middle">优</text>
+</svg>
