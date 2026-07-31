@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>常见问题 FAQ | 优引GEO系统</title>
+  <meta name="description" content="优引GEO系统常见问题：GEO 是什么、收录如何实测、API 密钥安全、本地部署方式、分数含义与优化方法。">
+  <link rel="canonical" href="https://zkoner.com/faq.html">
+  <link rel="stylesheet" href="css/site.css?v=3">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"什么是 GEO？","acceptedAnswer":{"@type":"Answer","text":"GEO 是 Generative Engine Optimization，指优化品牌内容使其更容易被 AI 问答引擎提及、引用和推荐。"}},
+      {"@type":"Question","name":"收录实测是如何进行的？","acceptedAnswer":{"@type":"Answer","text":"系统对豆包与 DeepSeek 发起认知、推荐、评价三类问题，每个问题多轮采样，再识别提及、引用、情感、位次与负面语境。"}},
+      {"@type":"Question","name":"API 密钥安全吗？","acceptedAnswer":{"@type":"Answer","text":"本地部署采用 BYOK，密钥只存本地 data/config.json 或环境变量，不进入 Git，不上传第三方。"}},
+      {"@type":"Question","name":"怎么部署？","acceptedAnswer":{"@type":"Answer","text":"纯静态控制台可直接双击打开；完整监测需要 Node.js，运行 bash scripts/run-monitor.sh；定时任务可导入 n8n 工作流。"}},
+      {"@type":"Question","name":"为什么诊断分数很低？","acceptedAnswer":{"@type":"Answer","text":"说明 AI 当前缺乏品牌可靠知识或存在负面认知，通常需要补齐官网内容、JSON-LD、FAQ、llms.txt 与第三方信源。"}},
+      {"@type":"Question","name":"支持哪些 AI 引擎？","acceptedAnswer":{"@type":"Answer","text":"当前实测豆包与 DeepSeek，架构支持按需扩展 Kimi、元宝、文心、通义等 OpenAI 兼容引擎。"}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="/"><span class="logo-mark">优</span><span>优引GEO系统</span></a>
+      <button class="nav-toggle" aria-label="菜单" onclick="document.getElementById('navLinks').classList.toggle('open')">菜单</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="/">首页</a>
+        <a href="/geo.html">GEO 科普</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/cases.html">案例</a>
+        <a href="/about.html">关于</a>
+        <a class="nav-cta" href="/console.html">进入控制台</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap article">
+    <div class="page-head">
+      <span class="tag">FAQ</span>
+      <h1>常见问题</h1>
+      <p class="lead">关于 GEO、监测方法、数据安全与部署的高频问题。</p>
+    </div>
+    <section style="padding:20px 0 0">
+      <details open><summary>什么是 GEO（生成式引擎优化）？</summary><p>GEO 是 Generative Engine Optimization 的缩写，指让品牌内容更容易被 AI 问答引擎提及、引用和推荐的优化方法。与 SEO 追求点击不同，GEO 追求的是 AI 引用。</p></details>
+      <details><summary>豆包和 DeepSeek 的收录是怎么实测的？</summary><p>系统用品牌、行业和关键词生成认知/推荐/评价三类问题，每个问题多轮采样调用真实 API，再对回答做结构化判定：是否提及、是否引用官网、情感、位次、负面语境与幻觉描述。</p></details>
+      <details><summary>我的 API 密钥安全吗？</summary><p>本地部署采用 BYOK，密钥只存在你机器上的 data/config.json 或环境变量中，不进入 Git 仓库，也不会上传到第三方服务器。</p></details>
+      <details><summary>怎么部署这套系统？</summary><p>演示可直接打开控制台；完整监测需要 Node.js，配置 DEEPSEEK_API_KEY 与 ARK_API_KEY 后运行 bash scripts/run-monitor.sh；定时任务可导入 n8n 工作流，按日自动复测。</p></details>
+      <details><summary>为什么诊断分数很低？</summary><p>分数低表示 AI 当前没有品牌的可靠知识，或存在幻觉与负面认知。这通常意味着官网可爬内容、JSON-LD、FAQ 和第三方信源不足，按报告建议逐项补齐即可提升。</p></details>
+      <details><summary>监测数据多久更新一次？</summary><p>默认每日 09:00 运行一次，每个场景多轮采样；历史按天保留 30 天，并支持在设置中调整频率与保留天数。</p></details>
+      <details><summary>支持哪些 AI 引擎？</summary><p>当前实测豆包（火山引擎）与 DeepSeek 两个引擎；系统架构按 OpenAI 兼容接口设计，可扩展 Kimi、元宝、文心、通义等国内引擎。</p></details>
+      <details><summary>诊断和监测有什么区别？</summary><p>诊断是一次性 7 维体检，给出当前得分与差距；监测是持续复测，给出趋势、场景变化和优化建议的反馈回路。</p></details>
+      <div class="cta-row" style="margin-top:34px">
+        <a class="btn btn-primary btn-lg" href="/console.html">去诊断</a>
+        <a class="btn btn-ghost btn-lg" href="/geo.html">读 GEO 指南</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <a class="logo" href="/"><span class="logo-mark">优</span><span>优引GEO系统</span></a>
+        <p class="muted" style="margin-top:12px">品牌 AI 可见性诊断与监测平台，本地部署，数据自有。</p>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <a href="/console.html">GEO 诊断</a>
+        <a href="/console.html">可见度监测</a>
+        <a href="/cases.html">案例</a>
+      </div>
+      <div>
+        <h4>资源</h4>
+        <a href="/geo.html">GEO 科普</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/llms.txt">llms.txt</a>
+      </div>
+      <div>
+        <h4>联系</h4>
+        <a href="mailto:243922774@qq.com">243922774@qq.com</a>
+        <a href="/about.html">关于我们</a>
+      </div>
+    </div>
+    <div class="wrap footer-note">
+      <span>© 2026 优引GEO系统 · zkoner.com</span>
+      <span>ICP 备案信息更新中 · 数据本地存储 · BYOK</span>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于优引GEO系统 | 本地部署与交付方式</title>
+  <meta name="description" content="关于优引GEO系统：产品定位、技术栈、本地部署与 BYOK 数据安全原则、联系与交付方式。">
+  <link rel="canonical" href="https://zkoner.com/about.html">
+  <link rel="stylesheet" href="css/site.css?v=3">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "优引GEO系统",
+    "url": "https://zkoner.com/",
+    "email": "243922774@qq.com",
+    "description": "品牌 AI 可见性（GEO）诊断与监测平台，本地部署，数据自有。"
+  }
+  </script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="/"><span class="logo-mark">优</span><span>优引GEO系统</span></a>
+      <button class="nav-toggle" aria-label="菜单" onclick="document.getElementById('navLinks').classList.toggle('open')">菜单</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="/">首页</a>
+        <a href="/geo.html">GEO 科普</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/cases.html">案例</a>
+        <a href="/about.html">关于</a>
+        <a class="nav-cta" href="/console.html">进入控制台</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap article">
+    <div class="page-head">
+      <span class="tag">关于</span>
+      <h1>关于优引GEO系统</h1>
+      <p class="lead">我们做一件事：让品牌的 AI 可见性可度量、可优化、可验证。</p>
+    </div>
+
+    <section style="padding:20px 0 0">
+      <h2>产品定位</h2>
+      <p>优引GEO系统是品牌 AI 可见性的诊断与监测平台。它不承诺“保证排名”，而是把 AI 引擎对品牌的真实认知用结构化报告呈现：哪里被收录、哪里是幻觉、哪里是负面，下一步该做什么。</p>
+
+      <h2>技术栈</h2>
+      <ul>
+        <li>控制台：纯静态 HTML/CSS/JS，零外部依赖，可离线演示。</li>
+        <li>监测管线：Node.js 脚本，调用豆包与 DeepSeek 真实 API 多轮采样。</li>
+        <li>调度：n8n 工作流按日自动运行，支持手动触发。</li>
+        <li>数据：JSON 文件本地存储，按天去重，客户可完全掌控。</li>
+      </ul>
+
+      <h2>数据与安全</h2>
+      <p>系统采用 BYOK（Bring Your Own Key）设计：API 密钥由客户提供，只存放在客户本机的 data/config.json 或环境变量中，不进入 Git、不上传第三方服务器。监测结果同样只落在本地 data 目录。</p>
+
+      <h2>交付方式</h2>
+      <ol>
+        <li>演示试用：直接打开控制台，体验诊断与示例报告。</li>
+        <li>本地部署：交付 scripts + data 包，客户配置自己的 API Key 后运行。</li>
+        <li>陪跑服务：诊断 → 内容修复 → 信源铺设 → 每日复测 → 月度复盘。</li>
+      </ol>
+
+      <h2>联系</h2>
+      <p>商务与合作请联系 <a href="mailto:243922774@qq.com">243922774@qq.com</a>。ICP 备案信息更新中，更多资质信息会在此页持续补充。</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <a class="logo" href="/"><span class="logo-mark">优</span><span>优引GEO系统</span></a>
+        <p class="muted" style="margin-top:12px">品牌 AI 可见性诊断与监测平台，本地部署，数据自有。</p>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <a href="/console.html">GEO 诊断</a>
+        <a href="/console.html">可见度监测</a>
+        <a href="/cases.html">案例</a>
+      </div>
+      <div>
+        <h4>资源</h4>
+        <a href="/geo.html">GEO 科普</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/llms.txt">llms.txt</a>
+      </div>
+      <div>
+        <h4>联系</h4>
+        <a href="mailto:243922774@qq.com">243922774@qq.com</a>
+        <a href="/about.html">关于我们</a>
+      </div>
+    </div>
+    <div class="wrap footer-note">
+      <span>© 2026 优引GEO系统 · zkoner.com</span>
+      <span>ICP 备案信息更新中 · 数据本地存储 · BYOK</span>
+    </div>
+  </footer>
+</body>
+</html>

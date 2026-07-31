@@ -1,0 +1,55 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "优引GEO系统 API",
+    "description": "品牌 AI 可见性诊断与监测 API。本地部署时由 node scripts/diag-server.js 提供服务（默认 8788 端口）。",
+    "version": "0.3.0"
+  },
+  "servers": [
+    { "url": "http://localhost:8788", "description": "本地诊断服务" }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "引擎配置状态",
+        "responses": { "200": { "description": "存活与豆包/DeepSeek 配置状态" } }
+      }
+    },
+    "/diagnose": {
+      "post": {
+        "summary": "立即诊断",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["url"],
+                "properties": {
+                  "url": { "type": "string", "example": "https://example.com" },
+                  "brand": { "type": "string", "example": "品牌名" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "7 维 GEO 诊断报告" } }
+      }
+    },
+    "/reports": {
+      "get": {
+        "summary": "历史报告列表",
+        "responses": { "200": { "description": "报告列表" } }
+      }
+    },
+    "/reports/{slug}": {
+      "get": {
+        "summary": "读取单份报告",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "报告内容" } }
+      }
+    }
+  }
+}

@@ -3,56 +3,239 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>优引GEO · AI监测控制台</title>
-  <meta name="description" content="优引GEO系统 AI监测控制台 — 品牌可见度、竞争格局、引用追踪、场景洞察与优化建议。本地部署 · Claude Code + n8n 驱动。">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <title>优引GEO系统 · 让 AI 主动推荐你 | GEO 诊断与监测平台</title>
+  <meta name="description" content="优引GEO系统是品牌 AI 可见性（GEO）诊断与监测平台：7 维诊断、豆包与 DeepSeek 实测收录、竞品对标、引用追踪与优化建议，本地部署，客户自带密钥。">
+  <meta property="og:title" content="优引GEO系统 · 让 AI 主动推荐你">
+  <meta property="og:description" content="7 维 GEO 诊断 + 豆包/DeepSeek 实测收录 + 可见度监测闭环。">
+  <meta property="og:url" content="https://zkoner.com/">
+  <link rel="canonical" href="https://zkoner.com/">
+  <link rel="stylesheet" href="css/site.css?v=3">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://zkoner.com/#organization",
+        "name": "优引GEO系统",
+        "url": "https://zkoner.com/",
+        "description": "品牌 AI 可见性（GEO）诊断与监测平台，提供 7 维诊断、AI 引擎实测收录、可见度监测与优化建议。",
+        "email": "243922774@qq.com",
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://zkoner.com/#website",
+        "url": "https://zkoner.com/",
+        "name": "优引GEO系统",
+        "publisher": { "@id": "https://zkoner.com/#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://zkoner.com/#software",
+        "name": "优引GEO系统",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web / Local",
+        "description": "品牌 AI 可见性诊断与监测系统：7 维 GEO 诊断、豆包+DeepSeek 实测收录、场景监测、引用追踪与优化建议。",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+        "url": "https://zkoner.com/console.html"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://zkoner.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "什么是 GEO（生成式引擎优化）？",
+            "acceptedAnswer": { "@type": "Answer", "text": "GEO 是 Generative Engine Optimization 的缩写，指让品牌内容更容易被 AI 问答引擎提及、引用和推荐的优化方法，衡量单位从传统点击变成 AI 引用。" }
+          },
+          {
+            "@type": "Question",
+            "name": "优引GEO系统支持哪些 AI 引擎？",
+            "acceptedAnswer": { "@type": "Answer", "text": "当前实测豆包（火山引擎）与 DeepSeek 两个引擎的收录情况，体系支持按需扩展 Kimi、元宝、文心、通义等 OpenAI 兼容引擎。" }
+          },
+          {
+            "@type": "Question",
+            "name": "监测数据放在哪里？",
+            "acceptedAnswer": { "@type": "Answer", "text": "数据默认只存在本地 data 目录，API 密钥由客户自带（BYOK），不会上传到第三方服务器，适合企业本地部署。" }
+          },
+          {
+            "@type": "Question",
+            "name": "如何提升 AI 收录分数？",
+            "acceptedAnswer": { "@type": "Answer", "text": "补齐官网可爬内容、JSON-LD、FAQ、llms.txt 与权威信源，并持续在知乎、百家号等高引用平台分发内容，AI 收录会随知识覆盖面提升。" }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-  <!-- ═══ 侧边栏 ═══ -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-mark">优</div>
-      <div class="brand-text">
-        <strong>优引GEO</strong>
-        <span>AI监测控制台</span>
-      </div>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="/"><span class="logo-mark">优</span><span>优引GEO系统</span></a>
+      <button class="nav-toggle" aria-label="菜单" onclick="document.getElementById('navLinks').classList.toggle('open')">菜单</button>
+      <nav class="nav-links" id="navLinks">
+        <a href="/">首页</a>
+        <a href="/geo.html">GEO 科普</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/cases.html">案例</a>
+        <a href="/about.html">关于</a>
+        <a class="nav-cta" href="/console.html">进入控制台</a>
+      </nav>
     </div>
+  </header>
 
-    <nav class="side-nav" id="sideNav">
-      <!-- 由 JS 渲染菜单 -->
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="sys-status" id="sysStatus">
-        <span class="dot on"></span> 本地监测正常
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="section-kicker">GEO · AI 可见度操作系统</div>
+          <h1 class="display">让 AI 主动推荐你</h1>
+          <p class="lead">优引GEO系统通过 7 维诊断、豆包与 DeepSeek 实测收录和每日可见度监测，把品牌在 AI 问答中的「被提及、被引用、被推荐」变成可度量、可优化、可复盘的闭环。</p>
+          <div class="cta-row">
+            <a class="btn btn-primary btn-lg" href="/console.html">免费诊断品牌可见度</a>
+            <a class="btn btn-ghost btn-lg" href="/geo.html">先了解 GEO 是什么</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><b>7</b><span>个诊断维度</span></div>
+            <div class="stat"><b>2+</b><span>AI 引擎实测收录</span></div>
+            <div class="stat"><b>3</b><span>场景多轮采样</span></div>
+          </div>
+        </div>
+        <div class="orb" aria-hidden="true">
+          <div class="orb-code">
+            <span class="ok">$ node scripts/monitor.js</span><br>
+            DeepSeek: 认知 已收录 · 推荐 未收录 · 评价 已收录<br>
+            豆包:     认知 描述存疑 · 推荐 未收录 · 评价 负面<br>
+            <span class="warn">综合可见度: 51/100</span><br>
+            <span class="ok">✓ 已写入历史 · 明日 09:00 自动复测</span>
+          </div>
+        </div>
       </div>
-      <div class="sys-meta" id="sysMeta">数据更新: --</div>
-    </div>
-  </aside>
+    </section>
 
-  <!-- ═══ 主内容 ═══ -->
-  <main class="main">
-    <header class="topbar">
-      <button class="icon-btn" id="menuToggle" aria-label="菜单">☰</button>
-      <div class="crumb" id="crumb">AI监测</div>
-      <div class="topbar-actions">
-        <span class="live-badge"><span class="dot on"></span> LIVE</span>
-        <button class="btn btn-primary" id="btnRunMonitor">立即监测</button>
+    <section>
+      <div class="wrap">
+        <div class="section-kicker">诊断</div>
+        <h2>7 维 GEO 诊断，每一分都有依据</h2>
+        <p class="lead">参照 Princeton GEO 研究框架与行业实践，从可引用性到 AI 收录逐项审计，分数全部来自可复现信号。</p>
+        <div class="grid grid-3" style="margin-top:34px">
+          <div class="card"><span class="dim-num">01</span><h3>可引用性</h3><p class="muted">FAQ、列表、表格、标题层级等结构是否利于 AI 直接摘取答案。</p></div>
+          <div class="card"><span class="dim-num">02</span><h3>权威与信源</h3><p class="muted">E-E-A-T 信号、外链与引用网络背书，缺少数据时如实标注。</p></div>
+          <div class="card"><span class="dim-num">03</span><h3>结构化数据</h3><p class="muted">JSON-LD 数量、有效性与 Organization/FAQPage 等关键类型。</p></div>
+          <div class="card"><span class="dim-num">04</span><h3>内容深度覆盖</h3><p class="muted">正文规模、标题结构、FAQ、列表与图片 alt 覆盖。</p></div>
+          <div class="card"><span class="dim-num">05</span><h3>技术基础</h3><p class="muted">HTTPS、robots、sitemap、llms.txt 与可爬取性。</p></div>
+          <div class="card"><span class="dim-num">06</span><h3>实体一致性</h3><p class="muted">品牌名、官网、Schema 实体与 AI 回答是否一致。</p></div>
+          <div class="card"><span class="dim-num">07</span><h3>AI 收录</h3><p class="muted">豆包与 DeepSeek 多轮实测：命中率、情感、负面与幻觉识别。</p></div>
+        </div>
       </div>
-    </header>
+    </section>
 
-    <div class="content" id="content"><!-- 页面由 JS 渲染 --></div>
+    <section style="background:rgba(17,26,46,.5);border-block:1px solid var(--line)">
+      <div class="wrap">
+        <div class="section-kicker">闭环</div>
+        <h2>从监测到优化，每天形成一条反馈回路</h2>
+        <div class="grid" style="margin-top:34px">
+          <div class="step">
+            <div class="step-rail"><span class="step-dot">1</span></div>
+            <div>
+              <h3>监测</h3>
+              <p class="muted">每日定时对豆包 + DeepSeek 跑认知、推荐、评价三个场景，每个场景多轮采样，自动重试并记录历史。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-rail"><span class="step-dot">2</span></div>
+            <div>
+              <h3>分析</h3>
+              <p class="muted">识别无信息、幻觉描述、负面内容、推荐位次与官网引用，并按场景权重生成可解释得分。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-rail"><span class="step-dot">3</span></div>
+            <div>
+              <h3>优化</h3>
+              <p class="muted">针对失分场景产出优先级建议：官网内容、FAQ、JSON-LD、权威信源与分发平台。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-rail"><span class="step-dot">4</span></div>
+            <div>
+              <h3>复盘</h3>
+              <p class="muted">按天保留引擎级历史，趋势变化和异常回落一眼可见，优化动作的效果可验证。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-kicker">原则</div>
+        <h2>为什么品牌需要 AI 可见性</h2>
+        <p class="lead">用户的问题正在从搜索框迁移到 AI 对话框。品牌真正需要的不是「排名第一」，而是「当 AI 被问到的时候，它记得并推荐你」。</p>
+        <div class="grid grid-3" style="margin-top:34px">
+          <div class="card"><h3>被引用，而不是被点击</h3><p class="muted">AI 回答通常只引用 3-8 个来源。能否进入这个引用名单，决定品牌在 AI 时代是否还拥有「流量入口」。</p></div>
+          <div class="card"><h3>第三方信源比自吹自擂更有效</h3><p class="muted">研究显示 AI 引擎更信任第三方提及与社区讨论。知乎、百家号、评测文章是品牌知识网络的一部分。</p></div>
+          <div class="card"><h3>监测必须每天跑</h3><p class="muted">AI 答案每次生成都会变化，单次采样会误导决策。高频复测、多轮采样和历史留存，是专业 GEO 系统的底线。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-kicker">FAQ</div>
+        <h2>常见问题</h2>
+        <div style="margin-top:26px">
+          <details open><summary>什么是 GEO（生成式引擎优化）？</summary><p>GEO 是 Generative Engine Optimization 的缩写，指让品牌内容更容易被 AI 问答引擎提及、引用和推荐的优化方法。与 SEO 追求点击不同，GEO 追求的是 AI 引用。</p></details>
+          <details><summary>豆包和 DeepSeek 的实测收录是怎么测的？</summary><p>系统用品牌名、行业和关键词生成认知/推荐/评价三个场景，每个场景多轮采样调用真实 API，再对回答做结构化判定：是否提及、是否引用官网、情感、位次与负面语境。</p></details>
+          <details><summary>我的 API 密钥安全吗？</summary><p>本地部署采用 BYOK，密钥只存在你机器上的 data/config.json，或通过环境变量注入，不会进入 Git、也不会上传到第三方服务器。</p></details>
+          <details><summary>诊断分数低代表什么？</summary><p>代表 AI 引擎当前没有可靠知识或存在负面认知，需要先补齐官网内容、结构化数据与第三方信源。分数低是诊断价值所在，而不是产品缺陷。</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section style="padding-top:0">
+      <div class="wrap">
+        <div class="card" style="display:flex;flex-wrap:wrap;gap:22px;align-items:center;justify-content:space-between">
+          <div>
+            <h2 style="font-size:1.5rem">先知道 AI 怎么看你的品牌</h2>
+            <p class="muted" style="margin:8px 0 0">30 秒发起一次 7 维诊断，结果真实、可解释、可导出。</p>
+          </div>
+          <a class="btn btn-primary btn-lg" href="/console.html">开始诊断</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- 移动端遮罩 -->
-  <div class="scrim" id="scrim"></div>
-
-  <!-- Toast -->
-  <div class="toast-wrap" id="toastWrap"></div>
-
-  <script src="js/data.js?v=2"></script>
-  <script src="js/demo-report.js?v=2"></script>
-  <script src="js/ui.js?v=2"></script>
-  <script src="js/app.js?v=2"></script>
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <a class="logo" href="/"><span class="logo-mark">优</span><span>优引GEO系统</span></a>
+        <p class="muted" style="margin-top:12px">品牌 AI 可见性诊断与监测平台，本地部署，数据自有。</p>
+      </div>
+      <div>
+        <h4>产品</h4>
+        <a href="/console.html">GEO 诊断</a>
+        <a href="/console.html">可见度监测</a>
+        <a href="/cases.html">案例</a>
+      </div>
+      <div>
+        <h4>资源</h4>
+        <a href="/geo.html">GEO 科普</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/llms.txt">llms.txt</a>
+      </div>
+      <div>
+        <h4>联系</h4>
+        <a href="mailto:243922774@qq.com">243922774@qq.com</a>
+        <a href="/about.html">关于我们</a>
+      </div>
+    </div>
+    <div class="wrap footer-note">
+      <span>© 2026 优引GEO系统 · zkoner.com</span>
+      <span>ICP 备案信息更新中 · 数据本地存储 · BYOK</span>
+    </div>
+  </footer>
 </body>
 </html>
