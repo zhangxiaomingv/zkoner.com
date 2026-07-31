@@ -6,6 +6,6 @@ window.YOUYIN_API_OPTIONS = {
   cloud: 'https://youyin-api.243922774.workers.dev',
 };
 window.YOUYIN_API = (function () {
-  try { return localStorage.getItem('youyin-api') || window.YOUYIN_API_OPTIONS.local; }
-  catch (e) { return window.YOUYIN_API_OPTIONS.local; }
+  try { return localStorage.getItem('youyin-api') || window.YOUYIN_API_OPTIONS.cloud; }
+  catch (e) { return window.YOUYIN_API_OPTIONS.cloud; }
 })();
