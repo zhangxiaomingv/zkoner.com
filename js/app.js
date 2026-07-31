@@ -18,9 +18,6 @@
       { id: 'suggestions',    label: '优化建议',    icon: '✦' },
       { id: 'tasks',          label: '监测任务',    icon: '▶' },
     ]},
-    { group: '客户', items: [
-      { id: 'customers',      label: '客户管理',    icon: '◈' },
-    ]},
     { group: '设置', items: [
       { id: 'brand',          label: '品牌设置',    icon: '♛' },
       { id: 'scenario-cfg',   label: '场景管理',    icon: '❏' },
@@ -93,7 +90,7 @@
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, customers };
+    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -120,7 +117,6 @@
     } catch (e) { clearTimeout(t); throw e; }
   }
   const diagState = { mode: 'input', report: null, engineOk: null };
-  let diagPrefill = null;
 
   /* ═══ 视图：GEO 诊断 ═══ */
   function diagnose(c) {
@@ -135,8 +131,8 @@
         <div class="card-head"><h3>开始诊断</h3><span class="hint">基于 GEO 底层原理 · 豆包 + DeepSeek 收录实测</span></div>
         <div class="card-body">
           <div class="form-grid">
-            <div class="form-group full"><label>网站地址 <span class="req">*</span></label><input id="dg-url" type="url" placeholder="https://你的网站.com" value="${esc(diagPrefill?.url || 'https://zkoner.com')}"></div>
-            <div class="form-group full"><label>品牌名</label><input id="dg-brand" type="text" placeholder="留空则用域名" value="${esc(diagPrefill?.brand || '优引GEO系统')}"></div>
+            <div class="form-group full"><label>网站地址 <span class="req">*</span></label><input id="dg-url" type="url" placeholder="https://你的网站.com" value="https://zkoner.com"></div>
+            <div class="form-group full"><label>品牌名</label><input id="dg-brand" type="text" placeholder="留空则用域名" value="优引GEO系统"></div>
           </div>
           <div style="margin-top:16px"><button class="btn btn-primary" data-action="diag-start">🔬 立即诊断</button></div>
           ${note}
@@ -727,212 +723,6 @@
       </div>`).join('');
   }
 
-  /* ═══ 客户管理 ═══ */
-  const CRM_KEY = 'youyin-crm';
-  const CRM_STATUS = { lead: '线索', contacted: '已联系', trial: '试用中', paid: '已签约', renew: '续费中', lost: '流失' };
-  const CRM_PLAN = { trial: '试用', basic: '基础版', pro: '专业版', custom: '定制' };
-  const CRM_SEED = [
-    { id: 'c1', company: '成都本地餐饮连锁', brand: '某火锅品牌', contact: '王经理', phone: '138****0001', email: 'w@example.com', website: '', industry: '本地生活', status: 'trial', plan: 'trial', amount: 0, startDate: '2026-07-20', endDate: '2026-08-20', nextFollowup: '2026-08-02', source: '官网演示', score: 32, note: '试用中，待出基线诊断报告', createdAt: '2026-07-20' },
-    { id: 'c2', company: '某跨境电商品牌', brand: '出海DTC品牌', contact: '李总', phone: '139****0002', email: 'li@example.com', website: 'https://example.com', industry: '跨境电商', status: 'paid', plan: 'pro', amount: 19900, startDate: '2026-07-01', endDate: '2026-12-31', nextFollowup: '2026-08-15', source: '老客户转介绍', score: 51, note: '已签约专业版，含内容陪跑', createdAt: '2026-06-28' },
-    { id: 'c3', company: '某SaaS工具团队', brand: '办公效率工具', contact: '陈女士', phone: '136****0003', email: 'chen@example.com', website: '', industry: 'SaaS', status: 'lead', plan: 'trial', amount: 0, startDate: '', endDate: '', nextFollowup: '2026-08-05', source: 'GEO 指南页', score: null, note: '看完 GEO 指南后留资，待首轮沟通', createdAt: '2026-07-30' },
-    { id: 'c4', company: '某健康管理机构', brand: '健康咨询品牌', contact: '赵总', phone: '137****0004', email: 'zhao@example.com', website: '', industry: '大健康', status: 'renew', plan: 'basic', amount: 9800, startDate: '2026-01-01', endDate: '2026-12-31', nextFollowup: '2026-08-10', source: '历史客户续费', score: 68, note: '续费中，重点补推荐场景', createdAt: '2025-12-20' },
-    { id: 'c5', company: '某教育培训机构', brand: '职业教育品牌', contact: '孙老师', phone: '135****0005', email: 'sun@example.com', website: '', industry: '教育', status: 'lost', plan: 'basic', amount: 9800, startDate: '2026-03-01', endDate: '2026-06-30', nextFollowup: '', source: '行业活动', score: 40, note: '预算收紧暂停，计划季度末回访', createdAt: '2026-02-10' },
-  ];
-  let crm = loadCrm();
-  let crmState = { view: 'list', id: null, q: '' };
-
-  function loadCrm() {
-    try {
-      const d = JSON.parse(localStorage.getItem(CRM_KEY));
-      return Array.isArray(d) ? d : JSON.parse(JSON.stringify(CRM_SEED));
-    } catch { return JSON.parse(JSON.stringify(CRM_SEED)); }
-  }
-  function saveCrm() { localStorage.setItem(CRM_KEY, JSON.stringify(crm)); }
-  function crmGet(id) { return crm.find(x => x.id === id); }
-  function crmStatusLabel(s) { return CRM_STATUS[s] || s || '未知'; }
-  function crmPlanLabel(p) { return CRM_PLAN[p] || p || '-'; }
-  function crmMoney(v) { return v ? '¥' + Number(v).toLocaleString('zh-CN') : '-'; }
-  function crmAge(c) {
-    const next = c.nextFollowup;
-    if (!next) return '';
-    const days = Math.ceil((new Date(next) - new Date()) / 86400000);
-    if (days < 0) return `<span style="color:var(--red)">已逾期 ${Math.abs(days)} 天</span>`;
-    if (days <= 2) return `<span style="color:var(--amber)">${days} 天后</span>`;
-    return `${days} 天后`;
-  }
-
-  function customers(c) {
-    if (crmState.view === 'detail') return customerDetail(c, crmState.id);
-    if (crmState.view === 'edit') return customerEdit(c, crmState.id);
-    const counts = {};
-    Object.keys(CRM_STATUS).forEach(k => counts[k] = 0);
-    crm.forEach(x => { counts[x.status] = (counts[x.status] || 0) + 1; });
-    const active = crm.filter(x => ['trial', 'paid', 'renew'].includes(x.status));
-    const arr = Number(crm.reduce((s, x) => s + (Number(x.amount) || 0), 0));
-    const rows = crmTableRows(crmState.q);
-
-    c.innerHTML = `
-      ${pageHead('客户管理', `客户阶段、套餐与跟进管理 · ${crm.length} 个客户`, '<button class="btn btn-primary" data-action="crm-add">＋ 新增客户</button>')}
-      <div class="tile-grid">
-        ${tile('活跃客户', active.length, `${Object.keys(CRM_STATUS).length} 种阶段`, '')}
-        ${tile('已签约', counts.paid + counts.renew, '付费客户', 'up', 'grad')}
-        ${tile('试用中', counts.trial, '待转化', counts.trial ? 'up' : '')}
-        ${tile('合同金额', '¥' + Number(arr).toLocaleString('zh-CN'), '存量合同', '')}
-      </div>
-      <div class="grid-2" style="margin-bottom:20px">
-        <div class="card">
-          <div class="card-head"><h3>客户漏斗</h3></div>
-          <div class="card-body">
-            <div style="display:flex;gap:6px;align-items:flex-end;height:120px">
-              ${['lead','contacted','trial','paid','renew','lost'].map((k, i) => `
-                <div style="flex:1;text-align:center">
-                  <div style="height:${Math.max(8, counts[k] / Math.max(1, crm.length) * 100)}px;background:linear-gradient(180deg,var(--accent),var(--indigo));border-radius:8px 8px 0 0"></div>
-                  <div style="font-size:.68rem;color:var(--text-3);margin-top:6px">${CRM_STATUS[k]}<br><b class="mono">${counts[k]}</b></div>
-                </div>`).join('')}
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><h3>搜索与跟进提醒</h3></div>
-          <div class="card-body">
-            <input id="crm-filter" class="input" type="search" placeholder="搜索公司、品牌、联系人、行业…" value="${esc(crmState.q || '')}" style="width:100%">
-            <div class="mention-list" style="margin-top:14px">
-              ${crm.filter(x => x.nextFollowup).slice(0, 3).map(x => `
-                <div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.company)}</span>${badge(crmStatusLabel(x.status), 'violet')}</div><div class="mi-text">下次跟进 ${esc(x.nextFollowup)} · ${crmAge(x)}</div></div>`).join('') || empty('暂无跟进提醒')}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-head"><h3>客户列表</h3><span class="hint">点击行查看详情 · 本地浏览器保存</span></div>
-        <div class="card-body flush"><div class="table-wrap"><table class="tbl">
-          <thead><tr><th>客户 / 品牌</th><th>联系人</th><th>阶段</th><th>套餐</th><th>合同金额</th><th>下次跟进</th><th></th></tr></thead>
-          <tbody id="crm-table-body">${rows || '<tr><td colspan="7"><div class="empty">没有匹配客户</div></td></tr>'}</tbody>
-        </table></div></div>
-      </div>`;
-  }
-
-  function crmTableRows(q) {
-    const query = (q || '').trim().toLowerCase();
-    const list = crm.filter(x => !query
-      || [x.company, x.brand, x.contact, x.industry].join(' ').toLowerCase().includes(query));
-    return list.map(x => `
-      <tr style="cursor:pointer" data-action="crm-open" data-id="${x.id}">
-        <td><span style="font-weight:600">${esc(x.company)}</span><br><span style="color:var(--text-3);font-size:.75rem">${esc(x.brand)}</span></td>
-        <td>${esc(x.contact)}</td>
-        <td>${badge(crmStatusLabel(x.status), x.status === 'paid' ? 'green' : x.status === 'renew' ? 'green' : x.status === 'lost' ? 'red' : x.status === 'trial' ? 'violet' : 'amber')}</td>
-        <td>${esc(crmPlanLabel(x.plan))}</td>
-        <td class="mono">${crmMoney(x.amount)}</td>
-        <td class="mono" style="font-size:.78rem">${esc(x.nextFollowup || '-')}<br>${crmAge(x)}</td>
-        <td style="text-align:right">
-          <button class="btn btn-sm btn-ghost" data-action="crm-edit" data-id="${x.id}">编辑</button>
-          <button class="btn btn-sm btn-ghost" data-action="crm-delete" data-id="${x.id}">删除</button>
-        </td>
-      </tr>`).join('');
-  }
-
-  function customerDetail(c, id) {
-    const x = crmGet(id);
-    if (!x) { crmState = { view: 'list', id: null }; return customers(c); }
-    const fields = [
-      ['公司', x.company], ['品牌', x.brand], ['联系人', x.contact], ['电话', x.phone],
-      ['邮箱', x.email], ['官网', x.website || '-'], ['行业', x.industry],
-      ['来源', x.source], ['最近可见度', x.score != null ? x.score + ' 分' : '未诊断'], ['创建日期', x.createdAt],
-    ];
-    c.innerHTML = `
-      ${pageHead(esc(x.company), `${esc(x.brand)} · ${esc(x.industry)}`, '<button class="btn btn-ghost" data-action="crm-back">← 返回列表</button>')}
-      <div class="grid-2-1">
-        <div class="card">
-          <div class="card-head"><h3>客户档案</h3><span class="hint">${badge(crmStatusLabel(x.status), x.status === 'paid' ? 'green' : x.status === 'lost' ? 'red' : x.status === 'trial' ? 'violet' : 'amber')}</span></div>
-          <div class="card-body">
-            <div class="grid-2">
-              ${fields.map(([k, v]) => `<div><div style="font-size:.72rem;color:var(--text-3)">${esc(k)}</div><div style="margin-top:2px">${esc(v)}</div></div>`).join('')}
-            </div>
-            <div style="margin-top:18px;font-size:.82rem;color:var(--text-2)">备注：${esc(x.note || '无')}</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><h3>合同与下一步</h3></div>
-          <div class="card-body">
-            <div class="mention-item"><div class="mi-head"><span class="mi-src">套餐</span>${badge(crmPlanLabel(x.plan), 'violet')}</div><div class="mi-text">合同金额 <b class="mono">${crmMoney(x.amount)}</b></div></div>
-            <div class="mention-item"><div class="mi-head"><span class="mi-src">周期</span></div><div class="mi-text">${esc(x.startDate || '-')} → ${esc(x.endDate || '-')}</div></div>
-            <div class="mention-item"><div class="mi-head"><span class="mi-src">下次跟进</span></div><div class="mi-text">${esc(x.nextFollowup || '-')} ${crmAge(x)}</div></div>
-            <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
-              <button class="btn btn-primary" data-action="crm-edit" data-id="${x.id}">编辑客户</button>
-              <button class="btn btn-ghost" data-action="crm-diag" data-id="${x.id}">去诊断</button>
-              <button class="btn btn-ghost" data-action="crm-delete" data-id="${x.id}">删除</button>
-            </div>
-          </div>
-        </div>
-      </div>`;
-  }
-
-  function customerEdit(c, id) {
-    const x = id ? crmGet(id) : null;
-    const v = k => x ? (x[k] || '') : '';
-    c.innerHTML = `
-      ${pageHead(x ? '编辑客户' : '新增客户', x ? esc(x.company) : '录入一条客户线索', '<button class="btn btn-ghost" data-action="crm-back">← 返回</button>')}
-      <div class="card">
-        <div class="card-body">
-          <div class="form-grid">
-            <div class="form-group"><label>公司名称 <span class="req">*</span></label><input id="crm-name" type="text" value="${esc(v('company'))}"></div>
-            <div class="form-group"><label>品牌名</label><input id="crm-brand" type="text" value="${esc(v('brand'))}"></div>
-            <div class="form-group"><label>联系人</label><input id="crm-contact" type="text" value="${esc(v('contact'))}"></div>
-            <div class="form-group"><label>电话</label><input id="crm-phone" type="text" value="${esc(v('phone'))}"></div>
-            <div class="form-group"><label>邮箱</label><input id="crm-email" type="email" value="${esc(v('email'))}"></div>
-            <div class="form-group"><label>官网</label><input id="crm-website" type="url" value="${esc(v('website'))}"></div>
-            <div class="form-group"><label>行业</label><input id="crm-industry" type="text" value="${esc(v('industry'))}"></div>
-            <div class="form-group"><label>客户来源</label><input id="crm-source" type="text" value="${esc(v('source'))}"></div>
-            <div class="form-group"><label>阶段</label><select id="crm-status">${Object.entries(CRM_STATUS).map(([k, n]) => `<option value="${k}" ${(x ? x.status : 'lead') === k ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
-            <div class="form-group"><label>套餐</label><select id="crm-plan">${Object.entries(CRM_PLAN).map(([k, n]) => `<option value="${k}" ${(x ? x.plan : 'trial') === k ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
-            <div class="form-group"><label>合同金额（元）</label><input id="crm-amount" type="number" min="0" value="${esc(v('amount') || 0)}"></div>
-            <div class="form-group"><label>最近可见度得分</label><input id="crm-score" type="number" min="0" max="100" value="${esc(v('score') ?? '')}"></div>
-            <div class="form-group"><label>开始日期</label><input id="crm-start" type="date" value="${esc(v('startDate'))}"></div>
-            <div class="form-group"><label>结束日期</label><input id="crm-end" type="date" value="${esc(v('endDate'))}"></div>
-            <div class="form-group"><label>下次跟进</label><input id="crm-next" type="date" value="${esc(v('nextFollowup'))}"></div>
-            <div class="form-group full"><label>备注</label><textarea id="crm-note" rows="3">${esc(v('note'))}</textarea></div>
-          </div>
-          <div style="margin-top:18px;display:flex;gap:10px"><button class="btn btn-primary" data-action="crm-save">保存客户</button><button class="btn btn-ghost" data-action="crm-back">取消</button></div>
-        </div>
-      </div>`;
-  }
-
-  function crmSave() {
-    const g = id => document.getElementById(id);
-    const name = g('crm-name').value.trim();
-    if (!name) return toast('请填写公司名称', 'warn');
-    const data = {
-      company: name,
-      brand: g('crm-brand').value.trim(),
-      contact: g('crm-contact').value.trim(),
-      phone: g('crm-phone').value.trim(),
-      email: g('crm-email').value.trim(),
-      website: g('crm-website').value.trim(),
-      industry: g('crm-industry').value.trim(),
-      source: g('crm-source').value.trim(),
-      status: g('crm-status').value,
-      plan: g('crm-plan').value,
-      amount: +g('crm-amount').value || 0,
-      score: g('crm-score').value === '' ? null : +g('crm-score').value,
-      startDate: g('crm-start').value,
-      endDate: g('crm-end').value,
-      nextFollowup: g('crm-next').value,
-      note: g('crm-note').value.trim(),
-    };
-    if (crmState.id) {
-      const x = crmGet(crmState.id);
-      Object.assign(x, data);
-    } else {
-      data.id = 'c' + Date.now();
-      data.createdAt = new Date().toISOString().slice(0, 10);
-      crm.unshift(data);
-    }
-    saveCrm();
-    crmState = { view: 'list', id: null };
-    render();
-    toast('客户已保存（本地）', 'good');
-  }
-
   /* ═══ 保存设置 ═══ */
   function saveSettings() {
     const g = id => document.getElementById(id);
@@ -1013,52 +803,12 @@
         saveOverlay(); render();
         toast('场景已添加', 'good');
       }
-      const crmBtn = e.target.closest('[data-action^="crm-"]');
-      if (crmBtn) {
-        const id = crmBtn.dataset.id;
-        const action = crmBtn.dataset.action;
-        if (action === 'crm-add') { crmState = { view: 'edit', id: null }; render(); return; }
-        if (action === 'crm-open' && id) { crmState = { view: 'detail', id }; render(); return; }
-        if (action === 'crm-edit' && id) { crmState = { view: 'edit', id }; render(); return; }
-        if (action === 'crm-back') { crmState = { view: 'list', id: null }; render(); return; }
-        if (action === 'crm-save') return crmSave();
-        if (action === 'crm-delete' && id) {
-          const x = crmGet(id);
-          if (x && confirm('确认删除客户：' + x.company + '？')) {
-            crm = crm.filter(v => v.id !== id);
-            saveCrm();
-            crmState = { view: 'list', id: null };
-            render();
-            toast('客户已删除', 'good');
-          }
-          return;
-        }
-        if (action === 'crm-diag' && id) {
-          const x = crmGet(id);
-          if (x) {
-            diagPrefill = { url: x.website || '', brand: x.brand || x.company };
-            diagState.mode = 'input';
-            diagState.report = null;
-            go('diagnose');
-            render();
-          }
-          return;
-        }
-        return;
-      }
       const del = e.target.closest('[data-del]');
       if (del) {
         overlay = overlay || {};
         overlay.scenarios = (effSettings().scenarios || []).filter(s => s.id !== del.dataset.del);
         saveOverlay(); render();
         toast('场景已删除', 'good');
-      }
-    });
-    document.getElementById('content').addEventListener('input', e => {
-      if (e.target && e.target.id === 'crm-filter') {
-        crmState.q = e.target.value;
-        const body = document.getElementById('crm-table-body');
-        if (body) body.innerHTML = crmTableRows(crmState.q) || '<tr><td colspan="7"><div class="empty">没有匹配客户</div></td></tr>';
       }
     });
     document.getElementById('btnRunMonitor').addEventListener('click', runMonitor);
