@@ -105,7 +105,7 @@
   }
 
   /* ═══ 诊断：本地 API 客户端 ═══ */
-  const DIAG_API = 'http://localhost:8788';
+  const DIAG_API = window.YOUYIN_API || 'http://localhost:8788';
   async function diagFetch(path, opts, timeout) {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), timeout || 20000);

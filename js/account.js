@@ -1,7 +1,7 @@
 /* 优引GEO · 客户账号模块（登录/注册/客户数据空间） */
 const Account = (() => {
   'use strict';
-  const API = 'http://localhost:8788';
+  const API = window.YOUYIN_API || 'http://localhost:8788';
   const TOKEN_KEY = 'youyin-token';
   let token = localStorage.getItem(TOKEN_KEY) || '';
   let user = null;
