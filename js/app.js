@@ -658,6 +658,7 @@
     const s = effSettings();
     const m = s.monitor || {};
     const eng = s.engines || [];
+    const apiMode = window.YOUYIN_API === (window.YOUYIN_API_OPTIONS || {}).cloud ? 'cloud' : 'local';
     const engRows = eng.map(e => `
       <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-soft)">
         <span style="flex:1;font-size:.85rem">${esc(e.name)} <span style="color:var(--text-3)">· ${esc(e.vendor || '')}</span></span>
@@ -691,6 +692,19 @@
         </div>
       </div>
       <div class="card">
+        <div class="card-head"><h3>API 服务</h3><span class="hint">客户账号与数据存储位置</span></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>服务模式</label><select id="m-api">
+              <option value="local" ${apiMode === 'local' ? 'selected' : ''}>本地服务（localhost:8788）</option>
+              <option value="cloud" ${apiMode === 'cloud' ? 'selected' : ''}>云端 Worker（Cloudflare D1）</option>
+            </select></div>
+            <div class="form-group"><label>服务状态</label><span id="api-status" class="mono" style="font-size:.86rem">检查中…</span></div>
+          </div>
+          <div style="font-size:.74rem;color:var(--text-3);margin-top:8px">切换后会重新加载页面；本地与云端账号数据互相独立。</div>
+        </div>
+      </div>
+      <div class="card">
         <div class="card-head"><h3>引擎接入</h3><span class="hint">勾选启用的监测引擎</span></div>
         <div class="card-body">${engRows}</div>
       </div>
@@ -708,6 +722,21 @@
         </div>
       </div>
       <div style="display:flex;gap:10px;margin-bottom:20px"><button class="btn btn-primary" data-action="save-monitor">保存监测设置</button></div>`;
+    checkApiStatus();
+  }
+
+  async function checkApiStatus() {
+    const el = document.getElementById('api-status');
+    if (!el) return;
+    try {
+      const r = await fetch(window.YOUYIN_API + '/health', { signal: AbortSignal.timeout(5000) });
+      const ok = r.ok;
+      el.textContent = ok ? '✓ 服务正常' : 'HTTP ' + r.status;
+      el.style.color = ok ? 'var(--green)' : 'var(--red)';
+    } catch {
+      el.textContent = '不可用';
+      el.style.color = 'var(--red)';
+    }
   }
 
   /* ═══ 引用列表组件 ═══ */
@@ -747,6 +776,16 @@
 
   function saveMonitor() {
     const g = id => document.getElementById(id);
+    const apiSel = g('m-api');
+    if (apiSel) {
+      const opt = (window.YOUYIN_API_OPTIONS || {})[apiSel.value];
+      if (opt) {
+        localStorage.setItem('youyin-api', opt);
+        toast('API 服务已切换，正在重新加载…', 'good');
+        setTimeout(() => location.reload(), 600);
+        return;
+      }
+    }
     overlay = overlay || {};
     const nm = overlay.monitor = {};
     nm.frequency = g('m-freq').value;

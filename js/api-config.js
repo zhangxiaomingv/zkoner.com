@@ -1,8 +1,11 @@
 /* 优引GEO · API 地址配置
- * 默认连本机 diag-server；部署 Cloudflare Worker 后，在浏览器控制台执行：
- * localStorage.setItem('youyin-api', 'https://youyin-api.xxx.workers.dev')
+ * 默认连本机 diag-server；可在「监测设置 → API 服务」切换云端 Worker。
  */
+window.YOUYIN_API_OPTIONS = {
+  local: 'http://localhost:8788',
+  cloud: 'https://youyin-api.243922774.workers.dev',
+};
 window.YOUYIN_API = (function () {
-  try { return localStorage.getItem('youyin-api') || 'http://localhost:8788'; }
-  catch (e) { return 'http://localhost:8788'; }
+  try { return localStorage.getItem('youyin-api') || window.YOUYIN_API_OPTIONS.local; }
+  catch (e) { return window.YOUYIN_API_OPTIONS.local; }
 })();
