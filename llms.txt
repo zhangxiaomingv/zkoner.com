@@ -1,39 +1,39 @@
-# zkoner — AI Builder
-> AI 时代企业数字基础设施构建者
-> 品牌: zkoner | 创始人: 张明夷 | 位置: 成都
-> 邮箱: 243922774@qq.com | GitHub: zhangxiaomingv
+# 优引GEO系统 — Youyin GEO System
+> 全链路GEO优化平台 · 让AI主动推荐你
+> 从「等客户上门」变成「客户主动AI搜索找到你」：让AI看见你、引用你、记住你
+> 官网: https://zkoner.com | 联系: 243922774@qq.com
 
-## 核心服务
+## 产品
 
-- GEO 搜索引擎优化: 让品牌在 AI 搜索（ChatGPT、Claude、DeepSeek）中被引用
-- AI Ready 网站搭建: 从架构到 Schema 的完整 AI 友好网站方案
-- n8n 自动化工作流定制: 企业级工作流自动化，节省 80% 人工
-- 企业 AI 知识库建设: 基于 LLM 的知识管理与问答系统
-- AI 内容生产管线搭建: 一次产出，多平台自动分发
+优引GEO系统是一站式 GEO（Generative Engine Optimization）平台，通过四步闭环持续提升品牌在 AI 问答场景中的被推荐概率：
+
+1. **AI监控** — 覆盖 7+ 主流 AI 引擎（DeepSeek/豆包/Kimi/腾讯元宝/文心一言/通义千问/智谱清言），监测品牌提及率、排名位置、前三占比、竞品对比、来源溯源与趋势追踪
+2. **智能内容生产** — 上传资料自动构建企业专属知识库，批量产出专业、可信、原创的 AI 偏爱内容（多风格标题+智能配图）
+3. **全媒体分发** — 50+ 平台统一调度（百家号/知乎/头条/公众号/大鱼号/企鹅号/CSDN/网易号/搜狐号），统一账号管理、独立发布策略、定时发布、平台规则适配
+4. **数据驱动优化** — 数据采集→诊断分析→策略生成→内容迭代，内容策略建议、效果可视化评估、爆款特征分析、自动质量评估
+
+## 核心价值
+
+- 更准的流量：精准锁定 AI 推荐的答案位，触达高意向客户
+- 更低的成本：自动生成 AI 偏爱推荐的内容，告别人工撰稿
+- 更高的转化：AI 推荐自带信任感，购买意愿更强，建立行业权威
 
 ## 目标受众
 
-中小企业主 | 创业者 | 一人公司
+企业营销团队 | SEO/GEO服务商 | 内容运营团队 | 品牌方
 
 ## 核心页面
 
 - 首页: https://zkoner.com
-- 关于: https://zkoner.com/about/
-- 联系: https://zkoner.com/contact/
-
-## 知识中心
-
-- GEO 概念中心: https://zkoner.com/geo/
-- AI Ready 网站: https://zkoner.com/ai-ready/
-- 知识库: https://zkoner.com/knowledge-base/
+- GEO概念: https://zkoner.com/geo/
 - FAQ: https://zkoner.com/faq/
-
-## 案例与资源
-
 - 案例: https://zkoner.com/case-studies/
-- 资源: https://zkoner.com/resources/
-- 博客: https://zkoner.com/blog/
+- 知识库: https://zkoner.com/knowledge-base/
+- 关于: https://zkoner.com/about/
+- 联系/免费试用: https://zkoner.com/contact/
 
-## GitHub
+## 资源
 
-- zkoner-workflows (n8n 工作流集合): https://github.com/zhangxiaomingv/zkoner-workflows
+- AI Ready 网站: https://zkoner.com/ai-ready/
+- 模板与清单: https://zkoner.com/resources/
+- 行业观察: https://zkoner.com/blog/

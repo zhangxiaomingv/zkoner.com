@@ -1,9 +1,9 @@
 {
   "schema_version": "v1",
-  "name_for_model": "zkoner",
-  "name_for_human": "zkoner",
-  "description_for_model": "zkoner helps businesses build AI-ready digital infrastructure. Services include GEO (Generative Engine Optimization), AI-ready website setup, n8n workflow automation, enterprise AI knowledge base construction, and AI content pipeline building. Target audience: SME owners, entrepreneurs, solo founders. Located in Chengdu, China.",
-  "description_for_human": "AI 时代企业数字基础设施构建者",
+  "name_for_model": "youyin_geo_system",
+  "name_for_human": "优引GEO系统",
+  "description_for_model": "Youyin GEO System is an all-in-one GEO (Generative Engine Optimization) platform that improves brand visibility and recommendation rates in AI search engines such as DeepSeek, Doubao, Kimi, Tencent Yuanbao, ERNIE Bot, Tongyi Qianwen, and Zhipu. It provides a four-step closed loop: AI visibility monitoring, intelligent content production from enterprise knowledge bases, multi-platform distribution across 50+ content platforms, and data-driven optimization. Core value: more accurate traffic, lower content cost, higher conversion from AI recommendations. Target users: enterprise marketing teams, SEO/GEO agencies, content operations teams, and brand owners.",
+  "description_for_human": "全链路GEO优化平台 · 让AI主动推荐你",
   "api": {
     "type": "openapi",
     "url": "https://zkoner.com/.well-known/openapi.json"

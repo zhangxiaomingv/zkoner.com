@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Knowledge Base · zkoner — AI 时代知识体系</title>
-  <meta name="description" content="AI 时代的知识体系构建方法、工具与实践经验。涵盖 AI 搜索、结构化数据、自动化工作流、内容策略等主题。">
+  <title>企业知识库 · 优引GEO系统 — 让AI主动推荐你</title>
+  <meta name="description" content="企业知识库是 GEO 智能内容生产的基石。了解为什么 AI 需要知识库、怎么构建（上传资料→自动提取→结构化）、内容事实密度与可信信源、持续更新的重要性。优引GEO系统 · 让AI主动推荐你。">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Knowledge Base · zkoner">
-  <meta property="og:description" content="AI 时代的知识体系构建方法、工具与实践经验。">
+  <meta property="og:title" content="企业知识库 · 优引GEO系统">
+  <meta property="og:description" content="企业知识库是 GEO 智能内容生产的基石。从为什么需要、怎么构建，到内容事实密度与持续更新，逐步建立完整的知识库体系。">
   <meta property="og:url" content="https://zkoner.com/knowledge-base/">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="zkoner">
+  <meta property="og:site_name" content="优引GEO系统">
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -24,17 +24,18 @@
         "@id": "https://zkoner.com/knowledge-base/#breadcrumb",
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://zkoner.com" },
-          { "@type": "ListItem", "position": 2, "name": "Knowledge Base", "item": "https://zkoner.com/knowledge-base/" }
+          { "@type": "ListItem", "position": 2, "name": "企业知识库", "item": "https://zkoner.com/knowledge-base/" }
         ]
       },
       {
         "@type": "CollectionPage",
         "@id": "https://zkoner.com/knowledge-base/#page",
         "url": "https://zkoner.com/knowledge-base/",
-        "name": "Knowledge Base — AI 时代知识体系",
-        "description": "AI 时代的知识体系构建方法、工具与实践经验。",
+        "name": "企业知识库 — 优引GEO系统",
+        "description": "企业知识库是 GEO 智能内容生产的基石。了解为什么 AI 需要知识库、怎么构建（上传资料→自动提取→结构化）、内容事实密度与可信信源、持续更新的重要性。",
         "inLanguage": "zh-CN",
-        "isPartOf": { "@id": "https://zkoner.com/#website" }
+        "isPartOf": { "@id": "https://zkoner.com/#website" },
+        "about": { "@id": "https://zkoner.com/#product" }
       }
     ]
   }
@@ -48,43 +49,26 @@
   <!-- ═══ Navigation ═══ -->
   <div class="container">
     <nav>
-      <div class="logo"><a href="/">zk<span>oner</span></a></div>
+      <div class="logo"><a href="/">优引<span>GEO</span></a></div>
       <button class="nav-toggle" aria-label="菜单">☰</button>
       <ul class="nav-links">
         <li class="nav-dropdown">
-          <a href="/geo/">GEO</a>
+          <a href="#loop">产品</a>
           <div class="nav-dropdown-menu">
-            <a href="/geo/#definition">GEO 定义</a>
-            <a href="/geo/#vs-seo">GEO vs SEO</a>
-            <a href="/geo/#why">为什么需要</a>
-            <a href="/geo/#how">工作原理</a>
-            <a href="/geo/#best-practices">最佳实践</a>
-            <a href="/geo/#myths">常见误区</a>
-            <a href="/geo/#tools">工具</a>
-            <a href="/geo/#trends">未来趋势</a>
+            <a href="/#why-now">为什么需要GEO</a>
+            <a href="/#loop">四步闭环</a>
+            <a href="/#value">核心价值</a>
+            <a href="/#coverage">覆盖引擎</a>
+            <a href="/#why-us">差异化优势</a>
           </div>
         </li>
-        <li class="nav-dropdown">
-          <a href="/ai-ready/">AI Ready</a>
-          <div class="nav-dropdown-menu">
-            <a href="/ai-ready/#content">内容结构</a>
-            <a href="/ai-ready/#schema">Schema</a>
-            <a href="/ai-ready/#faq">FAQ</a>
-            <a href="/ai-ready/#knowledge">知识库</a>
-            <a href="/ai-ready/#api">API</a>
-            <a href="/ai-ready/#monitoring">效果监测</a>
-          </div>
-        </li>
-        <li><a href="/knowledge-base/">知识库</a></li>
+        <li><a href="/geo/">GEO概念</a></li>
         <li><a href="/faq/">FAQ</a></li>
         <li><a href="/case-studies/">案例</a></li>
-        <li><a href="/resources/">资源</a></li>
-        <li><a href="/blog/">博客</a></li>
         <li><a href="/about/">关于</a></li>
-              <li class="nav-cta"><a href="/contact/">咨询</a></li>
-
+        <li class="nav-cta"><a href="/contact/">免费试用</a></li>
       </ul>
-</nav>
+    </nav>
   </div>
 
   <!-- ═══ Page Hero ═══ -->
@@ -92,73 +76,120 @@
     <div class="container">
       <div class="breadcrumb">
         <a href="/">首页</a>
-        <span> / Knowledge Base</span>
+        <span> / 企业知识库</span>
       </div>
-      <h1>Knowledge Base</h1>
-      <p>AI 时代的知识体系构建方法、工具与实践经验。从基础概念到系统落地，逐步建立完整的 AI 认知框架。</p>
+      <h1>企业知识库</h1>
+      <p class="subtitle">Enterprise Knowledge Base</p>
+      <p>企业知识库是 GEO 智能内容生产的地基。让 AI 准确理解你的品牌、产品与专业能力，持续产出 AI 偏爱引用、专业可信的内容。从为什么需要、怎么构建，到内容事实密度与持续更新，逐步建立完整的知识库体系。</p>
     </div>
   </section>
 
-  <!-- ═══ Knowledge Topics Grid ═══ -->
+  <!-- ═══ Why: 为什么 AI 需要企业知识库 ═══ -->
+  <section id="why">
+    <div class="container">
+      <div class="section-head fade-in">
+        <span class="section-tag">/ Why</span>
+        <h2 class="section-title">为什么 AI 需要企业知识库</h2>
+      </div>
+      <p class="section-desc fade-in">AI 不会靠「猜」理解你的品牌，它只引用它看得懂、信得过、找得到的内容。</p>
+      <div class="loop-row fade-in">
+        <div class="loop-card">
+          <div class="loop-num">01</div>
+          <h3>AI 无法靠猜理解你</h3>
+          <p>AI 生成答案时从全网检索信息。没有系统化的知识库，AI 只能引用网络上零散甚至矛盾的信息，你的品牌就成了「随机出现」的配角。</p>
+        </div>
+        <div class="loop-card">
+          <div class="loop-num">02</div>
+          <h3>散乱信息的代价</h3>
+          <p>企业介绍、产品参数、服务标准前后不一致，会让 AI 因「认知冲突」而放弃引用。信息不完整，在 AI 眼中就等于不可信。</p>
+        </div>
+        <div class="loop-card">
+          <div class="loop-num">03</div>
+          <h3>知识库是给 AI 的教材</h3>
+          <p>标准化的企业知识库就是给 AI 的权威教材。谁的内容更系统、更可信、更及时，谁就稳定出现在 AI 的答案里。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Build: 知识库怎么建 ═══ -->
+  <section id="build">
+    <div class="container">
+      <div class="section-head fade-in">
+        <span class="section-tag">/ Build</span>
+        <h2 class="section-title">三步构建企业知识库</h2>
+      </div>
+      <p class="section-desc fade-in">对应优引「智能内容生产」的输入环节：把散乱资料，变成 AI 偏爱引用的知识体系。</p>
+      <div class="loop-row fade-in">
+        <div class="loop-card">
+          <div class="loop-num">01 / 上传资料</div>
+          <h3>上传资料</h3>
+          <p>企业基础信息、产品介绍、行业资质、服务流程、客户案例、数据报告等原始资料一键上传，格式不限。</p>
+        </div>
+        <div class="loop-card">
+          <div class="loop-num">02 / 自动提取</div>
+          <h3>自动提取</h3>
+          <p>系统自动提取实体、产品、服务、数据与关系，清洗去重，识别核心事实与差异化卖点。</p>
+        </div>
+        <div class="loop-card">
+          <div class="loop-num">03 / 结构化</div>
+          <h3>结构化沉淀</h3>
+          <p>输出结构清晰、事实密度高、AI 偏爱的知识库条目，供 AI 内容生成与后续优化直接调用。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Topics: 知识库建设的核心要点 ═══ -->
   <section id="topics">
     <div class="container">
-      <div class="section-label fade-in">/ Topics</div>
-      <h2 class="section-title fade-in">知识主题</h2>
-      <p class="section-desc fade-in">覆盖 AI 可见度建设所需的核心知识领域。</p>
+      <div class="section-head fade-in">
+        <span class="section-tag">/ Key Points</span>
+        <h2 class="section-title">知识库建设的核心要点</h2>
+      </div>
+      <p class="section-desc fade-in">围绕「内容事实密度」与「可信信源」，持续打磨让 AI 愿意引用的知识体系。</p>
       <div class="card-grid-3 fade-in">
 
         <div class="card">
-          <a href="/knowledge-base/ai-search-basics/">
-            <span class="badge badge-geo">Foundation</span>
-            <h3>AI 搜索基础</h3>
-            <p>深入理解大语言模型（LLM）的搜索与信息检索原理。了解 AI 如何抓取、解析、理解网页内容，以及影响 AI 搜索结果排名的关键因素。从语义理解到向量检索，构建对 AI 搜索工作方式的系统性认知。</p>
-            <div class="card-meta">7 篇文章 · 入门级</div>
-          </a>
+          <span class="badge badge-geo">Facts</span>
+          <h3>内容事实密度</h3>
+          <p>AI 偏爱有据可查、带数据支撑的内容。知识库需沉淀具体事实、数据与案例，而非空洞口号。事实密度越高，AI 越愿意引用。</p>
+          <div class="card-meta">让 AI 有「据」可引</div>
         </div>
 
         <div class="card">
-          <a href="/knowledge-base/structured-data/">
-            <span class="badge badge-ready">Schema</span>
-            <h3>结构化数据</h3>
-            <p>系统学习 Schema.org 各类实体类型及其应用场景。涵盖 Organization、LocalBusiness、Product、Article、FAQPage、Service 等核心类型的建模方法、属性选择和嵌套规则，以及结构化数据验证与效果追踪。</p>
-            <div class="card-meta">12 篇文章 · 进阶级</div>
-          </a>
+          <span class="badge badge-ready">Source</span>
+          <h3>可信信源</h3>
+          <p>权威背书来自可溯源的信息来源。通过标准化知识库在全网建立「可信信源」标签，让 AI 在权衡信源时优先选择你。</p>
+          <div class="card-meta">建立 AI 信任</div>
         </div>
 
         <div class="card">
-          <a href="/knowledge-base/automation-workflows/">
-            <span class="badge badge-growth">Automation</span>
-            <h3>自动化工作流</h3>
-            <p>基于 n8n 的自动化工作流设计模式与最佳实践。包括内容自动生成管线、数据采集与清洗、多平台分发、定时任务编排、Webhook 集成、AI Agent 编排等场景的完整实现方案。</p>
-            <div class="card-meta">9 篇文章 · 进阶级</div>
-          </a>
+          <span class="badge badge-growth">Update</span>
+          <h3>持续更新</h3>
+          <p>AI 偏爱新鲜、口径一致的信息。知识库需持续更新产品与服务动态，避免信息陈旧导致 AI 认知偏差，保持引用新鲜度。</p>
+          <div class="card-meta">让 AI 引用常新</div>
         </div>
 
         <div class="card">
-          <a href="/knowledge-base/content-strategy/">
-            <span class="badge badge-geo">Strategy</span>
-            <h3>内容策略</h3>
-            <p>为 AI 搜索优化的内容创作方法论。涵盖 AI 友好内容的结构化写作规范、实体密度控制、可信源建设、E-E-A-T 提升策略、多模态内容优化，以及如何通过内容管线持续扩大 AI 可见度。</p>
-            <div class="card-meta">8 篇文章 · 进阶级</div>
-          </a>
+          <span class="badge badge-geo">Structure</span>
+          <h3>AI 偏爱结构</h3>
+          <p>清晰的标题层级、实体关系与 FAQ 结构，让 AI 一次读懂。结构化输出更易被 AI 抓取、解析与引用。</p>
+          <div class="card-meta">结构化 = 可理解</div>
         </div>
 
         <div class="card">
-          <a href="/knowledge-base/visibility-monitoring/">
-            <span class="badge badge-ready">Monitoring</span>
-            <h3>可见度监测</h3>
-            <p>建立 AI 搜索可见度的可量化监测体系。学习如何通过 AI 对话测试分析品牌提及率、信息准确度和推荐倾向，搭建自动化监测看板，追踪可见度变化趋势，用数据驱动优化决策。</p>
-            <div class="card-meta">6 篇文章 · 高级</div>
-          </a>
+          <span class="badge badge-ready">Trace</span>
+          <h3>来源溯源</h3>
+          <p>优引监控覆盖来源溯源，追踪品牌信息在 AI 回答中的引用出处，反推知识库哪些内容有效、哪些需要补强。</p>
+          <div class="card-meta">数据反哺知识库</div>
         </div>
 
         <div class="card">
-          <a href="/knowledge-base/growth-systems/">
-            <span class="badge badge-growth">Growth</span>
-            <h3>增长系统</h3>
-            <p>构建 AI 驱动的可持续增长系统。从获客数据管道搭建、用户行为分析与智能营销触发，到基于 AI 可见度的流量增长飞轮设计。将技术能力转化为可量化的业务增长成果。</p>
-            <div class="card-meta">5 篇文章 · 高级</div>
-          </a>
+          <span class="badge badge-growth">Loop</span>
+          <h3>智能生产闭环</h3>
+          <p>知识库是智能内容生产的输入，AI 内容生成、标题配图、分发与数据优化都基于知识库持续迭代，越用越准。</p>
+          <div class="card-meta">知识库 × 四步闭环</div>
         </div>
 
       </div>
@@ -168,10 +199,10 @@
   <!-- ═══ CTA ═══ -->
   <section class="cta-section" id="cta">
     <div class="container">
-      <h2 class="fade-in">开始构建你的知识体系</h2>
-      <p class="fade-in">无论你处于哪个阶段，系统化的知识积累是 AI 可见度建设的基石。</p>
+      <h2 class="fade-in">把散乱资料，变成 AI 主动引用你的答案</h2>
+      <p class="fade-in">上传资料，构建企业知识库，让 AI 内容生产有据可依、越做越准。</p>
       <a href="/contact/" class="cta-btn fade-in">
-        <span>咨询 zkoner</span>
+        <span>免费试用 · 立即体验</span>
         <span>→</span>
       </a>
     </div>
@@ -182,31 +213,39 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
-          <h4>zkoner</h4>
-          <p>AI 时代企业数字基础设施构建者。<br>以系统思维驱动 AI 可见性与自动化。</p>
+          <h4>优引GEO系统</h4>
+          <p>全链路GEO优化平台 · 让AI主动推荐你。<br>让价值被 AI 看见、引用、记住。</p>
         </div>
         <div class="footer-col">
-          <h4>板块</h4>
+          <h4>产品</h4>
           <ul>
-            <li><a href="/geo/">What is GEO</a></li>
-            <li><a href="/ai-ready/">AI Ready Website</a></li>
-            <li><a href="/knowledge-base/">Knowledge Base</a></li>
-            <li><a href="/case-studies/">Case Studies</a></li>
-            <li><a href="/resources/">Resources</a></li>
+            <li><a href="/#loop">四步闭环</a></li>
+            <li><a href="/#value">核心价值</a></li>
+            <li><a href="/#coverage">覆盖引擎</a></li>
+            <li><a href="/geo/">GEO概念</a></li>
+            <li><a href="/case-studies/">案例</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>资源</h4>
+          <ul>
+            <li><a href="/faq/">FAQ</a></li>
+            <li><a href="/knowledge-base/">知识库</a></li>
+            <li><a href="/resources/">模板与清单</a></li>
+            <li><a href="/blog/">行业观察</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>联系</h4>
           <ul>
             <li><a href="mailto:243922774@qq.com">243922774@qq.com</a></li>
+            <li><a href="/contact/">产品咨询</a></li>
             <li><a href="/about/">关于</a></li>
-            <li><a href="/contact/">联系</a></li>
-            <li><a href="https://github.com/zhangxiaomingv/zkoner-workflows" target="_blank" rel="noopener">GitHub</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 — zkoner</p>
+        <p>© 2026 — 优引GEO系统 · <a href="https://zkoner.com">zkoner.com</a></p>
         <p style="display:flex;align-items:center;gap:4px;">
           <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse-dot 2s ease-in-out infinite;"></span>
           BUILDING
@@ -216,5 +255,6 @@
   </footer>
 
   <script src="/js/main.js"></script>
+  <script src="/js/faq-data.js"></script>
 </body>
 </html>
