@@ -33,5 +33,22 @@ const DataStore = {
   meta() {
     const m = this.data.meta || {};
     return `${m.updated_at || '--'} · 数据源: ${this.source}`;
+  },
+
+  /* 数据可信度提示：示例数据 / 过期数据 */
+  notice() {
+    const m = this.data.meta || {};
+    if (this.source.includes('示例')) {
+      return { type: 'demo', text: '当前展示内嵌示例数据。本地运行 bash scripts/run-monitor.sh 后将展示豆包 + DeepSeek 真实检测结果。' };
+    }
+    const t = /^\d{4}-\d{2}-\d{2}[ T]\d{1,2}:\d{2}/.exec(String(m.updated_at || ''));
+    if (!t) return null;
+    const dt = new Date(String(t[0]).replace(' ', 'T'));
+    if (Number.isNaN(dt.getTime())) return null;
+    const hours = (Date.now() - dt.getTime()) / 3600000;
+    if (hours > 30) {
+      return { type: 'stale', text: `数据已 ${Math.floor(hours)} 小时未更新，请检查监测任务或运行 bash scripts/run-monitor.sh。` };
+    }
+    return null;
   }
 };

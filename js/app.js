@@ -31,6 +31,13 @@
   const D = () => DataStore.get();
   const { esc, toast, badge, statusBadge, pbar, lineChart, hbarChart, donutChart, radarChart, empty, loading, SERIES } = UI;
 
+  function dataNoticeHtml() {
+    const n = DataStore.notice();
+    if (!n) return '';
+    const color = n.type === 'demo' ? 'var(--amber)' : 'var(--red)';
+    return `<div style="margin:14px 0;font-size:.78rem;color:${color};border:1px solid ${color}33;background:${color}0d;padding:10px 14px;border-radius:8px">⚠ ${esc(n.text)}</div>`;
+  }
+
   /* ═══ 持久化设置覆盖 ═══ */
   const LS_KEY = 'youyin-console-settings';
   let overlay = null;
@@ -171,7 +178,7 @@
         }).join(' ');
         return `<div class="mention-item">
           <div class="mi-head"><span class="mi-src">${esc(engNames[eng] || eng)}</span>${badge(r.collected + '/' + r.total + ' 场景收录', r.total && r.collected / r.total >= 0.5 ? 'green' : 'amber')}</div>
-          <div class="mi-text">${Object.entries(r.questions || {}).map(([k, q]) => `<div style="margin:4px 0;display:flex;gap:8px;align-items:center"><span class="badge violet">${scNames[k] || k}</span><span style="color:var(--text-2);flex:1;font-size:.78rem">${esc(q.question)}</span>${q.apiError ? badge('未配置','amber') : q.mentioned ? badge('已收录','green') : badge('未收录','red')}</div>`).join('')}</div>
+          <div class="mi-text">${Object.entries(r.questions || {}).map(([k, q]) => `<div style="margin:4px 0;display:flex;gap:8px;align-items:center"><span class="badge violet">${scNames[k] || k}</span><span style="color:var(--text-2);flex:1;font-size:.78rem">${esc(q.question)}</span>${q.apiError ? badge('未配置','amber') : q.negated ? badge('负面提及','red') : q.mentioned ? badge('已收录','green') : badge('未收录','red')}${!q.apiError && q.sentiment ? badge(q.sentiment === 'negative' ? '负面' : q.sentiment === 'positive' ? '正面' : '中性', q.sentiment === 'positive' ? 'green' : q.sentiment === 'negative' ? 'red' : '') : ''}${q.position ? badge('#' + q.position, '') : ''}${q.cited ? badge('引用官网','green') : ''}</div>`).join('')}</div>
         </div>`;
       }).join('');
     }
@@ -246,7 +253,7 @@
     if (!url) return toast('请填写网站地址', 'warn');
     diagState.mode = 'loading';
     render();
-    toast('正在诊断：爬取审计 + 豆包/DeepSeek 收录实测 + Claude 评分…');
+    toast('正在诊断：爬取审计 + 豆包/DeepSeek 收录实测 + AI 评估…');
 
     // 检查本地服务
     let serverUp = false;
@@ -285,6 +292,7 @@
 
     c.innerHTML = `
       ${pageHead('总览', '品牌在主流 AI 引擎中的可见度一览 · ' + DataStore.meta())}
+      ${dataNoticeHtml()}
       <div class="tile-grid">
         ${tile('综合可见度', v.overall_score, `${trendUp ? '↑' : '↓'} ${v.score_delta}`, trendUp ? 'up' : 'down', 'grad')}
         ${tile('命中场景', `${v.mentioned_scenarios}/${v.total_scenarios}`, '跨引擎累计命中', '')}
@@ -368,6 +376,7 @@
 
     c.innerHTML = `
       ${pageHead('品牌可见度', `品牌在 ${v.latest.engines.length} 个引擎中的命中与排名 · 数据源 ${DataStore.source}`)}
+      ${dataNoticeHtml()}
       <div class="tile-grid">
         ${tile('综合得分', v.overall_score, `${v.score_delta > 0 ? '↑' : '↓'} ${v.score_delta}`, v.score_delta > 0 ? 'up' : 'down', 'grad')}
         ${tile('有命中引擎', `${hit}/${v.latest.engines.length}`, '被提及次数 > 0', '')}
