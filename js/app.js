@@ -10,7 +10,7 @@
     { group: 'AI监测', items: [
       { id: 'overview',       label: '总览',        icon: '◈' },
       { id: 'visibility',     label: '品牌可见度',  icon: '◎' },
-      { id: 'competitors',    label: '竞争格局',    icon: '⚔' },
+      { id: 'competitor-analysis', label: '竞争分析', icon: '⚔' },
       { id: 'citations',      label: '引用追踪',    icon: '✎' },
       { id: 'articles',       label: '文章收录',    icon: '▤' },
       { id: 'scenarios',      label: '场景洞察',    icon: '❖' },
@@ -108,7 +108,7 @@
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel };
+    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -453,6 +453,86 @@
             <tbody>${rows}</tbody>
           </table></div></div>
         </div>
+      </div>${emptyHint}`;
+  }
+
+  /* ═══ 视图：竞争分析 ═══ */
+  function competitorAnalysis(c) {
+    const vis = D().visibility || {};
+    const list = D().competitors?.list || [];
+    const brandName = D().settings?.brand?.name || '我方';
+    const engines = effSettings().engines || [];
+    const brandRow = list.find(x => x.self) || { name: brandName, avg_rank: null, mentions: 0, share: 0, self: true, trend: 'flat' };
+    const comps = list.filter(x => !x.self);
+    const rows = [brandRow, ...comps];
+    const rankOf = r => r.avg_rank != null ? r.avg_rank : 99;
+    const sorted = [...rows].sort((a, b) => rankOf(a) - rankOf(b) || (b.mentions || 0) - (a.mentions || 0));
+    const brandRank = sorted.findIndex(r => r.self) + 1;
+    const totalMentions = rows.reduce((s, r) => s + (r.mentions || 0), 0) || 1;
+    const mentionRate = Math.round((brandRow.mentions || 0) / totalMentions * 100);
+    const leadCount = comps.filter(x => {
+      if (brandRow.avg_rank != null && x.avg_rank != null) return brandRow.avg_rank < x.avg_rank;
+      return (brandRow.mentions || 0) > (x.mentions || 0);
+    }).length;
+    const threat = comps.slice().sort((a, b) => (b.mentions || 0) - (a.mentions || 0))[0] || null;
+
+    const history = (vis.history || []).map(h => ({ label: String(h.date || '').slice(5), value: h.score }));
+    const daysTotal = (vis.history || []).length || 1;
+    const visibleDays = (vis.history || []).filter(h => h.score > 0).length;
+    const latestEng = vis.latest?.engines || [];
+    const engTotal = latestEng.length || 1;
+    const firstCount = latestEng.filter(e => e.top_rank === 1).length;
+    const covered = latestEng.filter(e => e.mentioned > 0).length;
+    const brandCols = [brandRow, ...comps];
+
+    const rankingRows = sorted.map((r, i) => `<tr${r.self ? ' style="background:rgba(236,72,153,0.05)"' : ''}>
+      <td class="mono">${i + 1}</td>
+      <td>${r.self ? badge('我方', 'pink') : ''} <span style="font-weight:600">${esc(r.name)}</span></td>
+      <td class="mono">${r.self ? Math.round(visibleDays / daysTotal * 100) + '%' : '—'}</td>
+      <td class="mono">${r.avg_rank != null ? '#' + r.avg_rank : '—'}</td>
+      <td class="mono">${r.self ? Math.round(firstCount / engTotal * 100) + '%' : '—'}</td>
+      <td class="mono">${r.self ? covered + '/' + engTotal : '—'}</td>
+    </tr>`).join('');
+
+    const engineHead = `<th>品牌</th>` + brandCols.map(r => `<th>${esc(r.self ? '我方' : r.name)}</th>`).join('');
+    const engineRows = latestEng.map(e => {
+      const eng = engines.find(x => x.id === e.engine) || {};
+      const cells = brandCols.map(r => r.self
+        ? (e.top_rank != null ? `<span class="mono">#${e.top_rank}</span>` : `<span style="color:var(--text-3)">—</span>`)
+        : `<span style="color:var(--text-3)">—</span>`).join('');
+      return `<tr><td><span style="font-weight:600">${esc(eng.name || e.engine)}</span></td>${cells}</tr>`;
+    }).join('');
+
+    const trendHtml = history.length >= 2 ? lineChart(history, { stroke: '#EC4899', fill: 'rgba(236,72,153,0.15)' }) : empty('暂无趋势数据');
+    const emptyHint = !comps.length
+      ? `<div class="card" style="margin-top:16px"><div class="card-body" style="font-size:.82rem;color:var(--text-2)">当前暂无竞品对比数据。在 <span class="mono">data/config.json</span> 的 <span class="mono">competitors</span> 中配置竞品后运行监测，即可生成品牌 vs 竞品排名对比。</div></div>`
+      : '';
+
+    c.innerHTML = `
+      ${pageHead('竞争分析', '品牌与竞品在 AI 搜索中的可见度排名趋势对比')}
+      <div class="tile-grid">
+        ${tile('品牌排名', '#' + brandRank, '基于当前平均可见度', '')}
+        ${tile('品牌提及率', mentionRate + '%', '全部品牌提及占比', '')}
+        ${tile('领先竞品数', leadCount + ' / ' + comps.length, '可见度排名高于对手', '')}
+        ${tile('最大威胁', threat ? esc(threat.name) : '—', threat ? '提及最多的竞品' : '暂无威胁竞品', threat ? 'down' : '')}
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-head"><h3>排名趋势对比</h3><span class="hint">纵轴为综合得分，横轴为日期</span></div>
+        <div class="card-body">${trendHtml}</div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-head"><h3>排名榜单</h3><span class="hint">基于所选时段内的平均可见度综合排名</span></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl">
+          <thead><tr><th>排名</th><th>品牌</th><th>可见天占比</th><th>平均位次</th><th>首推占比</th><th>引擎覆盖</th></tr></thead>
+          <tbody>${rankingRows}</tbody>
+        </table></div></div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-head"><h3>各引擎排名明细</h3><span class="hint">品牌在各 AI 引擎中的位次对比（数字越小越好）</span></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl">
+          <thead><tr>${engineHead}</tr></thead>
+          <tbody>${engineRows || '<tr><td colspan="' + (brandCols.length + 1) + '"><div class="empty">暂无引擎数据</div></td></tr>'}</tbody>
+        </table></div></div>
       </div>${emptyHint}`;
   }
 
