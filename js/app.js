@@ -9,11 +9,11 @@
     ]},
     { group: '优化建议与内容生产', items: [
       { id: 'suggestions',    label: '优化建议',    icon: '✦' },
+      { id: 'platform-dist',  label: '平台分发',    icon: '⇶' },
       { id: 'ai-create',      label: '行业文章生成', icon: '✦' },
       { id: 'batch-generate', label: '批量生成',    icon: '▦' },
       { id: 'art-manage',     label: '文章管理',    icon: '☰' },
       { id: 'dist-manage',    label: '分发管理',    icon: '⇶' },
-      { id: 'platform-dist',  label: '平台分发',    icon: '⇶' },
       { id: 'media-accounts', label: '媒体账号',    icon: '✉' },
       { id: 'dist-nodes',     label: '分发节点',    icon: '⌬' },
       { id: 'dist-logs',      label: '分发日志',    icon: '≡' },
@@ -986,7 +986,7 @@
   function artManage(c) {
     if (contentState.view === 'edit') return artEdit(c, contentState.articleId);
     c.innerHTML = `
-      ${pageHead('文章管理', '查看、编辑、分发与删除生成的文章')}
+      ${pageHead('文章管理', '查看、编辑、分发与删除生成的文章', '<button class="btn btn-sm btn-primary" data-action="goto-platform-dist">一键分发</button>')}
       <div class="card">
         <div class="card-head"><h3>文章列表</h3><span class="hint">数据保存在本地浏览器</span></div>
           <div class="card-body">
@@ -2056,21 +2056,21 @@
       return;
     }
     c.innerHTML = pageHead('平台分发', '微信公众号 / 百家号一键分发，其余平台后续接入') + loading();
-    const accounts = await Account.api('/api/me/platform-accounts');
-    const tasks = await Account.api('/api/me/distribute/tasks');
-    const contents = await Account.api('/api/me/contents');
-    if (!accounts.ok || !tasks.ok || !contents.ok) {
-      c.innerHTML = pageHead('平台分发', '微信公众号 / 百家号一键分发') + `<div class="card"><div class="card-body">${empty('加载失败')}</div></div>`;
-      return;
-    }
-    renderPlatformDist(c, accounts.items || [], tasks.items || [], contents.contents || []);
+    const accounts = await Account.api('/api/me/platform-accounts').catch(() => ({ ok: false }));
+    const tasks = await Account.api('/api/me/distribute/tasks').catch(() => ({ ok: false }));
+    const contents = await Account.api('/api/me/contents').catch(() => ({ ok: false }));
+    const notice = accounts.ok && tasks.ok && contents.ok
+      ? ''
+      : '部分数据加载失败，请确认「监测设置 → API 服务」选择的是云端，并已登录。';
+    renderPlatformDist(c, accounts.ok ? accounts.items || [] : [], tasks.ok ? tasks.items || [] : [], contents.ok ? contents.contents || [] : [], notice);
   }
 
-  function renderPlatformDist(c, accounts, tasks, contents) {
+  function renderPlatformDist(c, accounts, tasks, contents, notice = '') {
     const acctRows = accounts.map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.name || x.platform)}</span>${badge(x.platform === 'wechat' ? '微信公众号' : '百家号', 'violet')}${badge(x.status === 'active' ? '已启用' : '停用', x.status === 'active' ? 'green' : 'amber')}</div><div style="margin-top:6px;display:flex;gap:8px"><button class="btn btn-sm btn-ghost" data-action="pd-del" data-id="${esc(x.id)}">删除</button></div></div>`).join('') || empty('还没有平台账号');
     const contentOptions = contents.length ? contents.map(x => `<option value="${esc(x.id)}">${esc(x.title)} · ${esc(x.status)}</option>`).join('') : '<option value="">暂无内容</option>';
     c.innerHTML = `
       ${pageHead('平台分发', '微信公众号 / 百家号一键分发，其余平台后续接入')}
+      ${notice ? `<div style="margin:12px 0;font-size:.78rem;color:var(--amber);border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.06);padding:10px 14px;border-radius:8px">⚠ ${esc(notice)}</div>` : ''}
       <div class="grid grid-2">
         <div class="card">
           <div class="card-head"><h3>平台账号</h3></div>
@@ -2152,6 +2152,10 @@
       }
       const fwBtn = e.target.closest('[data-action^="flywheel-"]');
       if (fwBtn) return flywheelAction(fwBtn.dataset.action);
+      if (e.target.closest('[data-action="goto-platform-dist"]')) {
+        location.hash = '#/platform-dist';
+        return;
+      }
       const kbBtn = e.target.closest('[data-action^="kb-"]');
       if (kbBtn) return kbAction(kbBtn.dataset.action, kbBtn);
       const uaBtn = e.target.closest('[data-action^="ua-"]');
