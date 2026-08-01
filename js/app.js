@@ -46,9 +46,6 @@
       { id: 'balance',         label: '余额明细',   icon: '¥' },
       { id: 'data-stats',      label: '数据统计',   icon: '▤' },
     ]},
-    { group: '优化闭环', items: [
-      { id: 'flywheel',       label: '闭环驾驶舱',  icon: '◉' },
-    ]},
     { group: 'GEO 核心', items: [
       { id: 'kb-center',      label: '知识库',      icon: '▣' },
       { id: 'url-anchor',     label: 'URL 锚点',    icon: '⇢' },
