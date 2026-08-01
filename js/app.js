@@ -38,6 +38,11 @@
       { id: 'scenario-cfg',   label: '场景管理',    icon: '❏' },
       { id: 'monitor-cfg',    label: '监测设置',    icon: '⚙' },
     ]},
+    { group: '系统设置', items: [
+      { id: 'sensitive-words', label: '敏感词库',   icon: '⚠' },
+      { id: 'authors',         label: '作者管理',   icon: '✎' },
+      { id: 'categories',      label: '分类管理',   icon: '❏' },
+    ]},
     { group: '优化闭环', items: [
       { id: 'flywheel',       label: '闭环驾驶舱',  icon: '◉' },
     ]},
@@ -112,7 +117,7 @@
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView };
+    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView, 'sensitive-words': c => opsView(c, 'sensitive-words'), authors: c => opsView(c, 'authors'), categories: c => opsView(c, 'categories') };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -888,6 +893,7 @@
   let contentStore = loadContent();
   let kbEditId = null;
   let urlEditId = null;
+  let opsEditId = null;
   let contentPreview = null;
   let contentState = { view: 'list', articleId: null };
   let contentPrefill = null;
@@ -1825,6 +1831,95 @@
     }
   }
 
+  /* ═══ 内容运营基础数据 ═══ */
+  const OPS_META = {
+    'sensitive-words': { label: '敏感词库', api: '/api/me/sensitive-words', hint: '内容生成时自动过滤并替换为 ***', fields: [{ k: 'word', label: '词条' }, { k: 'level', label: '级别' }] },
+    authors: { label: '作者管理', api: '/api/me/authors', hint: '内容署名与质量负责人', fields: [{ k: 'name', label: '姓名' }, { k: 'bio', label: '简介' }, { k: 'status', label: '状态' }] },
+    categories: { label: '分类管理', api: '/api/me/categories', hint: '内容与任务分类', fields: [{ k: 'name', label: '分类名' }, { k: 'note', label: '说明' }] },
+  };
+
+  function opsView(c, kind) {
+    const meta = OPS_META[kind];
+    if (!meta) return c.innerHTML = empty('未知页面');
+    if (!window.Account || !Account.user) {
+      c.innerHTML = pageHead(meta.label, meta.hint) + `<div class="card"><div class="card-body">${empty('请先登录客户账号')}</div></div>`;
+      return;
+    }
+    c.innerHTML = pageHead(meta.label, meta.hint) + loading();
+    loadOps(c, kind);
+  }
+
+  async function loadOps(c, kind) {
+    const meta = OPS_META[kind];
+    const r = await Account.api(meta.api);
+    if (!r.ok) {
+      c.innerHTML = pageHead(meta.label, meta.hint) + `<div class="card"><div class="card-body">${empty(esc(r.error || '加载失败'))}</div></div>`;
+      return;
+    }
+    const items = r.items || [];
+    const primary = kind === 'sensitive-words' ? 'word' : 'name';
+    const secondary = kind === 'sensitive-words' ? 'level' : kind === 'authors' ? 'bio' : 'note';
+    c.innerHTML = `
+      ${pageHead(meta.label, meta.hint)}
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-head"><h3>${opsEditId ? '编辑' : '新增'}</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              ${meta.fields.map(f => (f.k === 'bio' || f.k === 'note') ? `<div class="form-group full"><label>${esc(f.label)}</label><textarea id="op-${f.k}" rows="2"></textarea></div>` : cInput(f.label, 'op-' + f.k, f.label)).join('')}
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <button class="btn btn-primary" data-action="op-save" data-kind="${kind}">保存</button>
+              ${opsEditId ? `<button class="btn btn-ghost" data-action="op-cancel" data-kind="${kind}">取消编辑</button>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>列表</h3><span class="hint">${items.length} 项</span></div>
+          <div class="card-body">${items.length ? `<div class="mention-list">${items.map(x => `<div class="mention-item">
+            <div class="mi-head"><span class="mi-src">${esc(x[primary] || '')}</span></div>
+            <div class="mi-text">${esc(x[secondary] || '')}</div>
+            <div style="margin-top:6px;display:flex;gap:8px">
+              <button class="btn btn-sm btn-ghost" data-action="op-edit" data-kind="${kind}" data-id="${esc(x.id)}">编辑</button>
+              <button class="btn btn-sm btn-ghost" data-action="op-del" data-kind="${kind}" data-id="${esc(x.id)}">删除</button>
+            </div>
+          </div>`).join('')}</div>` : empty('暂无数据')}</div>
+        </div>
+      </div>`;
+  }
+
+  async function opsAction(act, btn) {
+    const kind = btn.dataset.kind;
+    const meta = OPS_META[kind];
+    if (!meta) return;
+    if (act === 'op-save') {
+      const payload = { id: opsEditId || undefined };
+      meta.fields.forEach(f => { payload[f.k] = document.getElementById('op-' + f.k)?.value.trim() || ''; });
+      const primary = kind === 'sensitive-words' ? 'word' : 'name';
+      if (!payload[primary]) return toast('请填写必填字段', 'warn');
+      const r = await Account.api(meta.api, { method: 'POST', body: JSON.stringify(payload) });
+      opsEditId = null;
+      toast(r.ok ? '已保存' : (r.error || '保存失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'op-del') {
+      const r = await Account.api(meta.api, { method: 'DELETE', body: JSON.stringify({ id: btn.dataset.id }) });
+      toast(r.ok ? '已删除' : (r.error || '删除失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'op-edit') {
+      const r = await Account.api(meta.api);
+      const item = (r.items || []).find(x => x.id === btn.dataset.id);
+      if (!item) return toast('数据不存在', 'warn');
+      opsEditId = item.id;
+      render();
+      setTimeout(() => {
+        meta.fields.forEach(f => { const el = document.getElementById('op-' + f.k); if (el) el.value = item[f.k] || ''; });
+      }, 0);
+    } else if (act === 'op-cancel') {
+      opsEditId = null;
+      render();
+    }
+  }
+
   /* ═══ 全局事件 ═══ */
   function bindEvents() {
     document.getElementById('content').addEventListener('click', e => {
@@ -1840,6 +1935,8 @@
       if (kbBtn) return kbAction(kbBtn.dataset.action, kbBtn);
       const uaBtn = e.target.closest('[data-action^="ua-"]');
       if (uaBtn) return uaAction(uaBtn.dataset.action, uaBtn);
+      const opBtn = e.target.closest('[data-action^="op-"]');
+      if (opBtn) return opsAction(opBtn.dataset.action, opBtn);
       if (e.target.closest('[data-action="save-brand"]')) return saveSettings();
       if (e.target.closest('[data-action="save-monitor"]')) return saveMonitor();
       const cBtn = e.target.closest('[data-action^="content-"]');
