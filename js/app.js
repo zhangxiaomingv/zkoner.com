@@ -44,6 +44,7 @@
       { id: 'categories',      label: '分类管理',   icon: '❏' },
       { id: 'ai-config',       label: 'AI 配置',    icon: '✦' },
       { id: 'balance',         label: '余额明细',   icon: '¥' },
+      { id: 'data-stats',      label: '数据统计',   icon: '▤' },
     ]},
     { group: '优化闭环', items: [
       { id: 'flywheel',       label: '闭环驾驶舱',  icon: '◉' },
@@ -119,7 +120,7 @@
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView, 'sensitive-words': c => opsView(c, 'sensitive-words'), authors: c => opsView(c, 'authors'), categories: c => opsView(c, 'categories'), 'ai-config': aiConfigView, balance: balanceView };
+    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView, 'sensitive-words': c => opsView(c, 'sensitive-words'), authors: c => opsView(c, 'authors'), categories: c => opsView(c, 'categories'), 'ai-config': aiConfigView, balance: balanceView, 'data-stats': statsView };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -1999,6 +2000,55 @@
         <div class="card-body flush"><div class="table-wrap"><table class="tbl">
           <thead><tr><th>时间</th><th>动作</th><th>引擎</th><th>估算 Token</th><th>估算费用</th></tr></thead>
           <tbody>${items.map(x => `<tr><td class="mono" style="font-size:.78rem">${esc(String(x.created_at || '').slice(0, 19).replace('T', ' '))}</td><td>${esc(x.action || '')}</td><td>${esc(x.engine || '')}</td><td class="mono">${x.tokens || 0}</td><td class="mono">${x.est_cost || 0} 元</td></tr>`).join('') || '<tr><td colspan="5"><div class="empty">暂无用量记录</div></td></tr>'}</tbody>
+        </table></div></div>
+      </div>`;
+  }
+
+  async function statsView(c) {
+    if (!window.Account || !Account.user) {
+      c.innerHTML = pageHead('数据统计', '按 URL × 引擎 × 场景汇总') + `<div class="card"><div class="card-body">${empty('请先登录客户账号')}</div></div>`;
+      return;
+    }
+    c.innerHTML = pageHead('数据统计', '按 URL × 引擎 × 场景汇总') + loading();
+    const r = await Account.api('/api/me/stats');
+    if (!r.ok) {
+      c.innerHTML = pageHead('数据统计', '按 URL × 引擎 × 场景汇总') + `<div class="card"><div class="card-body">${empty(esc(r.error || '加载失败'))}</div></div>`;
+      return;
+    }
+    const o = r.overview || {};
+    c.innerHTML = `
+      ${pageHead('数据统计', '按 URL × 引擎 × 场景汇总')}
+      <div class="tile-grid">
+        ${tile('监测得分', o.monitor_score != null ? o.monitor_score : '--', o.monitor_updated ? String(o.monitor_updated).slice(0, 16) : '未监测', '')}
+        ${tile('最近报告', o.report_score != null ? o.report_score : '--', o.report_date || '未检测', '')}
+        ${tile('内容/发布', o.contents + ' / ' + o.published, '引用 ' + (o.citations || 0), '')}
+        ${tile('AI 费用', o.ai_cost != null ? o.ai_cost + ' 元' : '--', o.ai_calls + ' 次调用', '')}
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-head"><h3>可见度趋势</h3><span class="hint">云端监测历史</span></div>
+        <div class="card-body">${(r.trend || []).length >= 2 ? lineChart(r.trend, { stroke: '#6366F1', fill: 'rgba(99,102,241,0.15)' }) : empty('暂无趋势数据')}</div>
+      </div>
+      <div class="grid grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-head"><h3>分引擎</h3></div>
+          <div class="card-body flush"><div class="table-wrap"><table class="tbl">
+            <thead><tr><th>引擎</th><th>得分</th><th>命中</th><th>最佳位次</th></tr></thead>
+            <tbody>${(r.engines || []).map(e => `<tr><td>${esc(e.name)}</td><td class="mono">${e.score}</td><td class="mono">${e.mentioned}/${e.total}</td><td class="mono">${e.top_rank != null ? '#' + e.top_rank : '—'}</td></tr>`).join('') || '<tr><td colspan="4"><div class="empty">暂无引擎数据</div></td></tr>'}</tbody>
+          </table></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>分场景</h3><span class="hint">来自最近报告</span></div>
+          <div class="card-body flush"><div class="table-wrap"><table class="tbl">
+            <thead><tr><th>场景</th><th>命中/引擎</th><th>平均命中率</th><th>引用</th></tr></thead>
+            <tbody>${(r.scenarios || []).map(s => `<tr><td>${esc(s.name)}</td><td class="mono">${s.hit}/${s.engines}</td><td class="mono">${Math.round(s.avg_hit * 100)}%</td><td class="mono">${s.cited}</td></tr>`).join('') || '<tr><td colspan="4"><div class="empty">暂无场景数据</div></td></tr>'}</tbody>
+          </table></div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-head"><h3>URL 统计</h3><span class="hint">锚点与引用归因</span></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl">
+          <thead><tr><th>URL</th><th>类型</th><th>状态</th><th>引用</th></tr></thead>
+          <tbody>${(r.by_url || []).map(u => `<tr><td class="mono" style="font-size:.8rem">${esc(u.url)}</td><td>${esc(u.type)}</td><td>${badge(u.status === 'active' ? '启用' : '停用', u.status === 'active' ? 'green' : 'amber')}</td><td class="mono">${u.citations || 0}</td></tr>`).join('') || '<tr><td colspan="4"><div class="empty">暂无 URL 锚点</div></td></tr>'}</tbody>
         </table></div></div>
       </div>`;
   }
