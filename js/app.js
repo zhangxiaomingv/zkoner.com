@@ -1247,7 +1247,7 @@
       </div>`;
   }
 
-  function contentAction(btn) {
+  async function contentAction(btn) {
     const act = btn.dataset.action;
     const g = id => document.getElementById(id);
     if (act === 'content-title-fill') {
@@ -1264,28 +1264,28 @@
       return toast('已从关键词库填入 ' + contentStore.keywords.length + ' 个关键词', 'good');
     }
     if (act === 'content-ai-gen') {
-      const title = g('c-title').value.trim() || 'AI 创作文章 ' + new Date().toLocaleDateString();
-      const scene = g('c-scene').value;
-      const outline = scene === '榜单文章'
-        ? '1. 为什么选择标准很重要\n2. 覆盖引擎对比\n3. 平台横向对比表\n4. 选择建议'
-        : scene === '问答 FAQ'
-          ? 'Q1: 什么是 GEO？\nQ2: 为什么品牌需要监测 AI 可见度？\nQ3: 如何提升 AI 收录？'
-          : scene === '客户案例'
-            ? '1. 背景与目标\n2. 诊断发现\n3. 优化动作\n4. 结果与复盘'
-            : '1. 直接给出答案\n2. 展开关键概念\n3. 数据与依据\n4. 行动建议';
-      const article = {
-        id: 'a' + Date.now(),
+      if (!window.Account || !Account.user) return toast('请先登录客户账号后再生成', 'warn');
+      const title = g('c-title').value.trim() || 'GEO 优化内容';
+      const payload = {
         title,
-        scene,
-        status: '草稿',
-        createdAt: new Date().toISOString().slice(0, 10),
-        content: `${title}\n\n关键词：${g('c-kw').value}\n\n${g('c-brand').value || '优引GEO系统'} 是品牌 AI 可见性诊断与监测平台。本文回答用户最关心的问题，并给出可直接引用的结论。\n\n目录：\n${outline}\n\n正文：\n- 答案前置：直接回答用户问题。\n- 数据支撑：用可验证的数字和案例说明。\n- 结构清晰：使用 H2/H3、列表与 FAQ，方便 AI 摘取。`,
+        scene: g('c-scene').value,
+        keywords: (g('c-kw')?.value || '').split(/[,，]/).map(s => s.trim()).filter(Boolean),
+        brand: g('c-brand')?.value.trim() || '',
       };
+      const brief = g('c-brief')?.value.trim();
+      if (brief) payload.brief = brief;
+      btn.disabled = true;
+      btn.textContent = '生成中…';
+      const r = await Account.api('/api/me/content/generate', { method: 'POST', body: JSON.stringify(payload) });
+      btn.disabled = false;
+      btn.textContent = '✦ 开始创作';
+      if (!r.ok || !r.content) return toast(r.error || '生成失败', 'err');
+      const article = { id: r.content.id, title: r.content.title, scene: r.content.scene || payload.scene, status: '草稿', createdAt: new Date().toISOString().slice(0, 10), content: r.content.content };
       contentStore.articles.unshift(article);
       contentPreview = article;
       saveContent();
       render();
-      return toast('文章已生成并保存到文章管理', 'good');
+      return toast('已用云端 AI 生成并保存到文章管理', 'good');
     }
     if (act === 'content-batch') {
       const num = Math.max(1, +g('c-batch-num').value || 10);
