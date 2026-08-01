@@ -206,3 +206,4 @@ const Account = (() => {
 
   return { init, login, register, verify, resend, logout, saveBrand, api, get token() { return token; }, get user() { return user; } };
 })();
+window.Account = Account;
