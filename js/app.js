@@ -19,6 +19,7 @@
     ]},
     { group: '素材中心', items: [
       { id: 'kb-center',      label: '知识库',      icon: '▣' },
+      { id: 'graph-view',     label: '知识图谱',    icon: '◉' },
       { id: 'url-anchor',     label: 'URL 锚点',    icon: '⇢' },
       { id: 'keywords',       label: '关键词库',    icon: '⌕' },
       { id: 'titles',         label: '标题库',      icon: '❝' },
@@ -131,6 +132,7 @@
       'dist-logs': distLogs,
       'competitor-analysis': competitorAnalysis,
       'kb-center': knowledgeCenter,
+      'graph-view': knowledgeGraphView,
       'url-anchor': urlAnchorView,
       'sensitive-words': c => opsView(c, 'sensitive-words'),
       authors: c => opsView(c, 'authors'),
@@ -915,6 +917,7 @@
   let kbEditId = null;
   let urlEditId = null;
   let opsEditId = null;
+  let kgEditId = null;
   let contentPreview = null;
   let contentState = { view: 'list', articleId: null };
   let contentPrefill = null;
@@ -1848,6 +1851,156 @@
     }
   }
 
+  /* ═══ 知识图谱 ═══ */
+  function knowledgeGraphView(c) {
+    if (!window.Account || !Account.user) {
+      c.innerHTML = pageHead('知识图谱', '品牌实体与关系网络') + `<div class="card"><div class="card-body">${empty('请先登录客户账号')}</div></div>`;
+      return;
+    }
+    c.innerHTML = pageHead('知识图谱', '品牌实体与关系网络，供感知测试与策略使用') + loading();
+    loadGraph(c);
+  }
+
+  async function loadGraph(c) {
+    const r = await Account.api('/api/me/graph');
+    if (!r.ok) {
+      c.innerHTML = pageHead('知识图谱', '品牌实体与关系网络') + `<div class="card"><div class="card-body">${empty(esc(r.error || '加载失败'))}</div></div>`;
+      return;
+    }
+    renderGraph(c, r);
+  }
+
+  function renderGraph(c, g) {
+    const ents = g.entities || [];
+    const rels = g.relations || [];
+    const typeColor = { brand: '#6366F1', product: '#22c55e', source: '#f59e0b', competitor: '#EC4899', url: '#06b6d4', topic: '#8B5CF6' };
+    const graphSvg = ents.length ? (() => {
+      const W = 560, H = 340, cx = W / 2, cy = H / 2, rad = Math.min(W, H) / 2 - 60;
+      const pos = ents.map((e, i) => { const a = -Math.PI / 2 + 2 * Math.PI * i / ents.length; return [cx + rad * Math.cos(a), cy + rad * Math.sin(a)]; });
+      const byId = new Map(ents.map((e, i) => [e.id, i]));
+      const lines = rels.map(rel => {
+        const i = byId.get(rel.from_id), j = byId.get(rel.to_id);
+        if (i == null || j == null) return '';
+        const [x1, y1] = pos[i], [x2, y2] = pos[j];
+        return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#2a2a44" stroke-width="1.5"/>`;
+      }).join('');
+      const dots = ents.map((e, i) => {
+        const [x, y] = pos[i];
+        return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="10" fill="${typeColor[e.type] || '#8B5CF6'}"/><text x="${x.toFixed(1)}" y="${(y - 15).toFixed(1)}" text-anchor="middle" font-size="10" fill="#e4e4ef">${esc(e.name)}</text>`;
+      }).join('');
+      return `<svg width="100%" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="max-height:340px">${lines}${dots}</svg>`;
+    })() : empty('暂无实体，先添加品牌/产品/来源实体');
+    const entOptions = ents.map(e => `<option value="${esc(e.id)}">${esc(e.name)} (${esc(e.type)})</option>`).join('');
+    c.innerHTML = `
+      ${pageHead('知识图谱', '品牌实体与关系网络，供感知测试与策略使用')}
+      <div class="card" style="margin-top:12px"><div class="card-body">${graphSvg}<div style="font-size:.76rem;color:var(--text-3);margin-top:8px">实体 ${ents.length} · 关系 ${rels.length} · 类型 ${(g.stats?.types || []).join(' / ') || '—'}</div></div></div>
+      <div class="grid grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-head"><h3>${kgEditId ? '编辑实体' : '新增实体'}</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              ${cInput('名称', 'kg-name', '品牌名')}
+              ${cSelect('类型', 'kg-type', ['brand', 'product', 'source', 'competitor', 'url', 'topic'])}
+              ${cInput('别名（逗号分隔）', 'kg-aliases', '优引,youyin')}
+              ${cInput('URL（逗号分隔）', 'kg-urls', 'https://zkoner.com')}
+              ${cInput('来源', 'kg-source', '官网/知识库')}
+              <div class="form-group full"><label>描述</label><textarea id="kg-desc" rows="3"></textarea></div>
+              <div class="form-group full"><label>事实（每行一条）</label><textarea id="kg-facts" rows="4"></textarea></div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <button class="btn btn-primary" data-action="kg-save-ent">保存实体</button>
+              ${kgEditId ? '<button class="btn btn-ghost" data-action="kg-cancel-ent">取消编辑</button>' : ''}
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>新增关系</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group"><label>从</label><select id="kg-from" class="input">${entOptions || '<option value="">暂无实体</option>'}</select></div>
+              <div class="form-group"><label>到</label><select id="kg-to" class="input">${entOptions || '<option value="">暂无实体</option>'}</select></div>
+              ${cInput('关系类型', 'kg-rel-type', 'belongs_to / provides / cites / competes_with')}
+              ${cInput('标签', 'kg-rel-label', '例如：所属行业')}
+              ${cInput('证据', 'kg-rel-evidence', '来源/依据')}
+            </div>
+            <div style="margin-top:12px"><button class="btn btn-primary" data-action="kg-save-rel">保存关系</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-head"><h3>实体列表</h3><span class="hint">${ents.length}</span></div>
+          <div class="card-body">${ents.length ? `<div class="mention-list">${ents.map(e => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(e.name)}</span>${badge(e.type, 'violet')}</div><div class="mi-text">${esc((e.description || '').slice(0, 120))}</div><div style="margin-top:6px;display:flex;gap:8px"><button class="btn btn-sm btn-ghost" data-action="kg-edit-ent" data-id="${esc(e.id)}">编辑</button><button class="btn btn-sm btn-ghost" data-action="kg-del-ent" data-id="${esc(e.id)}">删除</button></div></div>`).join('')}</div>` : empty('暂无实体')}</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>关系列表</h3><span class="hint">${rels.length}</span></div>
+          <div class="card-body">${rels.length ? `<div class="mention-list">${rels.map(r => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(r.from_id)} → ${esc(r.to_id)}</span>${badge(r.type, 'green')}</div><div class="mi-text">${esc(r.label || '')} ${esc(r.evidence ? '· ' + r.evidence : '')}</div><div style="margin-top:6px"><button class="btn btn-sm btn-ghost" data-action="kg-del-rel" data-id="${esc(r.id)}">删除</button></div></div>`).join('')}</div>` : empty('暂无关系')}</div>
+        </div>
+      </div>`;
+  }
+
+  async function graphAction(act, btn) {
+    if (act === 'kg-save-ent') {
+      const name = document.getElementById('kg-name')?.value.trim();
+      if (!name) return toast('请填写实体名称', 'warn');
+      const facts = (document.getElementById('kg-facts')?.value || '').split(/\n/).map(s => s.trim()).filter(Boolean);
+      const r = await Account.api('/api/me/entities', {
+        method: 'POST',
+        body: JSON.stringify({
+          id: kgEditId || undefined,
+          name,
+          type: document.getElementById('kg-type')?.value || 'brand',
+          description: document.getElementById('kg-desc')?.value.trim() || '',
+          aliases: (document.getElementById('kg-aliases')?.value || '').split(/[,，]/).map(s => s.trim()).filter(Boolean),
+          urls: (document.getElementById('kg-urls')?.value || '').split(/[,，]/).map(s => s.trim()).filter(Boolean),
+          facts,
+          source: document.getElementById('kg-source')?.value.trim() || '',
+        }),
+      });
+      kgEditId = null;
+      toast(r.ok ? '实体已保存' : (r.error || '保存失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'kg-edit-ent') {
+      const r = await Account.api('/api/me/entities');
+      const item = (r.items || []).find(x => x.id === btn.dataset.id);
+      if (!item) return toast('实体不存在', 'warn');
+      kgEditId = item.id;
+      render();
+      setTimeout(() => {
+        const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+        set('kg-name', item.name);
+        set('kg-type', item.type);
+        set('kg-aliases', (item.aliases || []).join('，'));
+        set('kg-urls', (item.urls || []).join('，'));
+        set('kg-source', item.source);
+        set('kg-desc', item.description);
+        set('kg-facts', (item.facts || []).join('\n'));
+      }, 0);
+    } else if (act === 'kg-del-ent') {
+      const r = await Account.api('/api/me/entities', { method: 'DELETE', body: JSON.stringify({ id: btn.dataset.id }) });
+      toast(r.ok ? '已删除' : (r.error || '删除失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'kg-cancel-ent') {
+      kgEditId = null;
+      render();
+    } else if (act === 'kg-save-rel') {
+      const fromId = document.getElementById('kg-from')?.value;
+      const toId = document.getElementById('kg-to')?.value;
+      const type = document.getElementById('kg-rel-type')?.value.trim();
+      if (!fromId || !toId || !type) return toast('请选择实体并填写关系类型', 'warn');
+      const r = await Account.api('/api/me/relations', {
+        method: 'POST',
+        body: JSON.stringify({ from_id: fromId, to_id: toId, type, label: document.getElementById('kg-rel-label')?.value.trim() || '', evidence: document.getElementById('kg-rel-evidence')?.value.trim() || '' }),
+      });
+      toast(r.ok ? '关系已保存' : (r.error || '保存失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'kg-del-rel') {
+      const r = await Account.api('/api/me/relations', { method: 'DELETE', body: JSON.stringify({ id: btn.dataset.id }) });
+      toast(r.ok ? '已删除' : (r.error || '删除失败'), r.ok ? 'good' : 'err');
+      render();
+    }
+  }
+
   /* ═══ 内容运营基础数据 ═══ */
   const PLATFORM_META = [
     ['baijiahao', '百家号'],
@@ -2219,6 +2372,8 @@
       if (kbBtn) return kbAction(kbBtn.dataset.action, kbBtn);
       const uaBtn = e.target.closest('[data-action^="ua-"]');
       if (uaBtn) return uaAction(uaBtn.dataset.action, uaBtn);
+      const kgBtn = e.target.closest('[data-action^="kg-"]');
+      if (kgBtn) return graphAction(kgBtn.dataset.action, kgBtn);
       const opBtn = e.target.closest('[data-action^="op-"]');
       if (opBtn) return opsAction(opBtn.dataset.action, opBtn);
       if (e.target.closest('[data-action="save-ai-config"]')) return saveAiConfigAction();
