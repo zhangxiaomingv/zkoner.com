@@ -1407,8 +1407,12 @@
     }
     if (act === 'content-acc-add') {
       const tokenVal = g('c-acc-token') ? g('c-acc-token').value.trim() : '';
-      contentStore.accounts.push({ id: 'ac' + Date.now(), platform: g('c-acc-platform').value, name: g('c-acc-name').value.trim() || '未命名', token: tokenVal ? '••••' + tokenVal.slice(-4) : '', status: tokenVal ? '已绑定' : '待授权' });
-      saveContent(); render(); return toast('媒体账号已添加', 'good');
+      const platform = g('c-acc-platform') ? g('c-acc-platform').value : '';
+      const name = g('c-acc-name') ? g('c-acc-name').value.trim() : '';
+      if (!tokenVal) return toast('请填写 Token / 密钥，未填凭证不能添加账号', 'err');
+      if (!name) return toast('请填写账号名称', 'warn');
+      contentStore.accounts.push({ id: 'ac' + Date.now(), platform, name, token: '••••' + tokenVal.slice(-4), status: '已绑定' });
+      saveContent(); render(); return toast('媒体账号已添加（凭证未做平台校验）', 'good');
     }
     if (act === 'content-acc-del') { contentStore.accounts = contentStore.accounts.filter(x => x.id !== btn.dataset.id); saveContent(); render(); return; }
     if (act === 'content-node-add') {
