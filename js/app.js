@@ -42,6 +42,8 @@
       { id: 'sensitive-words', label: '敏感词库',   icon: '⚠' },
       { id: 'authors',         label: '作者管理',   icon: '✎' },
       { id: 'categories',      label: '分类管理',   icon: '❏' },
+      { id: 'ai-config',       label: 'AI 配置',    icon: '✦' },
+      { id: 'balance',         label: '余额明细',   icon: '¥' },
     ]},
     { group: '优化闭环', items: [
       { id: 'flywheel',       label: '闭环驾驶舱',  icon: '◉' },
@@ -117,7 +119,7 @@
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView, 'sensitive-words': c => opsView(c, 'sensitive-words'), authors: c => opsView(c, 'authors'), categories: c => opsView(c, 'categories') };
+    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView, 'sensitive-words': c => opsView(c, 'sensitive-words'), authors: c => opsView(c, 'authors'), categories: c => opsView(c, 'categories'), 'ai-config': aiConfigView, balance: balanceView };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -1920,6 +1922,87 @@
     }
   }
 
+  /* ═══ AI 配置与余额 ═══ */
+  function aiConfigView(c) {
+    if (!window.Account || !Account.user) {
+      c.innerHTML = pageHead('AI 配置', '引擎模型与接口配置，保存后用于诊断和内容生成') + `<div class="card"><div class="card-body">${empty('请先登录客户账号')}</div></div>`;
+      return;
+    }
+    c.innerHTML = pageHead('AI 配置', '引擎模型与接口配置，保存后用于诊断和内容生成') + loading();
+    loadAiConfig(c);
+  }
+
+  async function loadAiConfig(c) {
+    const r = await Account.api('/api/me/ai-config');
+    if (!r.ok) {
+      c.innerHTML = pageHead('AI 配置', '引擎模型与接口配置') + `<div class="card"><div class="card-body">${empty(esc(r.error || '加载失败'))}</div></div>`;
+      return;
+    }
+    const cfg = r.config || {};
+    const engines = cfg.engines || ['deepseek', 'doubao'];
+    c.innerHTML = `
+      ${pageHead('AI 配置', '引擎模型与接口配置，保存后用于诊断和内容生成')}
+      <div class="card" style="max-width:760px">
+        <div class="card-body">
+          <div class="form-grid">
+            ${cInput('DeepSeek 模型', 'ai-ds-model', 'deepseek-chat', cfg.deepseek_model || 'deepseek-chat')}
+            ${cInput('豆包模型', 'ai-ark-model', 'doubao-seed-1-6-250615', cfg.ark_model || '')}
+            ${cInput('豆包接口地址', 'ai-ark-base', 'ark.cn-beijing.volces.com', cfg.ark_base_url || '')}
+            <div class="form-group"><label>启用引擎</label><div style="display:flex;gap:16px">
+              <label><input type="checkbox" id="ai-en-deepseek" ${engines.includes('deepseek') ? 'checked' : ''}> DeepSeek</label>
+              <label><input type="checkbox" id="ai-en-doubao" ${engines.includes('doubao') ? 'checked' : ''}> 豆包</label>
+            </div></div>
+          </div>
+          <div style="margin-top:12px"><button class="btn btn-primary" data-action="save-ai-config">保存 AI 配置</button></div>
+        </div>
+      </div>`;
+  }
+
+  async function saveAiConfigAction() {
+    const engines = [];
+    if (document.getElementById('ai-en-deepseek')?.checked) engines.push('deepseek');
+    if (document.getElementById('ai-en-doubao')?.checked) engines.push('doubao');
+    const r = await Account.api('/api/me/ai-config', {
+      method: 'PUT',
+      body: JSON.stringify({
+        deepseek_model: document.getElementById('ai-ds-model')?.value.trim() || '',
+        ark_model: document.getElementById('ai-ark-model')?.value.trim() || '',
+        ark_base_url: document.getElementById('ai-ark-base')?.value.trim() || '',
+        engines,
+      }),
+    });
+    toast(r.ok ? 'AI 配置已保存' : (r.error || '保存失败'), r.ok ? 'good' : 'err');
+    render();
+  }
+
+  async function balanceView(c) {
+    if (!window.Account || !Account.user) {
+      c.innerHTML = pageHead('余额明细', 'AI 用量与余额') + `<div class="card"><div class="card-body">${empty('请先登录客户账号')}</div></div>`;
+      return;
+    }
+    const b = await Account.api('/api/me/balance');
+    const u = await Account.api('/api/me/usage');
+    if (!b.ok) {
+      c.innerHTML = pageHead('余额明细', 'AI 用量与余额') + `<div class="card"><div class="card-body">${empty(esc(b.error || '加载失败'))}</div></div>`;
+      return;
+    }
+    const items = u.items || [];
+    c.innerHTML = `
+      ${pageHead('余额明细', 'AI 用量估算与余额')}
+      <div class="tile-grid">
+        ${tile('当前余额', (b.amount || 0) + ' 元', '演示初始 ' + (b.initial || 0) + ' 元', '')}
+        ${tile('已用', (b.used || 0) + ' 元', '按 AI 调用估算', '')}
+        ${tile('调用次数', items.length, '最近记录', '')}
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-head"><h3>用量记录</h3></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl">
+          <thead><tr><th>时间</th><th>动作</th><th>引擎</th><th>估算 Token</th><th>估算费用</th></tr></thead>
+          <tbody>${items.map(x => `<tr><td class="mono" style="font-size:.78rem">${esc(String(x.created_at || '').slice(0, 19).replace('T', ' '))}</td><td>${esc(x.action || '')}</td><td>${esc(x.engine || '')}</td><td class="mono">${x.tokens || 0}</td><td class="mono">${x.est_cost || 0} 元</td></tr>`).join('') || '<tr><td colspan="5"><div class="empty">暂无用量记录</div></td></tr>'}</tbody>
+        </table></div></div>
+      </div>`;
+  }
+
   /* ═══ 全局事件 ═══ */
   function bindEvents() {
     document.getElementById('content').addEventListener('click', e => {
@@ -1937,6 +2020,7 @@
       if (uaBtn) return uaAction(uaBtn.dataset.action, uaBtn);
       const opBtn = e.target.closest('[data-action^="op-"]');
       if (opBtn) return opsAction(opBtn.dataset.action, opBtn);
+      if (e.target.closest('[data-action="save-ai-config"]')) return saveAiConfigAction();
       if (e.target.closest('[data-action="save-brand"]')) return saveSettings();
       if (e.target.closest('[data-action="save-monitor"]')) return saveMonitor();
       const cBtn = e.target.closest('[data-action^="content-"]');
