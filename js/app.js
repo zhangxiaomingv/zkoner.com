@@ -252,6 +252,28 @@
         <div class="mi-text">${esc(s.detail)}<br><span style="color:var(--green)">📈 ${esc(s.impact || '')}</span></div>
       </div>`).join('');
 
+    const mem = report.ai_memory || null;
+    const memHtml = mem ? (() => {
+      const items = [
+        ['entity_recognition', '实体识别', 'AI 是否认识该品牌实体'],
+        ['semantic_association', '语义关联', '品牌是否进入所属领域关联空间'],
+        ['recommendation_probability', '推荐概率', '用户询问领域品牌时进入答案的概率'],
+      ];
+      return `<div class="card" style="margin-top:16px">
+        <div class="card-head"><h3>AI 记忆</h3><span class="hint">模型内部实体节点与推荐概率（GEO 核心指标）</span></div>
+        <div class="card-body"><div class="grid-3">${items.map(([k, label, desc]) => {
+          const v = mem[k] || {};
+          const s = Number(v.score) || 0;
+          return `<div class="mention-item">
+            <div class="mi-head"><span class="mi-src">${esc(label)}</span><span style="margin-left:auto;font-family:monospace;color:var(--accent);font-weight:700">${s}</span></div>
+            <div style="margin:8px 0 6px">${pbar(s, s >= 70 ? 'green' : s >= 45 ? '' : 'pink')}</div>
+            <div class="mi-text" style="color:var(--text-2)">${esc(v.summary || desc)}</div>
+            ${(v.evidence || []).length ? `<div style="font-size:.72rem;color:var(--text-3);margin-top:6px">依据：${v.evidence.slice(0, 2).map(e => esc(String(e).slice(0, 80))).join(' · ')}</div>` : ''}
+          </div>`;
+        }).join('')}</div></div>
+      </div>`;
+    })() : '';
+
     c.innerHTML = `
       ${pageHead('GEO 诊断报告', `${esc(report.meta.brand)} · ${esc(report.meta.url)} · ${report.meta.date}`, '<button class="btn btn-ghost" data-action="diag-again">↺ 重新诊断</button>')}
       <div class="grid-2-1">
@@ -275,6 +297,7 @@
           <div class="card-body">${radarChart(radar)}</div>
         </div>
       </div>
+      ${memHtml}
       <div class="grid-2">
         <div class="card">
           <div class="card-head"><h3>豆包 + DeepSeek 收录检测</h3><span class="hint">实测 AI 回答是否收录品牌</span></div>
