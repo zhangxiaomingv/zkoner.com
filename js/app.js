@@ -108,11 +108,6 @@
   }
   function render() {
     const id = parseHash();
-    // #/diagnose?demo=1 → 直接展示内嵌示例报告（线上演示用）
-    if (id === 'diagnose' && location.hash.includes('?demo') && window.DEMO_REPORT) {
-      diagState.report = window.DEMO_REPORT;
-      diagState.mode = 'result';
-    }
     renderSidebar(id);
     const t = NAV_TITLES[id] || { group: '页面', label: id };
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
@@ -328,10 +323,9 @@
       } catch (e) { report = null; }
     }
     if (!report) {
-      // 兜底：内嵌示例报告（公开站/服务未启动时）
-      report = window.DEMO_REPORT || null;
-      if (!report) { diagState.mode = 'input'; render(); return toast('诊断服务未启动，且无示例报告', 'err'); }
-      toast('使用示例报告展示（本地诊断服务未启动）', 'warn');
+      diagState.mode = 'input';
+      render();
+      return toast('未获取到真实诊断报告，请确认已登录并重试', 'err');
     } else {
       toast('诊断完成！', 'good');
     }
@@ -882,41 +876,18 @@
   /* ═══ 内容生产模块 ═══ */
   const CONTENT_KEY = 'youyin-content';
   const CONTENT_SEED = {
-    articles: [
-      { id: 'a1', title: '2026 GEO 与 SEO 的本质区别', scene: '科普文章', status: '草稿', createdAt: '2026-07-30', content: 'GEO 衡量的是 AI 引用，而不是点击。本文直接给出答案：GEO 优化品牌在 AI 问答中的提及、引用与推荐。' },
-      { id: 'a2', title: '全链路 GEO 平台怎么选？', scene: '榜单文章', status: '已发布', createdAt: '2026-07-28', content: '选择 GEO 平台看三件事：引擎实测覆盖、优化闭环、数据归属。' },
-    ],
-    keywords: [
-      { id: 'k1', word: 'GEO 优化', group: '核心词' },
-      { id: 'k2', word: 'AI 搜索优化', group: '核心词' },
-      { id: 'k3', word: '品牌 AI 可见度', group: '长尾词' },
-    ],
-    titles: [
-      { id: 't1', title: '为什么你的品牌没被 AI 推荐？', scene: '认知' },
-      { id: 't2', title: 'GEO 平台横向对比：覆盖、闭环与成本', scene: '榜单' },
-    ],
-    images: [
-      { id: 'i1', name: 'GEO 轨道示意图', url: '', tags: 'GEO,配图' },
-    ],
-    knowledge: [
-      { id: 'n1', title: '品牌定位', type: '品牌资料', content: '全链路 GEO 优化平台，让 AI 主动推荐你。' },
-    ],
-    urlImports: [
-      { id: 'u1', url: 'https://zkoner.com/geo.html', category: '官网内容', status: '已导入', createdAt: '2026-07-31' },
-    ],
+    articles: [],
+    keywords: [],
+    titles: [],
+    images: [],
+    knowledge: [],
+    urlImports: [],
     clones: [],
     distTasks: [],
-    accounts: [
-      { id: 'ac1', platform: '微信公众号', name: '优引GEO', status: '已绑定' },
-      { id: 'ac2', platform: '知乎', name: '优引GEO', status: '已绑定' },
-    ],
-    nodes: [
-      { id: 'nd1', platform: '知乎', name: '科技·默认节点', weight: 60, status: '启用' },
-      { id: 'nd2', platform: '百家号', name: 'AI 科技频道', weight: 40, status: '启用' },
-    ],
-    logs: [
-      { id: 'l1', date: '2026-07-31 10:02', title: '全链路 GEO 平台怎么选？', platform: '知乎', status: '成功', note: '已发布' },
-    ],
+    accounts: [],
+    nodes: [],
+    logs: [],
+    version: 2,
   };
   let contentStore = loadContent();
   let kbEditId = null;
@@ -929,7 +900,7 @@
   function loadContent() {
     try {
       const d = JSON.parse(localStorage.getItem(CONTENT_KEY));
-      if (!d || typeof d !== 'object') return JSON.parse(JSON.stringify(CONTENT_SEED));
+      if (!d || typeof d !== 'object' || d.version !== 2) return JSON.parse(JSON.stringify(CONTENT_SEED));
       return { ...JSON.parse(JSON.stringify(CONTENT_SEED)), ...d };
     } catch { return JSON.parse(JSON.stringify(CONTENT_SEED)); }
   }
