@@ -41,6 +41,10 @@
     { group: '优化闭环', items: [
       { id: 'flywheel',       label: '闭环驾驶舱',  icon: '◉' },
     ]},
+    { group: 'GEO 核心', items: [
+      { id: 'kb-center',      label: '知识库',      icon: '▣' },
+      { id: 'url-anchor',     label: 'URL 锚点',    icon: '⇢' },
+    ]},
   ];
 
   const NAV_TITLES = {};
@@ -108,7 +112,7 @@
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel };
+    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -882,6 +886,8 @@
     ],
   };
   let contentStore = loadContent();
+  let kbEditId = null;
+  let urlEditId = null;
   let contentPreview = null;
   let contentState = { view: 'list', articleId: null };
   let contentPrefill = null;
@@ -1634,6 +1640,191 @@
     render();
   }
 
+  /* ═══ 知识库与 URL 锚点 ═══ */
+  function knowledgeCenter(c) {
+    if (!window.Account || !Account.user) {
+      c.innerHTML = pageHead('知识库', '品牌标准答案与事实锚点')
+        + `<div class="card"><div class="card-body">${empty('请先登录客户账号')}</div></div>`;
+      return;
+    }
+    c.innerHTML = pageHead('知识库', '每条 = 问题 + 标准答案 + URL/关键词，检测与生成共用') + loading();
+    loadKnowledge(c);
+  }
+
+  async function loadKnowledge(c) {
+    const r = await Account.api('/api/me/knowledge');
+    if (!r.ok) {
+      c.innerHTML = pageHead('知识库', '品牌标准答案与事实锚点')
+        + `<div class="card"><div class="card-body">${empty(esc(r.error || '加载失败'))}</div></div>`;
+      return;
+    }
+    const items = r.items || [];
+    c.innerHTML = `
+      ${pageHead('知识库', '每条 = 问题 + 标准答案 + URL/关键词，检测与生成共用')}
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-head"><h3>${kbEditId ? '编辑条目' : '新增条目'}</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              ${cInput('问题', 'kb-q', '例如：优引GEO系统是做什么的？', kbEditId ? '' : '')}
+              ${cInput('关键词（逗号分隔）', 'kb-kw', 'GEO,AI搜索优化')}
+              ${cInput('关联 URL（逗号分隔）', 'kb-url', 'https://zkoner.com')}
+              ${cInput('来源', 'kb-source', '官网 / 产品资料')}
+              <div class="form-group full"><label>标准答案</label><textarea id="kb-a" rows="6">${kbEditId ? '' : ''}</textarea></div>
+              <div class="form-group full"><label>证据</label><textarea id="kb-e" rows="2"></textarea></div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <button class="btn btn-primary" data-action="kb-save">保存条目</button>
+              ${kbEditId ? '<button class="btn btn-ghost" data-action="kb-cancel">取消编辑</button>' : ''}
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>条目列表</h3><span class="hint">${items.length} 条</span></div>
+          <div class="card-body">${items.length ? `<div class="mention-list">${items.map(x => `<div class="mention-item">
+            <div class="mi-head"><span class="mi-src">${esc(x.question)}</span>${badge('引用 ' + (x.citation_count || 0), Number(x.citation_count || 0) > 0 ? 'green' : '')}</div>
+            <div class="mi-text">${esc((x.answer || '').slice(0, 160))}</div>
+            <div style="margin-top:6px;display:flex;gap:8px">
+              <button class="btn btn-sm btn-ghost" data-action="kb-edit" data-id="${esc(x.id)}">编辑</button>
+              <button class="btn btn-sm btn-ghost" data-action="kb-del" data-id="${esc(x.id)}">删除</button>
+            </div>
+          </div>`).join('')}</div>` : empty('还没有知识条目，先新增一条“优引GEO系统是做什么的？”')}</div>
+        </div>
+      </div>`;
+  }
+
+  async function kbAction(act, btn) {
+    if (act === 'kb-save') {
+      const question = document.getElementById('kb-q')?.value.trim();
+      if (!question) return toast('请填写问题', 'warn');
+      const r = await Account.api('/api/me/knowledge', {
+        method: 'POST',
+        body: JSON.stringify({
+          id: kbEditId || undefined,
+          question,
+          answer: document.getElementById('kb-a')?.value.trim() || '',
+          keywords: (document.getElementById('kb-kw')?.value || '').split(/[,，]/).map(s => s.trim()).filter(Boolean),
+          urls: (document.getElementById('kb-url')?.value || '').split(/[,，]/).map(s => s.trim()).filter(Boolean),
+          source: document.getElementById('kb-source')?.value.trim() || '',
+          evidence: document.getElementById('kb-e')?.value.trim() || '',
+        }),
+      });
+      kbEditId = null;
+      toast(r.ok ? '知识条目已保存' : (r.error || '保存失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'kb-del') {
+      const id = btn.dataset.id;
+      const r = await Account.api('/api/me/knowledge', { method: 'DELETE', body: JSON.stringify({ id }) });
+      toast(r.ok ? '已删除' : (r.error || '删除失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'kb-edit') {
+      const r = await Account.api('/api/me/knowledge');
+      const item = (r.items || []).find(x => x.id === btn.dataset.id);
+      if (!item) return toast('条目不存在', 'warn');
+      kbEditId = item.id;
+      render();
+      setTimeout(() => {
+        const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+        set('kb-q', item.question);
+        set('kb-a', item.answer);
+        set('kb-kw', (item.keywords || []).join('，'));
+        set('kb-url', (item.urls || []).join('，'));
+        set('kb-source', item.source);
+        set('kb-e', item.evidence);
+      }, 0);
+    } else if (act === 'kb-cancel') {
+      kbEditId = null;
+      render();
+    }
+  }
+
+  function urlAnchorView(c) {
+    if (!window.Account || !Account.user) {
+      c.innerHTML = pageHead('URL 锚点', '官网 / 内容页 / 竞品页，监测按 URL 归因')
+        + `<div class="card"><div class="card-body">${empty('请先登录客户账号')}</div></div>`;
+      return;
+    }
+    c.innerHTML = pageHead('URL 锚点', '官网 / 内容页 / 竞品页，监测按 URL 归因') + loading();
+    loadUrlAnchors(c);
+  }
+
+  async function loadUrlAnchors(c) {
+    const r = await Account.api('/api/me/url-anchors');
+    if (!r.ok) {
+      c.innerHTML = pageHead('URL 锚点', '官网 / 内容页 / 竞品页，监测按 URL 归因')
+        + `<div class="card"><div class="card-body">${empty(esc(r.error || '加载失败'))}</div></div>`;
+      return;
+    }
+    const items = r.items || [];
+    c.innerHTML = `
+      ${pageHead('URL 锚点', '官网 / 内容页 / 竞品页，监测按 URL 归因')}
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-head"><h3>${urlEditId ? '编辑锚点' : '新增锚点'}</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              ${cInput('URL', 'ua-url', 'https://zkoner.com')}
+              ${cSelect('类型', 'ua-type', ['official', 'content', 'competitor'])}
+              ${cInput('标题', 'ua-title', '页面标题')}
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px">
+              <button class="btn btn-primary" data-action="ua-save">保存锚点</button>
+              ${urlEditId ? '<button class="btn btn-ghost" data-action="ua-cancel">取消编辑</button>' : ''}
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>锚点列表</h3><span class="hint">${items.length} 个</span></div>
+          <div class="card-body">${items.length ? `<div class="mention-list">${items.map(x => `<div class="mention-item">
+            <div class="mi-head"><span class="mi-src">${esc(x.title || x.url)}</span>${badge(x.type, 'violet')}${badge('引用 ' + (x.citation_count || 0), Number(x.citation_count || 0) > 0 ? 'green' : '')}</div>
+            <div class="mi-text mono">${esc(x.url)}</div>
+            <div style="margin-top:6px;display:flex;gap:8px">
+              <button class="btn btn-sm btn-ghost" data-action="ua-edit" data-id="${esc(x.id)}">编辑</button>
+              <button class="btn btn-sm btn-ghost" data-action="ua-del" data-id="${esc(x.id)}">删除</button>
+            </div>
+          </div>`).join('')}</div>` : empty('还没有 URL 锚点，先添加官网地址')}</div>
+        </div>
+      </div>`;
+  }
+
+  async function uaAction(act, btn) {
+    if (act === 'ua-save') {
+      const url = document.getElementById('ua-url')?.value.trim();
+      if (!url) return toast('请填写 URL', 'warn');
+      const r = await Account.api('/api/me/url-anchors', {
+        method: 'POST',
+        body: JSON.stringify({
+          id: urlEditId || undefined,
+          url,
+          type: document.getElementById('ua-type')?.value || 'content',
+          title: document.getElementById('ua-title')?.value.trim() || '',
+        }),
+      });
+      urlEditId = null;
+      toast(r.ok ? '锚点已保存' : (r.error || '保存失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'ua-del') {
+      const r = await Account.api('/api/me/url-anchors', { method: 'DELETE', body: JSON.stringify({ id: btn.dataset.id }) });
+      toast(r.ok ? '已删除' : (r.error || '删除失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'ua-edit') {
+      const r = await Account.api('/api/me/url-anchors');
+      const item = (r.items || []).find(x => x.id === btn.dataset.id);
+      if (!item) return toast('锚点不存在', 'warn');
+      urlEditId = item.id;
+      render();
+      setTimeout(() => {
+        const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+        set('ua-url', item.url);
+        set('ua-type', item.type);
+        set('ua-title', item.title);
+      }, 0);
+    } else if (act === 'ua-cancel') {
+      urlEditId = null;
+      render();
+    }
+  }
+
   /* ═══ 全局事件 ═══ */
   function bindEvents() {
     document.getElementById('content').addEventListener('click', e => {
@@ -1645,6 +1836,10 @@
       }
       const fwBtn = e.target.closest('[data-action^="flywheel-"]');
       if (fwBtn) return flywheelAction(fwBtn.dataset.action);
+      const kbBtn = e.target.closest('[data-action^="kb-"]');
+      if (kbBtn) return kbAction(kbBtn.dataset.action, kbBtn);
+      const uaBtn = e.target.closest('[data-action^="ua-"]');
+      if (uaBtn) return uaAction(uaBtn.dataset.action, uaBtn);
       if (e.target.closest('[data-action="save-brand"]')) return saveSettings();
       if (e.target.closest('[data-action="save-monitor"]')) return saveMonitor();
       const cBtn = e.target.closest('[data-action^="content-"]');
