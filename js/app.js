@@ -13,6 +13,7 @@
       { id: 'batch-generate', label: '批量生成',    icon: '▦' },
       { id: 'art-manage',     label: '文章管理',    icon: '☰' },
       { id: 'dist-manage',    label: '分发管理',    icon: '⇶' },
+      { id: 'platform-dist',  label: '平台分发',    icon: '⇶' },
       { id: 'media-accounts', label: '媒体账号',    icon: '✉' },
       { id: 'dist-nodes',     label: '分发节点',    icon: '⌬' },
       { id: 'dist-logs',      label: '分发日志',    icon: '≡' },
@@ -116,7 +117,7 @@
     const t = NAV_TITLES[id] || { group: '页面', label: id };
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView, 'sensitive-words': c => opsView(c, 'sensitive-words'), authors: c => opsView(c, 'authors'), categories: c => opsView(c, 'categories'), 'ai-config': aiConfigView, balance: balanceView, 'data-stats': statsView };
+    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, 'platform-dist': platformDistView, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView, 'sensitive-words': c => opsView(c, 'sensitive-words'), authors: c => opsView(c, 'authors'), categories: c => opsView(c, 'categories'), 'ai-config': aiConfigView, balance: balanceView, 'data-stats': statsView };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -2049,6 +2050,97 @@
       </div>`;
   }
 
+  async function platformDistView(c) {
+    if (!window.Account || !Account.user) {
+      c.innerHTML = pageHead('平台分发', '微信公众号 / 百家号一键分发') + `<div class="card"><div class="card-body">${empty('请先登录客户账号')}</div></div>`;
+      return;
+    }
+    c.innerHTML = pageHead('平台分发', '微信公众号 / 百家号一键分发，其余平台后续接入') + loading();
+    const accounts = await Account.api('/api/me/platform-accounts');
+    const tasks = await Account.api('/api/me/distribute/tasks');
+    const contents = await Account.api('/api/me/contents');
+    if (!accounts.ok || !tasks.ok || !contents.ok) {
+      c.innerHTML = pageHead('平台分发', '微信公众号 / 百家号一键分发') + `<div class="card"><div class="card-body">${empty('加载失败')}</div></div>`;
+      return;
+    }
+    renderPlatformDist(c, accounts.items || [], tasks.items || [], contents.contents || []);
+  }
+
+  function renderPlatformDist(c, accounts, tasks, contents) {
+    const acctRows = accounts.map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.name || x.platform)}</span>${badge(x.platform === 'wechat' ? '微信公众号' : '百家号', 'violet')}${badge(x.status === 'active' ? '已启用' : '停用', x.status === 'active' ? 'green' : 'amber')}</div><div style="margin-top:6px;display:flex;gap:8px"><button class="btn btn-sm btn-ghost" data-action="pd-del" data-id="${esc(x.id)}">删除</button></div></div>`).join('') || empty('还没有平台账号');
+    const contentOptions = contents.length ? contents.map(x => `<option value="${esc(x.id)}">${esc(x.title)} · ${esc(x.status)}</option>`).join('') : '<option value="">暂无内容</option>';
+    c.innerHTML = `
+      ${pageHead('平台分发', '微信公众号 / 百家号一键分发，其余平台后续接入')}
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-head"><h3>平台账号</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              ${cSelect('平台', 'pd-platform', ['wechat', 'baijiahao'])}
+              ${cInput('账号名称', 'pd-name', '例如：优引GEO')}
+              ${cInput('微信 AppID', 'pd-appid', 'wx...')}
+              ${cInput('微信 Secret', 'pd-secret', '填写后保存')}
+              ${cInput('微信封面 media_id', 'pd-thumb', '素材库封面图 media_id')}
+              ${cInput('百家号 client_id', 'pd-client', '开放平台 client_id')}
+              ${cInput('百家号 access_token', 'pd-token', '开放平台 token')}
+            </div>
+            <div style="margin-top:12px"><button class="btn btn-primary" data-action="pd-save-account">保存平台账号</button></div>
+            <div class="mention-list" style="margin-top:12px">${acctRows}</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>一键分发</h3></div>
+          <div class="card-body">
+            <div class="form-group"><label>选择内容</label><select id="pd-content" class="input">${contentOptions}</select></div>
+            <div class="form-group"><label>目标平台</label><div style="display:flex;gap:16px">
+              <label><input type="checkbox" id="pd-plat-wechat" checked> 微信公众号</label>
+              <label><input type="checkbox" id="pd-plat-bjh"> 百家号</label>
+            </div></div>
+            <div style="margin-top:12px"><button class="btn btn-primary" data-action="pd-run">一键分发</button></div>
+            <div style="font-size:.76rem;color:var(--text-3);margin-top:10px">微信需要已认证服务号 + 封面 media_id；百家号需要开放平台凭证。</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-head"><h3>分发任务</h3><span class="hint">${tasks.length} 条</span><button class="btn btn-sm btn-ghost" data-action="pd-refresh">刷新</button></div>
+        <div class="card-body flush"><div class="table-wrap"><table class="tbl">
+          <thead><tr><th>时间</th><th>平台</th><th>状态</th><th>外部 ID</th><th>URL</th><th>说明</th></tr></thead>
+          <tbody>${tasks.map(x => `<tr><td class="mono" style="font-size:.78rem">${esc(String(x.created_at || '').slice(0, 19).replace('T', ' '))}</td><td>${esc(x.platform)}</td><td>${badge(x.status === 'done' ? '成功' : x.status === 'failed' ? '失败' : '待处理', x.status === 'done' ? 'green' : x.status === 'failed' ? 'red' : 'amber')}</td><td class="mono">${esc(x.external_id || '')}</td><td class="mono" style="font-size:.78rem">${esc(x.url || '')}</td><td style="font-size:.78rem">${esc(x.error || x.note || '')}</td></tr>`).join('') || '<tr><td colspan="6"><div class="empty">暂无任务</div></td></tr>'}</tbody>
+        </table></div></div>
+      </div>`;
+  }
+
+  async function platformDistAction(act, btn) {
+    if (act === 'pd-save-account') {
+      const platform = document.getElementById('pd-platform')?.value;
+      const credentials = platform === 'wechat'
+        ? { appid: document.getElementById('pd-appid')?.value.trim() || '', secret: document.getElementById('pd-secret')?.value.trim() || '', thumb_media_id: document.getElementById('pd-thumb')?.value.trim() || '' }
+        : { client_id: document.getElementById('pd-client')?.value.trim() || '', access_token: document.getElementById('pd-token')?.value.trim() || '' };
+      const r = await Account.api('/api/me/platform-accounts', {
+        method: 'POST',
+        body: JSON.stringify({ platform, name: document.getElementById('pd-name')?.value.trim() || '', credentials }),
+      });
+      toast(r.ok ? '平台账号已保存' : (r.error || '保存失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'pd-del') {
+      const r = await Account.api('/api/me/platform-accounts', { method: 'DELETE', body: JSON.stringify({ id: btn.dataset.id }) });
+      toast(r.ok ? '已删除' : (r.error || '删除失败'), r.ok ? 'good' : 'err');
+      render();
+    } else if (act === 'pd-run') {
+      const contentId = document.getElementById('pd-content')?.value;
+      const platforms = [];
+      if (document.getElementById('pd-plat-wechat')?.checked) platforms.push('wechat');
+      if (document.getElementById('pd-plat-bjh')?.checked) platforms.push('baijiahao');
+      if (!contentId || !platforms.length) return toast('请选择内容与平台', 'warn');
+      const r = await Account.api('/api/me/distribute/run', { method: 'POST', body: JSON.stringify({ content_id: contentId, platforms }) });
+      const msgs = (r.results || []).map(x => `${x.platform}:${x.ok ? '成功' : (x.error || '失败')}`).join(' · ');
+      toast(r.ok ? '分发完成：' + msgs : (r.error || '分发失败'), r.ok ? (r.results || []).every(x => x.ok) ? 'good' : 'warn' : 'err');
+      render();
+    } else if (act === 'pd-refresh') {
+      render();
+    }
+  }
+
   /* ═══ 全局事件 ═══ */
   function bindEvents() {
     document.getElementById('content').addEventListener('click', e => {
@@ -2067,6 +2159,8 @@
       const opBtn = e.target.closest('[data-action^="op-"]');
       if (opBtn) return opsAction(opBtn.dataset.action, opBtn);
       if (e.target.closest('[data-action="save-ai-config"]')) return saveAiConfigAction();
+      const pdBtn = e.target.closest('[data-action^="pd-"]');
+      if (pdBtn) return platformDistAction(pdBtn.dataset.action, pdBtn);
       if (e.target.closest('[data-action="save-brand"]')) return saveSettings();
       if (e.target.closest('[data-action="save-monitor"]')) return saveMonitor();
       const cBtn = e.target.closest('[data-action^="content-"]');
