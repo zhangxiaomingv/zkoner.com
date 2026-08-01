@@ -117,7 +117,35 @@
     const t = NAV_TITLES[id] || { group: '页面', label: id };
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, 'platform-dist': platformDistView, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView, 'sensitive-words': c => opsView(c, 'sensitive-words'), authors: c => opsView(c, 'authors'), categories: c => opsView(c, 'categories'), 'ai-config': aiConfigView, balance: balanceView, 'data-stats': statsView };
+    const views = {
+      diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand,
+      'scenario-cfg': scenarioCfg,
+      'monitor-cfg': monitorCfg,
+      'ai-create': aiCreate,
+      'batch-generate': batchGenerate,
+      'art-manage': artManage,
+      'traffic-clone': trafficClone,
+      keywords: keywordsView,
+      titles: titlesView,
+      images: imagesView,
+      knowledge: knowledgeView,
+      'url-import': urlImportView,
+      'dist-manage': distManage,
+      'platform-dist': platformDistView,
+      'media-accounts': mediaAccounts,
+      'dist-nodes': distNodes,
+      'dist-logs': distLogs,
+      'competitor-analysis': competitorAnalysis,
+      'kb-center': knowledgeCenter,
+      'url-anchor': urlAnchorView,
+      'sensitive-words': c => opsView(c, 'sensitive-words'),
+      authors: c => opsView(c, 'authors'),
+      categories: c => opsView(c, 'categories'),
+      'ai-config': aiConfigView,
+      balance: balanceView,
+      'data-stats': statsView,
+      flywheel: optimizeFlywheel,
+    };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }

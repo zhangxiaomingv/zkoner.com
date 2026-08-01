@@ -6,6 +6,14 @@
   Cache-Control: no-cache, no-store, must-revalidate
   Pragma: no-cache
 
+/console
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+
+/console/
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+
 /js/*
   Cache-Control: no-cache, no-store, must-revalidate
   Pragma: no-cache
