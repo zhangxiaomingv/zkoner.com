@@ -108,7 +108,7 @@
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel };
+    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
