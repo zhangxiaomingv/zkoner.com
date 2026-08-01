@@ -11,7 +11,6 @@
       { id: 'suggestions',    label: '优化建议',    icon: '✦' },
       { id: 'platform-dist',  label: '平台分发',    icon: '⇶' },
       { id: 'ai-create',      label: '行业文章生成', icon: '✦' },
-      { id: 'batch-generate', label: '批量生成',    icon: '▦' },
       { id: 'art-manage',     label: '文章管理',    icon: '☰' },
       { id: 'dist-manage',    label: '分发管理',    icon: '⇶' },
       { id: 'media-accounts', label: '媒体账号',    icon: '✉' },
