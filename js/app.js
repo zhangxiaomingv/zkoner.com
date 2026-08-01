@@ -1452,6 +1452,14 @@
     const att = f.attribution || {};
     const steps = f.steps || {};
     const stepBadge = (ok, label) => badge(label, ok ? 'green' : 'amber');
+    const tasksList = f.tasksList || [];
+    const contentsList = f.contentsList || [];
+    const taskOptions = tasksList.length
+      ? tasksList.map(t => `<option value="${esc(t.id)}">${esc(t.title)}</option>`).join('')
+      : '<option value="">暂无任务</option>';
+    const contentOptions = contentsList.length
+      ? contentsList.map(x => `<option value="${esc(x.id)}">${esc(x.title)} · ${esc(x.status)}</option>`).join('')
+      : '<option value="">暂无内容</option>';
     c.innerHTML = `
       ${pageHead('优化闭环', '检测 → 建议 → 生成 → 分发 → 归因', '<button class="btn btn-sm btn-ghost" data-action="flywheel-refresh">刷新</button>')}
       <div class="grid" style="grid-template-columns:repeat(4,1fr)">
@@ -1464,32 +1472,37 @@
         <div class="card">
           <div class="card-head"><h3>1. 检测</h3>${stepBadge(steps.detect, steps.detect ? '已检测' : '未检测')}</div>
           <div class="card-body">
-            ${rep ? `<div>最近报告：<b>${esc(rep.slug || '')}</b> · 得分 ${rep.score}（${rep.grade || ''}）${rep.score_delta != null ? ' · 较上次 ' + (rep.score_delta > 0 ? '+' : '') + rep.score_delta : ''}</div>` : `<div class="muted">还没有报告，去「GEO 诊断」跑一次。</div>`}
-            <div style="margin-top:12px"><button class="btn btn-primary" data-action="flywheel-plan">2. 从报告生成优化任务</button></div>
+            ${rep
+              ? `<div>最近报告：<b>${esc(rep.slug || '')}</b> · 得分 ${rep.score}（${rep.grade || ''}）${rep.score_delta != null ? ' · 较上次 ' + (rep.score_delta > 0 ? '+' : '') + rep.score_delta : ''}</div>`
+              : `<div class="empty">还没有诊断报告。先对网站/品牌跑一次 GEO 诊断，才能生成优化任务。</div>
+                 <div style="margin-top:12px"><a class="btn btn-primary" href="#/diagnose">去 GEO 诊断</a></div>`}
+            ${rep ? `<div style="margin-top:12px"><button class="btn btn-primary" data-action="flywheel-plan">2. 从报告生成优化任务</button></div>` : ''}
           </div>
         </div>
         <div class="card">
           <div class="card-head"><h3>2/3. 建议与生成</h3>${stepBadge(steps.plan, steps.plan ? '已有任务' : '未生成')}</div>
           <div class="card-body">
-            <div class="form-group"><label>选择优化任务</label><select id="fw-task" class="input">${(f.tasksList || []).map(t => `<option value="${esc(t.id)}">${esc(t.title)}</option>`).join('') || '<option value="">暂无任务</option>'}</select></div>
+            <div class="form-group"><label>选择优化任务</label><select id="fw-task" class="input">${taskOptions}</select></div>
             <div style="margin-top:8px"><button class="btn btn-primary" data-action="flywheel-gen">AI 生成内容草稿</button></div>
+            ${tasksList.length ? `<div class="mention-list" style="margin-top:12px">${tasksList.slice(0, 5).map(t => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(t.title)}</span>${badge(t.status || 'pending', t.status === 'generated' ? 'green' : 'amber')}</div><div class="mi-text">${esc(t.detail || '')}</div></div>`).join('')}</div>` : `<div class="empty" style="margin-top:12px">还没有优化任务，先完成步骤 1/2。</div>`}
           </div>
         </div>
         <div class="card">
           <div class="card-head"><h3>4. 手动分发</h3>${stepBadge(steps.distribute, steps.distribute ? '已分发' : '未分发')}</div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="form-group"><label>选择内容</label><select id="fw-content" class="input">${(f.contentsList || []).map(x => `<option value="${esc(x.id)}">${esc(x.title)} · ${esc(x.status)}</option>`).join('') || '<option value="">暂无内容</option>'}</select></div>
+              <div class="form-group"><label>选择内容</label><select id="fw-content" class="input">${contentOptions}</select></div>
               <div class="form-group"><label>平台</label><input id="fw-platform" class="input" placeholder="知乎 / 百家号 / 公众号"></div>
               <div class="form-group"><label>发布 URL</label><input id="fw-url" class="input" placeholder="https://..."></div>
             </div>
             <div style="margin-top:8px"><button class="btn btn-primary" data-action="flywheel-dist">标记已发布</button></div>
+            ${contentsList.length ? `<div class="mention-list" style="margin-top:12px">${contentsList.slice(0, 5).map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.title)}</span>${badge(x.status === 'published' ? '已发布' : '草稿', x.status === 'published' ? 'green' : 'amber')}${badge('引用 ' + (x.citation_count || 0), Number(x.citation_count || 0) > 0 ? 'green' : '')}</div><div class="mi-text">${esc(x.url || '未填写 URL')}</div></div>`).join('')}</div>` : `<div class="empty" style="margin-top:12px">还没有内容，先在步骤 2/3 生成草稿。</div>`}
           </div>
         </div>
         <div class="card">
           <div class="card-head"><h3>5. 监测归因</h3>${stepBadge(steps.attribution, steps.attribution ? '已匹配引用' : '待归因')}</div>
           <div class="card-body">
-            <div>已匹配 <b>${att.matched || 0}</b> 条 AI 引用</div>
+            <div>已匹配 <b>${att.matched || 0}</b> 条 AI 引用（来自云端监测）</div>
             <div style="margin-top:12px"><button class="btn btn-primary" data-action="flywheel-attrib">运行引用归因</button></div>
             <div class="mention-list" style="margin-top:12px">${(att.citations || []).slice(0, 6).map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.content_id || '')}</span>${badge(x.engine || '', 'violet')}</div><div class="mi-text">${esc(x.scenario || '')} · ${esc(x.url || '')}</div></div>`).join('') || empty('暂无匹配')}</div>
           </div>
