@@ -39,7 +39,7 @@
       { id: 'monitor-cfg',    label: '监测设置',    icon: '⚙' },
     ]},
     { group: '优化闭环', items: [
-      { id: 'flywheel',       label: '优化闭环',    icon: '◉' },
+      { id: 'flywheel',       label: '闭环驾驶舱',  icon: '◉' },
     ]},
   ];
 
@@ -1426,18 +1426,18 @@
   /* ═══ 优化闭环 MVP ═══ */
   function optimizeFlywheel(c) {
     if (!window.Account || !Account.user) {
-      c.innerHTML = pageHead('优化闭环', '检测 → 建议 → 生成 → 分发 → 归因')
-        + `<div class="card"><div class="card-body">${empty('请先登录客户账号后使用优化闭环')}</div></div>`;
+      c.innerHTML = pageHead('闭环驾驶舱', '系统闭环引擎状态与干预入口')
+        + `<div class="card"><div class="card-body">${empty('请先登录客户账号后查看闭环引擎')}</div></div>`;
       return;
     }
-    c.innerHTML = pageHead('优化闭环', '检测 → 建议 → 生成 → 分发 → 归因') + loading();
+    c.innerHTML = pageHead('闭环驾驶舱', '系统闭环引擎状态与干预入口') + loading();
     loadFlywheel(c);
   }
 
   async function loadFlywheel(c) {
-    const r = await Account.api('/api/me/optimize/flywheel');
+    const r = await Account.api('/api/me/loop');
     if (!r.ok) {
-      c.innerHTML = pageHead('优化闭环', '检测 → 建议 → 生成 → 分发 → 归因')
+      c.innerHTML = pageHead('闭环驾驶舱', '系统闭环引擎状态与干预入口')
         + `<div class="card"><div class="card-body">${empty(esc(r.error || '加载失败'))}</div></div>`;
       return;
     }
@@ -1445,15 +1445,21 @@
   }
 
   function renderFlywheel(c, f) {
-    const rep = f.report;
-    const tasks = f.tasks || {};
-    const contents = f.contents || {};
-    const dist = f.distribution || {};
-    const att = f.attribution || {};
+    const STAGE_NAMES = { detect: '检测', monitor: '监测', tasks: '任务生成', generate: '内容生成', distribute: '分发', attribution: '归因' };
+    const rep = f.report || null;
+    const tasksList = f.tasks || [];
+    const contentsList = f.contents || [];
+    const tasks = { total: tasksList.length, pending: tasksList.filter(t => t.status === 'pending').length };
+    const contents = {
+      total: contentsList.length,
+      drafts: contentsList.filter(x => x.status === 'draft').length,
+      published: contentsList.filter(x => x.status === 'published').length,
+      citation_count: contentsList.reduce((s, x) => s + Number(x.citation_count || 0), 0),
+    };
+    const dist = { total: f.distribution || 0 };
+    const att = { matched: f.citations || 0, citations: [] };
     const steps = f.steps || {};
     const stepBadge = (ok, label) => badge(label, ok ? 'green' : 'amber');
-    const tasksList = f.tasksList || [];
-    const contentsList = f.contentsList || [];
     const taskOptions = tasksList.length
       ? tasksList.map(t => `<option value="${esc(t.id)}">${esc(t.title)}</option>`).join('')
       : '<option value="">暂无任务</option>';
@@ -1461,12 +1467,23 @@
       ? contentsList.map(x => `<option value="${esc(x.id)}">${esc(x.title)} · ${esc(x.status)}</option>`).join('')
       : '<option value="">暂无内容</option>';
     c.innerHTML = `
-      ${pageHead('优化闭环', '检测 → 建议 → 生成 → 分发 → 归因', '<button class="btn btn-sm btn-ghost" data-action="flywheel-refresh">刷新</button>')}
+      ${pageHead('闭环驾驶舱', '监测/检测 → 任务 → 内容 → 分发 → 归因反馈', '<button class="btn btn-sm btn-ghost" data-action="flywheel-refresh">刷新</button>')}
       <div class="grid" style="grid-template-columns:repeat(4,1fr)">
-        ${tile('当前得分', rep ? rep.score + ' ' + (rep.grade || '') : '--', rep ? (rep.date || '') : '未检测', rep ? '' : '')}
+        ${tile('监测得分', f.monitor && f.monitor.overall_score != null ? f.monitor.overall_score : '--', f.monitor ? '命中 ' + (f.monitor.mentioned_scenarios || 0) + '/' + (f.monitor.total_scenarios || 0) : '未监测', '')}
         ${tile('优化任务', tasks.total || 0, '待处理 ' + (tasks.pending || 0), '')}
         ${tile('内容', contents.total || 0, '草稿 ' + (contents.drafts || 0) + ' · 已发布 ' + (contents.published || 0), '')}
-        ${tile('被 AI 引用', contents.citation_count || 0, '分发 ' + (dist.total || 0) + ' 次', 'up')}
+        ${tile('引用归因', att.matched || 0, '分发 ' + (dist.total || 0) + ' 次', 'up')}
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-head"><h3>闭环引擎</h3><span class="hint">每日监测后自动执行；也可手动运行一轮</span></div>
+        <div class="card-body">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">${Object.entries(STAGE_NAMES).map(([k, n]) => stepBadge(!!steps[k], n)).join('')}</div>
+          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-primary" data-action="flywheel-tick">运行一轮闭环</button>
+            <a class="btn btn-ghost" href="#/diagnose">去检测</a>
+          </div>
+          <div class="mention-list" style="margin-top:12px">${(f.runs || []).slice(0, 8).map(r => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(STAGE_NAMES[r.stage] || r.stage)}</span>${badge(r.status === 'done' ? '完成' : '待执行', r.status === 'done' ? 'green' : 'amber')}</div><div class="mi-text">${esc(r.summary || '')}</div></div>`).join('') || empty('引擎还没有运行记录')}</div>
+        </div>
       </div>
       <div class="grid grid-2" style="margin-top:16px">
         <div class="card">
@@ -1530,6 +1547,9 @@
     } else if (act === 'flywheel-attrib') {
       const r = await Account.api('/api/me/optimize/attribution', { method: 'POST' });
       toast(r.ok ? '归因完成，匹配 ' + (r.matched || 0) + ' 条引用' : (r.error || '归因失败'), r.ok ? 'good' : 'err');
+    } else if (act === 'flywheel-tick') {
+      const r = await Account.api('/api/me/loop/tick', { method: 'POST', body: JSON.stringify({ force: true }) });
+      toast(r.ok ? '闭环已执行一轮' : (r.error || '执行失败'), r.ok ? 'good' : 'err');
     }
     render();
   }
