@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated_at": "2026/7/31 22:17:24",
+    "updated_at": "2026/8/1 07:48:15",
     "generated_by": "monitor.js(豆包+DeepSeek) → analyze.js → build-data.js",
     "brand": "优引GEO系统",
     "website": "https://zkoner.com",
@@ -118,44 +118,21 @@
     "updated_at": "2026-07-31",
     "list": [
       {
-        "name": "某全链路GEO平台",
-        "avg_rank": 1.8,
-        "mentions": 9,
-        "share": 34,
-        "trend": "up",
-        "note": "榜首，覆盖 7 引擎"
-      },
-      {
         "name": "企多客",
-        "avg_rank": 2.4,
-        "mentions": 7,
-        "share": 26,
+        "avg_rank": null,
+        "mentions": 0,
+        "share": 0,
         "trend": "flat",
-        "note": "同赛道全链路平台"
-      },
-      {
-        "name": "某AI内容工具",
-        "avg_rank": 3.2,
-        "mentions": 5,
-        "share": 18,
-        "trend": "down",
-        "note": "侧重内容生产"
-      },
-      {
-        "name": "某监测工具",
-        "avg_rank": 4.5,
-        "mentions": 3,
-        "share": 12,
-        "trend": "flat",
-        "note": "仅监测单一环节"
+        "note": "今日实测",
+        "self": false
       },
       {
         "name": "优引GEO系统",
-        "avg_rank": 5.1,
-        "mentions": 11,
-        "share": 10,
-        "trend": "up",
-        "note": "本品牌 · 提及率上升中",
+        "avg_rank": null,
+        "mentions": 0,
+        "share": 0,
+        "trend": "flat",
+        "note": "本品牌 · 今日实测",
         "self": true
       }
     ]

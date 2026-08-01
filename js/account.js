@@ -5,6 +5,7 @@ const Account = (() => {
   const TOKEN_KEY = 'youyin-token';
   let token = localStorage.getItem(TOKEN_KEY) || '';
   let user = null;
+  let pendingEmail = null;
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -53,13 +54,33 @@ const Account = (() => {
   async function login(email, password) {
     const r = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
     if (r.ok) { setSession(r); await afterLogin(); }
+    else if (r.pending) {
+      pendingEmail = email;
+      showVerifyForm(r.error || '请先验证邮箱');
+    }
     return r;
   }
 
   async function register(payload) {
     const r = await api('/api/auth/register', { method: 'POST', body: JSON.stringify(payload) });
+    if (r.ok && r.pending) {
+      pendingEmail = r.email || payload.email;
+      showVerifyForm(r.note);
+    } else if (r.ok) {
+      setSession(r);
+      await afterLogin();
+    }
+    return r;
+  }
+
+  async function verify(email, code) {
+    const r = await api('/api/auth/verify', { method: 'POST', body: JSON.stringify({ email, code }) });
     if (r.ok) { setSession(r); await afterLogin(); }
     return r;
+  }
+
+  async function resend(email) {
+    return api('/api/auth/resend', { method: 'POST', body: JSON.stringify({ email }) });
   }
 
   async function afterLogin() {
@@ -152,10 +173,36 @@ const Account = (() => {
     });
   }
 
+  function showVerifyForm(note) {
+    const form = document.getElementById('acct-form');
+    if (!form) return;
+    const err = document.getElementById('acct-err');
+    err.textContent = '';
+    form.innerHTML = `
+      <div style="font-size:.9rem;margin-bottom:6px">验证邮箱</div>
+      <div style="font-size:.8rem;color:#9a9ab4;margin-bottom:12px">验证码已发送到 <b style="color:#e4e4ef">${esc(pendingEmail || '')}</b></div>
+      <label style="display:block;font-size:.78rem;color:#9a9ab4;margin:10px 0 4px">6 位验证码</label>
+      <input id="acct-code" inputmode="numeric" maxlength="6" style="width:100%;background:#0d0d1c;border:1px solid #24243c;color:#e4e4ef;border-radius:9px;padding:9px 12px;letter-spacing:4px;font-family:monospace">
+      <button id="acct-verify" class="btn btn-primary" style="width:100%;margin-top:16px;padding:10px">验证并登录</button>
+      <button id="acct-resend" class="btn btn-sm" style="width:100%;margin-top:8px">重新发送验证码</button>
+      <div style="font-size:.74rem;color:#636380;margin-top:10px">${esc(note || '验证码 15 分钟内有效。')}</div>`;
+    document.getElementById('acct-verify').addEventListener('click', async () => {
+      const code = document.getElementById('acct-code').value.trim();
+      const r = await verify(pendingEmail, code);
+      if (r.error) err.textContent = r.error;
+    });
+    document.getElementById('acct-resend').addEventListener('click', async () => {
+      const r = await resend(pendingEmail);
+      err.textContent = r.error || (r.note || '验证码已重新发送');
+      if (r.error && r.error.includes('频繁')) err.textContent = r.error;
+    });
+  }
+
   function closeModal() {
     const m = document.getElementById('acct-modal');
     if (m) m.remove();
+    pendingEmail = null;
   }
 
-  return { init, login, register, logout, saveBrand, api, get token() { return token; }, get user() { return user; } };
+  return { init, login, register, verify, resend, logout, saveBrand, api, get token() { return token; }, get user() { return user; } };
 })();

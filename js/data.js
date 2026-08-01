@@ -11,6 +11,19 @@ const DataStore = {
   loaded: true,
 
   async load() {
+    const opts = window.YOUYIN_API_OPTIONS || {};
+    if (window.YOUYIN_API && window.YOUYIN_API === opts.cloud) {
+      try {
+        const res = await fetch(window.YOUYIN_API + '/api/monitor', { cache: 'no-store' });
+        const d = await res.json();
+        if (d && d.ok && d.data && d.data.visibility) {
+          this.data = d.data;
+          this.source = 'cloud:' + window.YOUYIN_API;
+          this.loaded = true;
+          return true;
+        }
+      } catch (e) { /* 云端不可用时回退到静态文件 */ }
+    }
     try {
       const res = await fetch('data/monitor-data.json', { cache: 'no-store' });
       if (res.ok) {

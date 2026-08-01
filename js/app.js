@@ -38,6 +38,9 @@
       { id: 'scenario-cfg',   label: '场景管理',    icon: '❏' },
       { id: 'monitor-cfg',    label: '监测设置',    icon: '⚙' },
     ]},
+    { group: '优化闭环', items: [
+      { id: 'flywheel',       label: '优化闭环',    icon: '◉' },
+    ]},
   ];
 
   const NAV_TITLES = {};
@@ -105,7 +108,7 @@
     const t = NAV_TITLES[id];
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
-    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs };
+    const views = { diagnose, overview, visibility, competitors, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel };
     (views[id] || overview)(content);
     window.scrollTo(0, 0);
   }
@@ -433,8 +436,11 @@
       <td>${trendBadge(x.trend)}</td>
       <td style="font-size:.78rem;color:var(--text-3)">${esc(x.note || '')}</td>
     </tr>`).join('');
+    const emptyHint = list.length <= 1
+      ? `<div class="card" style="margin-top:16px"><div class="card-body" style="font-size:.82rem;color:var(--text-2)">当前榜单仅含本品牌。在 <span class="mono">data/config.json</span> 的 <span class="mono">competitors</span> 中配置竞品名称/别名/官网后运行 <span class="mono">bash scripts/run-monitor.sh</span>，即可生成真实竞品对比。</div></div>`
+      : '';
     c.innerHTML = `
-      ${pageHead('竞争格局', '品牌与同赛道竞品在 AI 引擎中的可见度对比 · ' + D().competitors.updated_at)}
+      ${pageHead('竞争格局', '品牌与同赛道竞品在 AI 引擎中的可见度对比 · 今日实测 · ' + D().competitors.updated_at)}
       <div class="grid-2">
         <div class="card">
           <div class="card-head"><h3>AI 提及份额</h3></div>
@@ -447,7 +453,7 @@
             <tbody>${rows}</tbody>
           </table></div></div>
         </div>
-      </div>`;
+      </div>${emptyHint}`;
   }
 
   /* ═══ 视图：引用追踪 ═══ */
@@ -456,6 +462,7 @@
     const pos = list.filter(x => x.sentiment === 'positive').length;
     const engines = effSettings().engines;
     const engName = id => (engines.find(e => e.id === id) || {}).name || id;
+    const attrLabel = { brand: '官网归因', competitor: '竞品来源', 'third-party': '第三方来源' };
     const rows = list.map(x => `
       <div class="mention-item">
         <div class="mi-head">
@@ -463,6 +470,7 @@
           ${badge(engName(x.engine), x.mentioned ? 'green' : 'amber')}
           ${badge(x.scenario, 'violet')}
           ${badge('来源 · ' + x.source, '')}
+          ${x.attribution ? badge('归因 · ' + (attrLabel[x.attribution] || '待定'), x.attribution === 'brand' ? 'green' : x.attribution === 'competitor' ? 'amber' : '') : ''}
           ${badge(x.sentiment === 'positive' ? '正面' : x.sentiment === 'negative' ? '负面' : '中性', x.sentiment === 'positive' ? 'green' : x.sentiment === 'negative' ? 'red' : '')}
           ${x.mentioned ? badge('已提及', 'green') : badge('未提及', 'amber')}
         </div>
@@ -1415,6 +1423,104 @@
     }, 1500);
   }
 
+  /* ═══ 优化闭环 MVP ═══ */
+  function optimizeFlywheel(c) {
+    if (!window.Account || !Account.user) {
+      c.innerHTML = pageHead('优化闭环', '检测 → 建议 → 生成 → 分发 → 归因')
+        + `<div class="card"><div class="card-body">${empty('请先登录客户账号后使用优化闭环')}</div></div>`;
+      return;
+    }
+    c.innerHTML = pageHead('优化闭环', '检测 → 建议 → 生成 → 分发 → 归因') + loading();
+    loadFlywheel(c);
+  }
+
+  async function loadFlywheel(c) {
+    const r = await Account.api('/api/me/optimize/flywheel');
+    if (!r.ok) {
+      c.innerHTML = pageHead('优化闭环', '检测 → 建议 → 生成 → 分发 → 归因')
+        + `<div class="card"><div class="card-body">${empty(esc(r.error || '加载失败'))}</div></div>`;
+      return;
+    }
+    renderFlywheel(c, r);
+  }
+
+  function renderFlywheel(c, f) {
+    const rep = f.report;
+    const tasks = f.tasks || {};
+    const contents = f.contents || {};
+    const dist = f.distribution || {};
+    const att = f.attribution || {};
+    const steps = f.steps || {};
+    const stepBadge = (ok, label) => badge(label, ok ? 'green' : 'amber');
+    c.innerHTML = `
+      ${pageHead('优化闭环', '检测 → 建议 → 生成 → 分发 → 归因', '<button class="btn btn-sm btn-ghost" data-action="flywheel-refresh">刷新</button>')}
+      <div class="grid" style="grid-template-columns:repeat(4,1fr)">
+        ${tile('当前得分', rep ? rep.score + ' ' + (rep.grade || '') : '--', rep ? (rep.date || '') : '未检测', rep ? '' : '')}
+        ${tile('优化任务', tasks.total || 0, '待处理 ' + (tasks.pending || 0), '')}
+        ${tile('内容', contents.total || 0, '草稿 ' + (contents.drafts || 0) + ' · 已发布 ' + (contents.published || 0), '')}
+        ${tile('被 AI 引用', contents.citation_count || 0, '分发 ' + (dist.total || 0) + ' 次', 'up')}
+      </div>
+      <div class="grid grid-2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-head"><h3>1. 检测</h3>${stepBadge(steps.detect, steps.detect ? '已检测' : '未检测')}</div>
+          <div class="card-body">
+            ${rep ? `<div>最近报告：<b>${esc(rep.slug || '')}</b> · 得分 ${rep.score}（${rep.grade || ''}）${rep.score_delta != null ? ' · 较上次 ' + (rep.score_delta > 0 ? '+' : '') + rep.score_delta : ''}</div>` : `<div class="muted">还没有报告，去「GEO 诊断」跑一次。</div>`}
+            <div style="margin-top:12px"><button class="btn btn-primary" data-action="flywheel-plan">2. 从报告生成优化任务</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>2/3. 建议与生成</h3>${stepBadge(steps.plan, steps.plan ? '已有任务' : '未生成')}</div>
+          <div class="card-body">
+            <div class="form-group"><label>选择优化任务</label><select id="fw-task" class="input">${(f.tasksList || []).map(t => `<option value="${esc(t.id)}">${esc(t.title)}</option>`).join('') || '<option value="">暂无任务</option>'}</select></div>
+            <div style="margin-top:8px"><button class="btn btn-primary" data-action="flywheel-gen">AI 生成内容草稿</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>4. 手动分发</h3>${stepBadge(steps.distribute, steps.distribute ? '已分发' : '未分发')}</div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group"><label>选择内容</label><select id="fw-content" class="input">${(f.contentsList || []).map(x => `<option value="${esc(x.id)}">${esc(x.title)} · ${esc(x.status)}</option>`).join('') || '<option value="">暂无内容</option>'}</select></div>
+              <div class="form-group"><label>平台</label><input id="fw-platform" class="input" placeholder="知乎 / 百家号 / 公众号"></div>
+              <div class="form-group"><label>发布 URL</label><input id="fw-url" class="input" placeholder="https://..."></div>
+            </div>
+            <div style="margin-top:8px"><button class="btn btn-primary" data-action="flywheel-dist">标记已发布</button></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>5. 监测归因</h3>${stepBadge(steps.attribution, steps.attribution ? '已匹配引用' : '待归因')}</div>
+          <div class="card-body">
+            <div>已匹配 <b>${att.matched || 0}</b> 条 AI 引用</div>
+            <div style="margin-top:12px"><button class="btn btn-primary" data-action="flywheel-attrib">运行引用归因</button></div>
+            <div class="mention-list" style="margin-top:12px">${(att.citations || []).slice(0, 6).map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.content_id || '')}</span>${badge(x.engine || '', 'violet')}</div><div class="mi-text">${esc(x.scenario || '')} · ${esc(x.url || '')}</div></div>`).join('') || empty('暂无匹配')}</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  async function flywheelAction(act) {
+    if (!window.Account || !Account.user) return toast('请先登录', 'warn');
+    if (act === 'flywheel-plan') {
+      const r = await Account.api('/api/me/optimize/plan', { method: 'POST' });
+      toast(r.ok ? '已生成 ' + (r.created || 0) + ' 个优化任务' : (r.error || '生成失败'), r.ok ? 'good' : 'err');
+    } else if (act === 'flywheel-gen') {
+      const taskId = document.getElementById('fw-task')?.value;
+      if (!taskId) return toast('请先选择优化任务', 'warn');
+      const r = await Account.api('/api/me/content/generate', { method: 'POST', body: JSON.stringify({ task_id: taskId }) });
+      toast(r.ok ? '草稿已生成：' + (r.content?.title || '') : (r.error || '生成失败'), r.ok ? 'good' : 'err');
+    } else if (act === 'flywheel-dist') {
+      const contentId = document.getElementById('fw-content')?.value;
+      const platform = document.getElementById('fw-platform')?.value.trim();
+      const url = document.getElementById('fw-url')?.value.trim();
+      if (!contentId || !platform || !url) return toast('请填写内容、平台和 URL', 'warn');
+      const r = await Account.api('/api/me/distribute', { method: 'POST', body: JSON.stringify({ content_id: contentId, platform, url }) });
+      toast(r.ok ? '已标记发布到 ' + platform : (r.error || '分发失败'), r.ok ? 'good' : 'err');
+    } else if (act === 'flywheel-attrib') {
+      const r = await Account.api('/api/me/optimize/attribution', { method: 'POST' });
+      toast(r.ok ? '归因完成，匹配 ' + (r.matched || 0) + ' 条引用' : (r.error || '归因失败'), r.ok ? 'good' : 'err');
+    }
+    render();
+  }
+
   /* ═══ 全局事件 ═══ */
   function bindEvents() {
     document.getElementById('content').addEventListener('click', e => {
@@ -1424,6 +1530,8 @@
       if (e.target.closest('[data-action="diag-again"]')) {
         diagState.mode = 'input'; diagState.report = null; render(); return;
       }
+      const fwBtn = e.target.closest('[data-action^="flywheel-"]');
+      if (fwBtn) return flywheelAction(fwBtn.dataset.action);
       if (e.target.closest('[data-action="save-brand"]')) return saveSettings();
       if (e.target.closest('[data-action="save-monitor"]')) return saveMonitor();
       const cBtn = e.target.closest('[data-action^="content-"]');
