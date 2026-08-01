@@ -2,36 +2,39 @@
 (() => {
   'use strict';
 
-  /* ═══ 菜单结构（仅监测与监控系统）═══ */
+  /* ═══ 菜单结构（收敛后的闭环导航）═══ */
   const MENU = [
-    { group: '诊断', items: [
+    { group: '品牌检测', items: [
       { id: 'diagnose', label: 'GEO 诊断', icon: '🔬' },
     ]},
-    { group: 'AI监测', items: [
-      { id: 'overview',       label: '总览',        icon: '◈' },
-      { id: 'visibility',     label: '品牌可见度',  icon: '◎' },
-      { id: 'competitor-analysis', label: '竞争分析', icon: '⚔' },
-      { id: 'citations',      label: '引用追踪',    icon: '✎' },
-      { id: 'articles',       label: '文章收录',    icon: '▤' },
-      { id: 'scenarios',      label: '场景洞察',    icon: '❖' },
-      { id: 'content',        label: '内容追踪',    icon: '≡' },
+    { group: '优化建议与内容生产', items: [
       { id: 'suggestions',    label: '优化建议',    icon: '✦' },
-      { id: 'tasks',          label: '监测任务',    icon: '▶' },
-    ]},
-    { group: '内容生产', items: [
-      { id: 'ai-create',      label: 'AI 创作',     icon: '✦' },
+      { id: 'ai-create',      label: '行业文章生成', icon: '✦' },
       { id: 'batch-generate', label: '批量生成',    icon: '▦' },
       { id: 'art-manage',     label: '文章管理',    icon: '☰' },
-      { id: 'traffic-clone',  label: '流量复刻',    icon: '↻' },
-      { id: 'keywords',       label: '关键词库',    icon: '⌕' },
-      { id: 'titles',         label: '标题库',      icon: '❝' },
-      { id: 'images',         label: '图片库',      icon: '▧' },
-      { id: 'knowledge',      label: '知识库',      icon: '▣' },
-      { id: 'url-import',     label: 'URL 导入',    icon: '⇣' },
       { id: 'dist-manage',    label: '分发管理',    icon: '⇶' },
       { id: 'media-accounts', label: '媒体账号',    icon: '✉' },
       { id: 'dist-nodes',     label: '分发节点',    icon: '⌬' },
       { id: 'dist-logs',      label: '分发日志',    icon: '≡' },
+    ]},
+    { group: '素材中心', items: [
+      { id: 'kb-center',      label: '知识库',      icon: '▣' },
+      { id: 'url-anchor',     label: 'URL 锚点',    icon: '⇢' },
+      { id: 'keywords',       label: '关键词库',    icon: '⌕' },
+      { id: 'titles',         label: '标题库',      icon: '❝' },
+      { id: 'images',         label: '图片库',      icon: '▧' },
+      { id: 'url-import',     label: 'URL 导入',    icon: '⇣' },
+    ]},
+    { group: '竞争对手对比分析', items: [
+      { id: 'competitor-analysis', label: '竞争分析', icon: '⚔' },
+      { id: 'citations',      label: '引用追踪',    icon: '✎' },
+    ]},
+    { group: '品牌监控', items: [
+      { id: 'visibility',     label: '品牌可见度',  icon: '◎' },
+      { id: 'scenarios',      label: '场景洞察',    icon: '❖' },
+      { id: 'articles',       label: '文章收录',    icon: '▤' },
+      { id: 'content',        label: '内容追踪',    icon: '≡' },
+      { id: 'tasks',          label: '监测任务',    icon: '▶' },
     ]},
     { group: '设置', items: [
       { id: 'brand',          label: '品牌设置',    icon: '♛' },
@@ -45,10 +48,6 @@
       { id: 'ai-config',       label: 'AI 配置',    icon: '✦' },
       { id: 'balance',         label: '余额明细',   icon: '¥' },
       { id: 'data-stats',      label: '数据统计',   icon: '▤' },
-    ]},
-    { group: 'GEO 核心', items: [
-      { id: 'kb-center',      label: '知识库',      icon: '▣' },
-      { id: 'url-anchor',     label: 'URL 锚点',    icon: '⇢' },
     ]},
   ];
 
@@ -114,7 +113,7 @@
       diagState.mode = 'result';
     }
     renderSidebar(id);
-    const t = NAV_TITLES[id];
+    const t = NAV_TITLES[id] || { group: '页面', label: id };
     document.getElementById('crumb').innerHTML = `${esc(t.group)} <span style="color:#636380">/</span> <b>${esc(t.label)}</b>`;
     const content = document.getElementById('content');
     const views = { diagnose, overview, visibility, competitors, 'competitor-analysis': competitorAnalysis, citations, articles, scenarios, contentView, suggestions, tasks, brand, scenarioCfg, monitorCfg, aiCreate, batchGenerate, artManage, trafficClone, keywordsView, titlesView, imagesView, knowledgeView, urlImportView, distManage, mediaAccounts, distNodes, distLogs, flywheel: optimizeFlywheel, 'kb-center': knowledgeCenter, 'url-anchor': urlAnchorView, 'sensitive-words': c => opsView(c, 'sensitive-words'), authors: c => opsView(c, 'authors'), categories: c => opsView(c, 'categories'), 'ai-config': aiConfigView, balance: balanceView, 'data-stats': statsView };
