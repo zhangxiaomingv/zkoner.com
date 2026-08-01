@@ -1191,20 +1191,12 @@
 
   function mediaAccounts(c) {
     c.innerHTML = `
-      ${pageHead('媒体账号', '管理已接入的分发账号')}
+      ${pageHead('媒体账号', '已迁移到「平台分发」统一管理')}
       <div class="card">
-        <div class="card-head"><h3>添加账号</h3></div>
-        <div class="card-body"><div class="form-grid">
-          ${cSelect('平台', 'c-acc-platform', ['微信公众号', '知乎', '百家号', '小红书', '今日头条'])}
-          ${cInput('账号名称', 'c-acc-name', '优引GEO')}
-          ${cInput('Token / 密钥', 'c-acc-token', '用于分发鉴权', '', 'password')}
-        </div><div style="margin-top:14px"><button class="btn btn-primary" data-action="content-acc-add">添加</button></div></div>
-      </div>
-      <div class="card">
-        <div class="card-head"><h3>账号列表</h3></div>
-        <div class="card-body flush"><div class="table-wrap"><table class="tbl"><thead><tr><th>平台</th><th>账号</th><th>状态</th><th></th></tr></thead>
-          <tbody>${contentStore.accounts.map(x => `<tr><td>${esc(x.platform)}</td><td>${esc(x.name)}</td><td>${badge(x.status, 'green')}</td><td style="text-align:right"><button class="btn btn-sm btn-ghost" data-action="content-acc-del" data-id="${x.id}">删除</button></td></tr>`).join('')}</tbody>
-        </table></div></div>
+        <div class="card-body">
+          <div class="empty">媒体账号已由「平台分发」统一管理，本页已停用，避免无凭证随意添加。</div>
+          <div style="margin-top:14px"><a class="btn btn-primary" href="#/platform-dist">去平台分发绑定账号</a></div>
+        </div>
       </div>`;
   }
 
@@ -2082,6 +2074,7 @@
 
   function renderPlatformDist(c, accounts, tasks, contents, notice = '') {
     const labelOf = id => (PLATFORM_META.find(x => x[0] === id) || [id, id])[1];
+    const ACCOUNT_PLATFORMS = PLATFORM_META.filter(x => ['wechat', 'baijiahao', 'toutiao'].includes(x[0]));
     const acctRows = accounts.map(x => `<div class="mention-item"><div class="mi-head"><span class="mi-src">${esc(x.name || labelOf(x.platform))}</span>${badge(labelOf(x.platform), 'violet')}${badge(x.status === 'active' ? '已启用' : '停用', x.status === 'active' ? 'green' : 'amber')}</div><div style="margin-top:6px;display:flex;gap:8px"><button class="btn btn-sm btn-ghost" data-action="pd-del" data-id="${esc(x.id)}">删除</button></div></div>`).join('') || empty('还没有平台账号');
     const contentOptions = contents.length ? contents.map(x => `<option value="${esc(x.id)}">${esc(x.title)} · ${esc(x.status)}</option>`).join('') : '<option value="">暂无内容</option>';
     c.innerHTML = `
@@ -2092,7 +2085,7 @@
           <div class="card-head"><h3>平台账号</h3></div>
           <div class="card-body">
             <div class="form-grid">
-              ${cSelect('平台', 'pd-platform', PLATFORM_META.map(x => x[0]))}
+              ${cSelect('平台', 'pd-platform', ACCOUNT_PLATFORMS.map(x => x[0]))}
               ${cInput('账号名称', 'pd-name', '例如：优引GEO')}
               ${cInput('微信 AppID', 'pd-appid', 'wx...')}
               ${cInput('微信 Secret', 'pd-secret', '填写后保存')}
@@ -2102,6 +2095,7 @@
               ${cInput('头条 client_key', 'pd-toutiao-key', '开放平台 client_key')}
               ${cInput('头条 access_token', 'pd-toutiao-token', '开放平台 token')}
             </div>
+            <div style="font-size:.74rem;color:var(--text-3);margin-top:8px">只允许绑定有官方 API 的平台；知乎/搜狐等半自动平台无需账号。</div>
             <div style="margin-top:12px"><button class="btn btn-primary" data-action="pd-save-account">保存平台账号</button></div>
             <div class="mention-list" style="margin-top:12px">${acctRows}</div>
           </div>
@@ -2130,6 +2124,8 @@
     const labelOf = id => (PLATFORM_META.find(x => x[0] === id) || [id, id])[1];
     if (act === 'pd-save-account') {
       const platform = document.getElementById('pd-platform')?.value;
+      const name = document.getElementById('pd-name')?.value.trim() || '';
+      if (!name) return toast('请填写账号名称', 'warn');
       const credentials = platform === 'wechat'
         ? { appid: document.getElementById('pd-appid')?.value.trim() || '', secret: document.getElementById('pd-secret')?.value.trim() || '', thumb_media_id: document.getElementById('pd-thumb')?.value.trim() || '' }
         : platform === 'baijiahao'
@@ -2139,7 +2135,7 @@
             : {};
       const r = await Account.api('/api/me/platform-accounts', {
         method: 'POST',
-        body: JSON.stringify({ platform, name: document.getElementById('pd-name')?.value.trim() || '', credentials }),
+        body: JSON.stringify({ platform, name, credentials }),
       });
       toast(r.ok ? '平台账号已保存' : (r.error || '保存失败'), r.ok ? 'good' : 'err');
       render();
