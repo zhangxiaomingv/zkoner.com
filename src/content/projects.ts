@@ -26,7 +26,7 @@ export const projects: Project[] = [
     description:
       "研究 AI 搜索（ChatGPT / 秘塔 / 豆包）如何理解并推荐品牌与企业，搭建一套可见度监测体系。",
     tags: ["AI 搜索", "GEO", "监测"],
-    progress: "完成首版监测看板原型",
+    progress: "已完成 tools/visibility 监测系统：检测/监控/交叉验证",
   },
   {
     id: "one-person",

@@ -82,6 +82,21 @@ scripts/
 
 **修改品牌定位**：只改 `src/content/brand.ts`，meta / schema / llms / FAQ 全站同步。
 
+## GEO 可见度监测
+
+`tools/visibility/` 是独立的 AI 可见度监测系统（检测 / 监控 / 交叉验证），对应《可能实验》的「AI 搜索可见度实验室」：
+
+```bash
+cd tools/visibility
+npm install
+npm run run      # 一次完整监测（DeepSeek API + 浏览器 + 手动源）
+npm run report   # 重新渲染最近一次周报
+```
+
+- 周报：`tools/visibility/data/reports/` · 原始观测：`data/runs/` · 趋势：`data/index.json`
+- 定时：`.github/workflows/visibility.yml` 每周一自动运行（需仓库 Secret `DEEPSEEK_API_KEY`）
+- 配置：`tools/visibility/config.ts`（问题集 / 关键词组 / 模型源 / 交叉验证目标）
+
 ## 部署
 
 真实托管是 **Cloudflare Pages**（项目 `youyin-console`，持有 zkoner.com 域名），使用 wrangler 直接上传：

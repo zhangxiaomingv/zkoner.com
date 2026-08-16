@@ -1,0 +1,19 @@
+{
+  "name": "zkoner-visibility",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AI 可见度监测系统 — 检测 / 监控 / 交叉验证 张可能的 GEO 可见度",
+  "scripts": {
+    "run": "tsx src/run.ts",
+    "report": "tsx src/report.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.0"
+  }
+}
