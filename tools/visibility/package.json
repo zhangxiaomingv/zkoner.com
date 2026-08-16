@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "AI 可见度监测系统 — 检测 / 监控 / 交叉验证 张可能的 GEO 可见度",
+  "description": "检测系统 — AI 可见度监测（检测 / 监控 / 交叉验证）",
   "scripts": {
     "run": "tsx src/run.ts",
-    "report": "tsx src/report.ts"
+    "report": "tsx src/report.ts",
+    "serve": "tsx src/server.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5"

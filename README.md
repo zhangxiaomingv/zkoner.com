@@ -89,8 +89,9 @@ scripts/
 ```bash
 cd tools/visibility
 npm install
-npm run run      # 一次完整监测（DeepSeek API + 浏览器 + 手动源）
+npm run run      # 一次完整检测（DeepSeek API + 浏览器 + 手动源）
 npm run report   # 重新渲染最近一次周报
+npm run serve    # 打开「检测系统」网页看板（0.0.0.0:8788，手机/局域网可访问）
 ```
 
 - 周报：`tools/visibility/data/reports/` · 原始观测：`data/runs/` · 趋势：`data/index.json`

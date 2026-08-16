@@ -11,6 +11,7 @@ import type { IndexData, Observation, RunSummary } from "./types.js";
 
 const here = process.cwd();
 const runDir = path.resolve(here, "data/runs");
+const crossDir = path.resolve(here, "data/crosschecks");
 const reportDir = path.resolve(here, "data/reports");
 const indexFile = path.resolve(here, "data/index.json");
 const today = new Date().toISOString().slice(0, 10);
@@ -60,17 +61,27 @@ async function main(): Promise<void> {
     path.join(runDir, `${today}.jsonl`),
     observations.map((o) => JSON.stringify(o)).join("\n") + "\n"
   );
+  // 交叉验证结果单独落盘（供网页看板读取）
+  mkdirSync(crossDir, { recursive: true });
+  writeFileSync(path.join(crossDir, `${today}.json`), JSON.stringify(crosschecks, null, 2) + "\n");
 
   const real = observations.filter((o) => o.raw);
   const passed = real.filter((o) => o.pass);
   const index: IndexData = existsSync(indexFile)
     ? (JSON.parse(readFileSync(indexFile, "utf-8")) as IndexData)
     : { runs: [] };
-  index.runs.push({
+  const entry = {
     date: today,
     passRate: real.length ? Math.round((passed.length / real.length) * 100) : 0,
     checked: real.length,
-  });
+  };
+  // 同日多次运行只保留最新一条，避免趋势重复
+  const last = index.runs[index.runs.length - 1];
+  if (last && last.date === today) {
+    index.runs[index.runs.length - 1] = entry;
+  } else {
+    index.runs.push(entry);
+  }
   writeFileSync(indexFile, JSON.stringify(index, null, 2) + "\n");
 
   const md = renderMarkdown(summary);

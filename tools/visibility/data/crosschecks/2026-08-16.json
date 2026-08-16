@@ -1,0 +1,27 @@
+[
+  {
+    "id": "github",
+    "label": "GitHub 仓库 README",
+    "status": "ok",
+    "hitKeywords": [
+      "张可能",
+      "AI 顾问",
+      "遇见·可能"
+    ],
+    "note": "全部关键词一致，实体信号统一"
+  },
+  {
+    "id": "weibo",
+    "label": "微博主页",
+    "status": "miss",
+    "hitKeywords": [],
+    "note": "未命中任何关键词"
+  },
+  {
+    "id": "zhihu",
+    "label": "知乎",
+    "status": "miss",
+    "hitKeywords": [],
+    "note": "未命中任何关键词"
+  }
+]
