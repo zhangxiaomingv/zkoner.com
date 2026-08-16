@@ -11,7 +11,7 @@ AI 顾问、AI 时代个人创业探索者、企业 AI 转型观察者。本仓�
 | 框架 | Next.js 15 (App Router) + React 19 | `output: "export"` 纯静态导出 |
 | 样式 | Tailwind CSS v4 | 设计 token 集中在 `globals.css` 的 `@theme` |
 | 语言 | TypeScript | 严格模式 |
-| 托管 | GitHub Pages (Cloudflare DNS) | `/out` 静态部署 |
+| 托管 | Cloudflare Pages（项目 `youyin-console`） | `/out` 静态部署 + `wrangler` |
 
 ## 快速开始
 
@@ -32,7 +32,6 @@ src/
 ├── components/          # 区块组件（Header/Hero/About/…/Footer）
 └── content/             # ★ 内容数据层（站点信息/服务/节目/项目/文章）
 public/
-├── CNAME                # zkoner.com 域名（GitHub Pages 必需）
 ├── robots.txt / sitemap.xml / llms.txt
 ├── _headers / .nojekyll / favicon.svg / og-cover.png
 scripts/
@@ -71,10 +70,14 @@ scripts/
 
 ## 部署
 
+真实托管是 **Cloudflare Pages**（项目 `youyin-console`，持有 zkoner.com 域名），使用 wrangler 直接上传：
+
 ```bash
-npm run build        # 生成 /out
-# 推送后由 GitHub Actions / Pages 部署 /out 目录
+npm run build                                          # 生成 /out
+npx wrangler pages deploy out --project-name youyin-console --branch main
 ```
+
+> 唯一部署入口就是 `youyin-console`。GitHub Actions 工作流（`deploy.yml`）和 `public/CNAME` 已移除——GitHub Pages 不承载 zkoner.com，Cloudflare 项目 `zkoner-com`（Git 自动构建）也未绑定自定义域名，均不生效。
 
 ## 联系
 
