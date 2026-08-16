@@ -50,13 +50,15 @@ export interface Provider {
   /** API 专用 */
   baseUrl?: string;
   model?: string;
+  /** API Key 的环境变量名（默认 DEEPSEEK_API_KEY） */
+  apiKeyEnv?: string;
   /** 浏览器专用：{query} 会被替换 */
   urlTemplate?: string;
 }
 
 /**
  * 模型源 — 混合采集
- *  API：DeepSeek（稳定，需 Key）
+ *  API：DeepSeek / 豆包（稳定，需各自 Key）
  *  Browser：无头 Chrome 抓网页版（秘塔/Kimi），脆弱但免费
  *  Manual：手动粘贴回答到 data/manual/{id}-{questionId}.txt
  */
@@ -67,6 +69,16 @@ export const providers: Provider[] = [
     kind: "api",
     baseUrl: "https://api.deepseek.com/chat/completions",
     model: "deepseek-chat",
+  },
+  {
+    id: "doubao",
+    label: "豆包",
+    kind: "api",
+    // 火山方舟（火山引擎）OpenAI 兼容 API；Key 在 console.volcengine.com 开通方舟后获取
+    baseUrl: "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
+    // 默认模型名，可用环境变量 DOUBAO_MODEL 覆盖（或填方舟 endpoint ID ep-xxx）
+    model: process.env.DOUBAO_MODEL || "doubao-1-5-pro-32k-250115",
+    apiKeyEnv: "ARK_API_KEY",
   },
   {
     id: "metaso",

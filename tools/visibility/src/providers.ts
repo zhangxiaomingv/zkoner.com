@@ -23,11 +23,12 @@ export async function query(provider: Provider, question: Question): Promise<Que
   }
 }
 
-/* ---------- API（DeepSeek，OpenAI 兼容） ---------- */
+/* ---------- API（DeepSeek / 豆包，OpenAI 兼容） ---------- */
 
 async function queryApi(provider: Provider, text: string): Promise<QueryResult> {
-  const key = process.env.DEEPSEEK_API_KEY;
-  if (!key) return { raw: "", error: "缺少 DEEPSEEK_API_KEY（在 tools/visibility/.env 或环境变量设置）" };
+  const keyEnv = provider.apiKeyEnv ?? "DEEPSEEK_API_KEY";
+  const key = process.env[keyEnv];
+  if (!key) return { raw: "", error: `缺少 ${keyEnv}（在 tools/visibility/.env 或环境变量设置，开通渠道见 README）` };
 
   try {
     const res = await fetch(provider.baseUrl!, {
@@ -85,7 +86,14 @@ async function queryBrowser(provider: Provider, text: string): Promise<QueryResu
   const url = provider.urlTemplate!.replace("{query}", encodeURIComponent(text));
   try {
     // 异步 execFile：不阻塞事件循环，可并行多个源；stderr 丢弃，静默 GPU 噪音
-    const { stdout: dom } = await execFileAsync(
+    // 注：Node 运行时 execFile 透传 spawn 的 stdio 选项，但 @types 定义滞后 → 交叉类型补上
+    const execOpts = {
+      encoding: "utf-8" as const,
+      timeout: 25000,
+      maxBuffer: 32 * 1024 * 1024,
+      stdio: ["ignore", "pipe", "ignore"] as const,
+    } as import("node:child_process").ExecFileOptions & { stdio: ["ignore", "pipe", "ignore"] };
+    const { stdout: dom } = await (execFileAsync(
       chrome,
       [
         "--headless=new",
@@ -97,8 +105,8 @@ async function queryBrowser(provider: Provider, text: string): Promise<QueryResu
         "--dump-dom",
         url,
       ],
-      { encoding: "utf-8", timeout: 25000, maxBuffer: 32 * 1024 * 1024, stdio: ["ignore", "pipe", "ignore"] }
-    );
+      execOpts
+    ) as Promise<{ stdout: string; stderr: string }>);
     const cleaned = dom
       .replace(/<script[\s\S]*?<\/script>/gi, "")
       .replace(/<style[\s\S]*?<\/style>/gi, "")

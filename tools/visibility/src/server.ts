@@ -225,7 +225,7 @@ function page(): string {
   <h2>AI 原始回答</h2>
   <div class="raw" id="raw">—</div>
 
-  <div class="footer">检测系统 · tools/visibility · 达标线 60 分 · 数据源 DeepSeek API / 浏览器 / 手动</div>
+  <div class="footer">检测系统 · tools/visibility · 达标线 60 分 · 数据源 DeepSeek / 豆包 API · 浏览器 · 手动</div>
 </div>
 
 <script>

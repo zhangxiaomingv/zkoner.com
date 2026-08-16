@@ -28,6 +28,7 @@ jobs:
         working-directory: tools/visibility
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          ARK_API_KEY: ${{ secrets.ARK_API_KEY }}
         run: npm run run
 
       - name: 提交监测结果
