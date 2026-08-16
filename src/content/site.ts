@@ -24,7 +24,7 @@ export const site = {
   /** 定位扩展（不含 role 本身，避免重复展示） */
   roles: ["AI 时代个人创业探索者", "企业 AI 转型观察者"],
   /** Hero 副标题 */
-  heroSubtitle: "《遇见·可能》项目创始人。",
+  heroSubtitle: "《遇见·可能》栏目创始人。",
   /** 一句话简介（SEO description 基础） */
   description:
     "张可能，AI 顾问，AI 时代个人创业探索者。关注 AI 如何改变个人、企业与商业模式，记录企业与创业者在 AI 时代的转型新可能。",
