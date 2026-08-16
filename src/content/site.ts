@@ -25,9 +25,9 @@ export const site = {
   roles: ["AI 时代个人创业探索者", "企业 AI 转型观察者"],
   /** Hero 副标题 */
   heroSubtitle: "《遇见·可能》栏目创始人。",
-  /** 一句话简介（SEO description 基础） */
+  /** 一句话简介（SEO description 基础，固定结构与 brand.identity 保持一致） */
   description:
-    "张可能，AI 顾问，AI 时代个人创业探索者。关注 AI 如何改变个人、企业与商业模式，记录企业与创业者在 AI 时代的转型新可能。",
+    "张可能，AI 顾问，《遇见·可能》栏目创始人，AI 时代个人创业探索者。为企业提供 GEO（生成式引擎优化）与 AI 升级咨询，帮助企业信息被 AI 大模型识别与引用。",
 
   /** 栏目品牌 */
   columns: {

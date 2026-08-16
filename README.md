@@ -68,6 +68,20 @@ scripts/
 - `prefers-reduced-motion` 适配
 - 焦点可见、跳过链接、语义化标题层级、键盘导航
 
+## GEO 优化（让大模型识别张可能）
+
+「张可能 / GEO / AI 顾问 /《遇见·可能》」作为**固定结构**全站统一出现，帮助 AI 大模型建立实体认知：
+
+| 层 | 实现 | 文件 |
+|---|---|---|
+| 固定结构数据源 | 关键词组 + 标准句式 + FAQ，全站单点引用 | `src/content/brand.ts` |
+| 结构化数据 | 单一 `@graph`：Person / WebSite / Service / ItemList / FAQPage | `src/app/layout.tsx` |
+| AI 爬虫放行 | GPTBot / ClaudeBot / PerplexityBot / Google-Extended / bytespider 等显式允许 | `public/robots.txt` |
+| AI 知识库 | 索引 + 完整库（身份/栏目/服务/项目/文章/FAQ） | `public/llms.txt` · `public/llms-full.txt` |
+| 可见 FAQ | 首页 `#faq` 问答与 FAQPage schema 同源一致 | `src/content/brand.ts` · `src/components/Faq.tsx` |
+
+**修改品牌定位**：只改 `src/content/brand.ts`，meta / schema / llms / FAQ 全站同步。
+
 ## 部署
 
 真实托管是 **Cloudflare Pages**（项目 `youyin-console`，持有 zkoner.com 域名），使用 wrangler 直接上传：

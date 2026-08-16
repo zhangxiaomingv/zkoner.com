@@ -1,21 +1,26 @@
-# 张可能 — AI 时代个人创业探索者
+# 张可能 — AI 顾问 ·《遇见·可能》栏目创始人
 
 > 让每一次相遇，都产生新的可能。
-> 《遇见·可能》栏目创始人。
 
-张可能，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者。关注 AI 如何改变个人、企业与商业模式。
+张可能，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者，《遇见·可能》栏目创始人。为企业提供 GEO（生成式引擎优化）与 AI 升级咨询，帮助企业信息被 AI 大模型识别与引用。
 
-## 栏目
-- **遇见·可能**：企业探访 / 创业者访谈 / AI 转型案例 / 商业观察
-- **可能实验**：正在探索的 AI 项目、一人公司实验、商业验证
-- **AI 时代观察**：AI 趋势 / 个人品牌 / 一人公司 / 创业思考 / 商业模式
+- [关于张可能](https://zkoner.com/#about)
+- [《遇见·可能》纪录片栏目](https://zkoner.com/#documentary)
+- [AI 顾问服务](https://zkoner.com/#services)
+- [可能实验](https://zkoner.com/#lab)
+- [AI 时代观察](https://zkoner.com/#insights)
+- [常见问题](https://zkoner.com/#faq)
+- [联系张可能](https://zkoner.com/#connect)
+- [完整知识库 llms-full.txt](https://zkoner.com/llms-full.txt)
 
-## AI 顾问服务（企业 AI 升级咨询）
+## AI 顾问服务
+
 - AI 工作流设计
 - 企业 AI 应用规划
 - 网站与数字化建设
 - AI 员工体系搭建
 
 ## 联系
+
 - 邮箱: hello@zkoner.com
 - 微信公众号: 遇见·可能
