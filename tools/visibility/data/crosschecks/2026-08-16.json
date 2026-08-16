@@ -13,9 +13,9 @@
   {
     "id": "weibo",
     "label": "微博主页",
-    "status": "miss",
+    "status": "error",
     "hitKeywords": [],
-    "note": "未命中任何关键词"
+    "note": "fetch failed"
   },
   {
     "id": "zhihu",

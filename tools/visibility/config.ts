@@ -76,8 +76,8 @@ export const providers: Provider[] = [
     kind: "api",
     // 火山方舟（火山引擎）OpenAI 兼容 API；Key 在 console.volcengine.com 开通方舟后获取
     baseUrl: "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
-    // 默认模型名，可用环境变量 DOUBAO_MODEL 覆盖（或填方舟 endpoint ID ep-xxx）
-    model: process.env.DOUBAO_MODEL || "doubao-1-5-pro-32k-250115",
+    // 默认模型名（账号可调用 doubao-seed-2-0-pro），可用环境变量 DOUBAO_MODEL 覆盖（或填方舟 endpoint ID ep-xxx）
+    model: process.env.DOUBAO_MODEL || "doubao-seed-2-0-pro-260215",
     apiKeyEnv: "ARK_API_KEY",
   },
   {

@@ -48,7 +48,7 @@ npm run serve
 | `metaso` / `kimi` | 无头 Chrome 抓网页版（免费但脆弱） | 系统装有 Chrome/Chromium |
 | `manual` | 手动粘贴回答 | 把回答存到 `data/manual/{providerId}-{questionId}.txt` |
 
-> 浏览器自动化对网页版 AI 产品较脆弱（改版/风控会失败），失败会记为「⚠️」，不影响整次运行。稳定优先建议用 DeepSeek / 豆包 API；网页产品先用 `manual` 过渡。豆包模型名默认 `doubao-1-5-pro-32k-250115`，可用环境变量 `DOUBAO_MODEL` 改为方舟接入点 ID（ep-xxx）。
+> 浏览器自动化对网页版 AI 产品较脆弱（改版/风控会失败），失败会记为「⚠️」，不影响整次运行。稳定优先建议用 DeepSeek / 豆包 API；网页产品先用 `manual` 过渡。豆包模型名默认 `doubao-seed-2-0-pro-260215`（当前账号已开通，`/api/v3/models` 可查），可用环境变量 `DOUBAO_MODEL` 改为其它已开通模型名或方舟接入点 ID（ep-xxx）。
 
 ## 打分规则
 
