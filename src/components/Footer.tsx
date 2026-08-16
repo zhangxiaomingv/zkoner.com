@@ -15,7 +15,7 @@ export default function Footer() {
             “{site.mission}”
           </p>
           <p className="mt-3 text-sm text-faint">
-            用 AI 探索个人与企业的新可能 — 张可能
+            《遇见·可能》项目创始人 — 张可能
           </p>
         </div>
 
