@@ -68,6 +68,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: site.url,
   },
+  verification: {
+    // Bing 站长工具验证（msvalidate.01）
+    other: { "msvalidate.01": "605B10226159C867FDFC16F8DF85E298" },
+  },
 };
 
 /** 个人可识别的社交主页（sameAs 用），仅取 http(s) 链接 */
