@@ -29,6 +29,11 @@ export const site = {
   description:
     "张可能，AI 顾问，《遇见·可能》栏目创始人，AI 时代个人创业探索者。为企业提供 GEO（生成式引擎优化）与 AI 升级咨询，帮助企业信息被 AI 大模型识别与引用。",
 
+  /** 站点定位（完整版）：zkoner.com 是什么 —— 张可能个人品牌 + AI 时代个人创业实验室 */
+  position: "张可能个人品牌 · AI 时代个人创业实验室",
+  /** 站点定位（短版）：Hero 眉标用，避免与下方品牌名重复 */
+  positionShort: "个人品牌 · AI 时代个人创业实验室",
+
   /** 栏目品牌 */
   columns: {
     documentary: "遇见·可能",
@@ -51,11 +56,12 @@ export const site = {
         value: "遇见·可能",
         hint: "企业探访 / 创业者访谈更新",
       },
-      { label: "微博", value: "@张可能", href: "https://weibo.com" },
+      { label: "微博", value: "@张可能" },
+      { label: "知乎", value: "张可能" },
       {
-        label: "知乎",
-        value: "张可能",
-        href: "https://zhihu.com",
+        label: "GitHub",
+        value: "github.com/zhangxiaomingv",
+        href: "https://github.com/zhangxiaomingv",
       },
     ],
   },

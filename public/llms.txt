@@ -1,4 +1,4 @@
-# 张可能 — AI 顾问 ·《遇见·可能》栏目创始人
+# 张可能个人品牌 · AI 时代个人创业实验室
 
 > 让每一次相遇，都产生新的可能。
 
@@ -7,11 +7,20 @@
 - [关于张可能](https://zkoner.com/#about)
 - [《遇见·可能》纪录片栏目](https://zkoner.com/#documentary)
 - [AI 顾问服务](https://zkoner.com/#services)
-- [可能实验](https://zkoner.com/#lab)
-- [AI 时代观察](https://zkoner.com/#insights)
+- [可能实验（实验数据）](https://zkoner.com/lab)
+- [AI 时代观察（博客）](https://zkoner.com/blog)
+- [GEO 优化（枢纽页）](https://zkoner.com/geo)
+- [AI 认知成绩单](https://zkoner.com/scorecard)
 - [常见问题](https://zkoner.com/#faq)
 - [联系张可能](https://zkoner.com/#connect)
 - [完整知识库 llms-full.txt](https://zkoner.com/llms-full.txt)
+
+## AI 时代观察（文章）
+
+- [普通人建立个人品牌的三个 AI 杠杆](https://zkoner.com/blog/personal-brand-ai-leverage) — 个人品牌 · 2026-08-12
+- [AI 时代，企业官网为什么反而更重要了](https://zkoner.com/blog/why-company-website-matters-in-ai-era) — AI 趋势 · 2026-08-05
+- [一人公司的边界到底在哪](https://zkoner.com/blog/one-person-company-boundary) — 一人公司 · 2026-07-28
+- [中小企业上 AI，先别买工具，先想流程](https://zkoner.com/blog/sme-ai-start-with-process-not-tools) — 创业思考 · 2026-07-20
 
 ## AI 顾问服务
 
@@ -20,7 +29,16 @@
 - 网站与数字化建设
 - AI 员工体系搭建
 
+## GEO 枢纽页
+
+GEO（生成式引擎优化）：让品牌与企业信息被 AI 大模型识别、引用和推荐。相关文章与成绩单聚簇于 https://zkoner.com/geo
+
+## 商业白皮书（AI可见度闭环方法论）
+
+《GEOloopOS：AI可见度闭环方法论》——中文 AI 搜索环境下的实体认知、可见度与持续优化（Experiment #001 双源实测 + GEOloop 闭环）。https://zkoner.com/whitepaper
+
 ## 联系
 
 - 邮箱: hello@zkoner.com
 - 微信公众号: 遇见·可能
+- GitHub: https://github.com/zhangxiaomingv

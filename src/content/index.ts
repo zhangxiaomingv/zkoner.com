@@ -9,3 +9,7 @@ export * from "./services";
 export * from "./episodes";
 export * from "./projects";
 export * from "./posts";
+export * from "./scorecard";
+export * from "./geo";
+export * from "./lab-data";
+export * from "./whitepaper";

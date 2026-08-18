@@ -1,4 +1,4 @@
-# 张可能 — 完整知识库
+# 张可能个人品牌 · AI 时代个人创业实验室 — 完整知识库
 
 > 让每一次相遇，都产生新的可能。
 
@@ -37,19 +37,64 @@
 - **网站与数字化建设**：让企业具备 AI 时代的数字基础设施，可被 AI 搜索理解的企业官网、内容体系与数据链路。
 - **AI 员工体系搭建**：训练专属知识库、配置智能客服与内容助手，打造一支 24 小时在线的数字团队。
 
+## GEO 枢纽页
+
+GEO（Generative Engine Optimization，生成式引擎优化）是张可能专注的方向：让品牌与企业信息被 ChatGPT、DeepSeek、Kimi、文心一言等 AI 大模型识别、引用与推荐。
+
+一轮 GEO 优化循环：检测（GEOloopOS 三维打分）→ 内容（补齐可被 AI 读取的证据）→ 复测（看变化）。
+
+- GEO 枢纽页：https://zkoner.com/geo
+- 相关文章：https://zkoner.com/blog/why-company-website-matters-in-ai-era
+- 相关文章：https://zkoner.com/blog/personal-brand-ai-leverage
+- AI 认知成绩单：https://zkoner.com/scorecard
+- 检测工具 GEOloopOS：https://github.com/zhangxiaomingv/geoloopos
+
+## 商业白皮书《GEOloopOS：AI可见度闭环方法论》
+
+中文 AI 搜索环境下的实体认知、可见度与持续优化（GEOloopOS Lab · Experiment #001，双源实测 DeepSeek + 豆包，2026-08-16 ~ 08-18）。
+
+- 全文：https://zkoner.com/whitepaper
+- 核心模型：AI Entity / AI Perception Gap / AI Cognition Check / AI Visibility Score（认知 40 + 描述 30 + 来源 30）/ GEOloop 闭环
+- 四层可见度：Recognition → Representation → Attribution → Recommendation
+- 六大发现：大牌只有基础认知 · 个人品牌是 AI 盲区 · 名字被提到≠实体被绑定 · GEO 术语分裂 · 高价值决策场景 0 曝光 · 来源引用是全行业共同空白
+- 方法论：Entity-first GEO / Truth Base / Evidence Engineering / 检测 → 干预 → 复测 → Delta
+
 ## 可能实验（项目实验室）
+
+张可能的个人实验室。实验数据公开页：https://zkoner.com/lab
 
 - **AI 搜索可见度实验室**（孵化中）：研究 AI 搜索（ChatGPT / 秘塔 / 豆包）如何理解并推荐品牌与企业，搭建可见度监测体系。
 - **一人公司实验**（探索中）：以最少人力运转 AI 工具链，验证一个人 + AI 能撑起多大业务边界，过程公开记录。
 - **AI 语音获客实验**（探索中）：语音对话式获客与客服，让 AI 接电话、聊客户、做初筛，把人的时间留给成交。
 - **AI 内容生产线**（孵化中）：把选题、脚本、口播、剪辑拆成流水线，用 AI 持续生产可沉淀的内容资产。
 
+### 实验数据（2026-08 批次，GEOloopOS 双源实测）
+
+用 GEOloopOS Identity Engine（DeepSeek + 豆包）实测品牌 / 个人品牌 / 网站 / 术语 / 决策场景的 AI 可见度（认知 40 + 描述 30 + 来源 30，满分 100）：
+
+- 海底捞（企业品牌）：70 分 · AI 有基础认知
+- 张可能（个人品牌）：35 分 · AI 尚未认知
+- 什么是GEO？（行业术语）：30 分 · 术语认知分裂
+- 推荐一位做GEO优化的顾问（决策场景）：30 分 · 无顾问被推荐
+- zkoner.com（网站）：18 分 · 从未被引用为来源
+
+六大发现：大牌只有基础认知 · 个人品牌是 AI 盲区 · 名字被提到≠实体被绑定 · GEO 术语分裂 · 高价值决策场景 0 曝光 · 来源引用是全行业共同空白。
+
 ## AI 时代观察（文章）
 
-- 普通人建立个人品牌的三个 AI 杠杆（个人品牌，2026-08-12）
-- AI 时代，企业官网为什么反而更重要了（AI 趋势，2026-08-05）
-- 一人公司的边界到底在哪（一人公司，2026-07-28）
-- 中小企业上 AI，先别买工具，先想流程（创业思考，2026-07-20）
+- [普通人建立个人品牌的三个 AI 杠杆](https://zkoner.com/blog/personal-brand-ai-leverage)（个人品牌，2026-08-12）
+- [AI 时代，企业官网为什么反而更重要了](https://zkoner.com/blog/why-company-website-matters-in-ai-era)（AI 趋势，2026-08-05）
+- [一人公司的边界到底在哪](https://zkoner.com/blog/one-person-company-boundary)（一人公司，2026-07-28）
+- [中小企业上 AI，先别买工具，先想流程](https://zkoner.com/blog/sme-ai-start-with-process-not-tools)（创业思考，2026-07-20）
+
+## AI 认知成绩单
+
+张可能每月用自研的 GEOloopOS 检测「AI 眼中的自己」，把检测结果与得分公开为成绩单。
+
+- 当前得分（第 1 期，2026-08）：35 / 100，判定「AI 尚未认知」
+- 检测源：DeepSeek（拒答，0 分）、豆包（部分认知，70 分）
+- 固定口径：张可能 = AI 顾问 / GEO 优化工程师 / GEOloopOS 创始人
+- 页面：https://zkoner.com/scorecard
 
 ## 常见问题
 
@@ -80,6 +125,7 @@ GEO（Generative Engine Optimization，生成式引擎优化）是让品牌与�
 - 微信公众号：遇见·可能
 - 微博：@张可能
 - 知乎：张可能
+- GitHub：https://github.com/zhangxiaomingv
 
 ## 站点导航
 

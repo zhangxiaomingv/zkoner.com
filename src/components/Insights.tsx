@@ -1,11 +1,14 @@
 import Section from "./Section";
-import { site, posts } from "@/content";
+import { site, sortedPosts } from "@/content";
+import PostRow from "./PostRow";
 
 /**
- * AI 时代观察 — 文章与思考
- * 数据由 content/posts.ts 驱动，未来对接博客系统。
+ * AI 时代观察 — 首页最新文章预览
+ * 只展示最近 3 篇，「查看全部」进 /blog 列表页。数据由 content/posts.ts 驱动。
  */
 export default function Insights() {
+  const preview = sortedPosts().slice(0, 3);
+
   return (
     <Section
       id="insights"
@@ -19,37 +22,17 @@ export default function Insights() {
         </>
       }
     >
-      {/* 文章列表 */}
+      {/* 最新文章 */}
       <div className="border-t border-border">
-        {posts.map((post) => (
-          <a
-            key={post.id}
-            href={post.href ?? "#insights"}
-            className="group grid gap-2 border-b border-border py-6 transition-colors sm:grid-cols-[1fr_auto] sm:items-center sm:gap-8"
-          >
-            <div className="min-w-0">
-              <h3 className="text-base font-medium text-text transition-colors group-hover:text-accent sm:text-lg">
-                {post.title}
-              </h3>
-              <p className="mt-1.5 max-w-2xl text-sm text-muted">
-                {post.excerpt}
-              </p>
-            </div>
-            <div className="flex items-center gap-4 text-xs text-faint sm:shrink-0 sm:flex-col sm:items-end sm:gap-1">
-              <span>{post.category}</span>
-              <time dateTime={post.date}>{post.date}</time>
-            </div>
-          </a>
+        {preview.map((post) => (
+          <PostRow key={post.id} post={post} />
         ))}
       </div>
 
       {/* 全部文章入口 */}
       <div className="mt-10">
-        <a
-          href="#insights"
-          className="btn btn-ghost btn-sm"
-        >
-          更多思考
+        <a href="/blog" className="btn btn-ghost btn-sm">
+          查看全部
           <svg
             width="14"
             height="14"

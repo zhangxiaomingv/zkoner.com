@@ -11,8 +11,8 @@ export default function Hero() {
       <div className="grid-texture absolute inset-0" aria-hidden="true" />
 
       <div className="relative mx-auto flex min-h-svh w-full max-w-6xl flex-col justify-center px-5 py-32 sm:px-8">
-        {/* 定位标签 */}
-        <p className="eyebrow reveal">AI 时代个人创业探索者</p>
+        {/* 定位标签（站点定义：个人品牌 + AI 时代个人创业实验室） */}
+        <p className="eyebrow reveal">{site.positionShort}</p>
 
         {/* 品牌名 */}
         <h1 className="display reveal reveal-delay-1 mt-8 text-6xl sm:text-7xl md:text-8xl">

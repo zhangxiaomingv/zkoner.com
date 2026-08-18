@@ -63,6 +63,25 @@ export default function Lab() {
             </div>
           </article>
         ))}
+
+        {/* 实验数据入口 */}
+        <a
+          href="/lab"
+          className="group mt-12 flex items-center justify-between gap-6 rounded-2xl border border-border bg-surface p-6 transition-colors hover:border-accent/40 sm:p-7"
+        >
+          <div>
+            <p className="font-mono text-xs text-faint">
+              LAB DATA · 实验数据
+            </p>
+            <p className="mt-2 text-base font-medium text-text">
+              AI 可见度实测：你的品牌在 AI 眼里值多少分？
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted">
+              双源实测海底捞 / 张可能 / zkoner.com 等 5 个样本，6 个发现，数据公开可复测。
+            </p>
+          </div>
+          <span className="shrink-0 font-mono text-sm text-accent">查看数据 →</span>
+        </a>
       </div>
     </Section>
   );

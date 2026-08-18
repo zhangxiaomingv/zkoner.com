@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { site, brand, services, episodes, episodeStatement } from "@/content";
 import "./globals.css";
 
@@ -181,8 +180,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           跳到主要内容
         </a>
         <Header />
-        <main>{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

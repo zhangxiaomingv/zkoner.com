@@ -7,10 +7,15 @@ const NAV = [
   { href: "#about", label: "关于" },
   { href: "#documentary", label: "遇见·可能" },
   { href: "#services", label: "AI 顾问服务" },
-  { href: "#lab", label: "可能实验" },
-  { href: "#insights", label: "AI 时代观察" },
+  { href: "/geo", label: "GEO 优化" },
+  { href: "/lab", label: "可能实验" },
+  { href: "/blog", label: "AI 时代观察" },
+  { href: "/scorecard", label: "AI 成绩单" },
   { href: "#connect", label: "连接" },
 ] as const;
+
+/** hash 链接在非首页会失效，统一补首页前缀（首页行为不变） */
+const navHref = (href: string) => (href.startsWith("#") ? `/${href}` : href);
 
 /**
  * 顶部导航 — Linear 式：吸顶 + 毛玻璃 + 极简
@@ -40,7 +45,7 @@ export default function Header() {
         aria-label="主导航"
       >
         {/* Logo */}
-        <a href="#top" className="flex items-center gap-2.5">
+        <a href="/#top" className="flex items-center gap-2.5">
           <span
             className="h-2 w-2 rounded-full bg-accent"
             aria-hidden="true"
@@ -55,7 +60,7 @@ export default function Header() {
           {NAV.map((item) => (
             <li key={item.href}>
               <a
-                href={item.href}
+                href={navHref(item.href)}
                 className="link-underline text-sm text-muted transition-colors hover:text-text"
               >
                 {item.label}
@@ -103,7 +108,7 @@ export default function Header() {
           {NAV.map((item) => (
             <li key={item.href}>
               <a
-                href={item.href}
+                href={navHref(item.href)}
                 className="block px-6 py-4 text-[15px] text-muted transition-colors hover:text-text"
                 onClick={() => setOpen(false)}
               >

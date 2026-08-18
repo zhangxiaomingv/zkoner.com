@@ -19,6 +19,27 @@ export default function Services() {
         </>
       }
     >
+      {/* GEO 枢纽入口（服务页 → 枢纽页 /geo） */}
+      <a
+        href="/geo"
+        className="group mb-12 flex items-center justify-between gap-6 rounded-2xl border border-border bg-surface p-6 transition-colors hover:border-accent/40 sm:p-7"
+      >
+        <div>
+          <p className="font-mono text-xs text-faint">
+            GEO · 生成式引擎优化
+          </p>
+          <p className="mt-2 text-base font-medium text-text">
+            让品牌与企业信息被 AI 识别、引用和推荐
+          </p>
+          <p className="mt-1.5 text-sm leading-relaxed text-muted">
+            检测 → 内容 → 复测的一轮循环，相关文章与成绩单都在这。
+          </p>
+        </div>
+        <span className="shrink-0 font-mono text-sm text-accent">
+          了解 GEO →
+        </span>
+      </a>
+
       <div className="grid gap-4 sm:grid-cols-2">
         {services.map((s) => (
           <article key={s.id} className="card group flex flex-col p-8">
