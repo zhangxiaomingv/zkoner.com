@@ -11,7 +11,7 @@ export default function Hero() {
       <div className="grid-texture absolute inset-0" aria-hidden="true" />
 
       <div className="relative mx-auto flex min-h-svh w-full max-w-6xl flex-col justify-center px-5 py-32 sm:px-8">
-        {/* 定位标签（站点定义：个人品牌 + AI 时代个人创业实验室） */}
+        {/* 定位标签（站点定义：GEOloopOS 创始人的 AI 实验站点） */}
         <p className="eyebrow reveal">{site.positionShort}</p>
 
         {/* 品牌名 */}
@@ -31,9 +31,6 @@ export default function Hero() {
         <div className="reveal reveal-delay-3 mt-12 flex flex-wrap items-center gap-4">
           <a href="#about" className="btn btn-primary">
             了解我
-          </a>
-          <a href="#documentary" className="btn btn-ghost">
-            观看《{site.columns.documentary}》
           </a>
           <a href="#services" className="btn btn-accent">
             AI 顾问服务

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Header from "@/components/Header";
-import { site, brand, services, episodes, episodeStatement } from "@/content";
+import { site, brand, services } from "@/content";
 import "./globals.css";
 
-/** 页面标题固定结构：张可能 + AI 顾问 +《遇见·可能》+ 角色 */
-const pageTitle = `${site.name} — AI 顾问 ·《遇见·可能》栏目创始人 · AI 时代个人创业探索者`;
+/** 页面标题固定结构：张可能 + GEOloopOS 创始人 + AI 顾问 */
+const pageTitle = `${site.name} — GEOloopOS 创始人 · AI 顾问`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -18,15 +18,14 @@ export const metadata: Metadata = {
     ...brand.keywordGroups,
     "GEO",
     "生成式引擎优化",
+    "GEOloopOS",
+    "AI 可见度检测",
     "AI 搜索优化",
     "企业 AI 转型",
     "AI 工作流",
     "个人品牌",
     "AI 时代",
     "创业探索",
-    "企业探访",
-    "创业者访谈",
-    "纪录片栏目",
   ],
   authors: [{ name: site.name }],
   creator: site.name,
@@ -48,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — AI 顾问 ·《遇见·可能》栏目创始人`,
+    title: `${site.name} — GEOloopOS 创始人 · AI 顾问`,
     description: brand.identity,
   },
   robots: {
@@ -99,6 +98,7 @@ const graphJsonLd = {
       knowsAbout: [
         "AI 顾问",
         "GEO 生成式引擎优化",
+        "GEOloopOS AI 可见度检测",
         "AI 搜索优化",
         "企业 AI 转型",
         "AI 工作流设计",
@@ -145,18 +145,6 @@ const graphJsonLd = {
           },
         })),
       },
-    },
-    {
-      "@type": "ItemList",
-      name: "《遇见·可能》栏目节目",
-      description: episodeStatement,
-      numberOfItems: episodes.length,
-      itemListElement: episodes.map((e, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: e.title,
-        description: e.excerpt,
-      })),
     },
     {
       "@type": "FAQPage",

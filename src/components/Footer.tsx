@@ -17,7 +17,7 @@ export default function Footer({ minimal = false }: { minimal?: boolean }) {
               “{site.mission}”
             </p>
             <p className="mt-3 text-sm text-faint">
-              《遇见·可能》栏目创始人 — 张可能
+              GEOloopOS 创始人 · AI 顾问 — 张可能
             </p>
           </div>
         )}

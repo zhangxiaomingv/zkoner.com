@@ -1,11 +1,10 @@
-# 张可能个人品牌 · AI 时代个人创业实验室
+# 张可能 — GEOloopOS 创始人的 AI 实验站点
 
 > 让每一次相遇，都产生新的可能。
 
-张可能，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者，《遇见·可能》栏目创始人。为企业提供 GEO（生成式引擎优化）与 AI 升级咨询，帮助企业信息被 AI 大模型识别与引用。
+张可能，GEOloopOS 创始人，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者。zkoner.com 是他的 AI 实验站点：用自研 GEOloopOS 实测品牌如何被 AI 识别、引用与推荐，方法论沉淀为白皮书。
 
 - [关于张可能](https://zkoner.com/#about)
-- [《遇见·可能》纪录片栏目](https://zkoner.com/#documentary)
 - [AI 顾问服务](https://zkoner.com/#services)
 - [可能实验（实验数据）](https://zkoner.com/lab)
 - [AI 时代观察（博客）](https://zkoner.com/blog)
@@ -37,8 +36,9 @@ GEO（生成式引擎优化）：让品牌与企业信息被 AI 大模型识别�
 
 《GEOloopOS：AI可见度闭环方法论》——中文 AI 搜索环境下的实体认知、可见度与持续优化（Experiment #001 双源实测 + GEOloop 闭环）。https://zkoner.com/whitepaper
 
+GEOloopOS 检测系统（开源）：https://github.com/zhangxiaomingv/geoloopos
+
 ## 联系
 
 - 邮箱: hello@zkoner.com
-- 微信公众号: 遇见·可能
 - GitHub: https://github.com/zhangxiaomingv

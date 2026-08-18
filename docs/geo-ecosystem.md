@@ -103,7 +103,7 @@ Entity  Knowledge  Content
 **现实落点**：llms.txt / llms-full.txt（写给 AI 读的知识库）、博客、成绩单。
 
 ### 3.4 内容落地 — 个人站 zkoner.com
-站点定义：**张可能个人品牌 · AI 时代个人创业实验室**（`site.ts` → `position`）。
+站点定义：**GEOloopOS 创始人的 AI 实验站点**（`site.ts` → `position`）。
 唯一**完全自主、可被 AI 爬取**的内容阵地。外站账号是租的场地，个人站是自己的地基；所有内容最终回链到这里。
 
 ### 3.5 外部分发 — 知乎 / 小红书 / 抖音 / 公众号

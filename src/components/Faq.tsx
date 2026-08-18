@@ -10,7 +10,7 @@ export default function Faq() {
   return (
     <Section
       id="faq"
-      index="07"
+      index="06"
       eyebrow="FAQ"
       title="关于张可能，你可能想问"
     >

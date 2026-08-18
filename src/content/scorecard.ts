@@ -62,7 +62,7 @@ export interface ScorecardIssue {
 
 /** 固定口径 · 开头（逐月不变，第 N 份由页面补足） */
 export const scorecardOpening =
-  "我是张可能，AI 顾问 / GEO 优化工程师，GEOloopOS 创始人。每个月我都用自己的 GEOloopOS 检测「AI 眼中的我」，把成绩公开出来。";
+  "我是张可能，GEOloopOS 创始人 / AI 顾问 / GEO 优化工程师。每个月我都用自己的 GEOloopOS 检测「AI 眼中的我」，把成绩公开出来。";
 
 /** 固定口径 · 结尾（逐月不变） */
 export const scorecardClosing =

@@ -5,7 +5,6 @@ import { site } from "@/content";
 
 const NAV = [
   { href: "#about", label: "关于" },
-  { href: "#documentary", label: "遇见·可能" },
   { href: "#services", label: "AI 顾问服务" },
   { href: "/geo", label: "GEO 优化" },
   { href: "/lab", label: "可能实验" },

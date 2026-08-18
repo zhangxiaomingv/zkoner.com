@@ -12,7 +12,7 @@ export default function Insights() {
   return (
     <Section
       id="insights"
-      index="05"
+      index="04"
       eyebrow={site.columns.insights}
       title={
         <>

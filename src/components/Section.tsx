@@ -4,7 +4,7 @@ interface SectionProps {
   id: string;
   /** 区块编号，如 "01" */
   index: string;
-  /** 栏目标签，如 "遇见·可能" */
+  /** 栏目标签，如 "关于" */
   eyebrow: string;
   title: ReactNode;
   children: ReactNode;

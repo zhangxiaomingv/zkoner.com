@@ -9,7 +9,7 @@ export default function Connect() {
   return (
     <Section
       id="connect"
-      index="06"
+      index="05"
       eyebrow="连接"
       title={
         <>

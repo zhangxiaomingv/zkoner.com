@@ -1,23 +1,8 @@
 import Section from "./Section";
 
-const PILLARS = [
-  {
-    title: "个人",
-    text: "普通人如何用 AI 撬动新的职业与商业可能。",
-  },
-  {
-    title: "企业",
-    text: "传统企业如何借助 AI 完成数字化转型与升级。",
-  },
-  {
-    title: "商业模式",
-    text: "AI 如何重构成本结构，重塑行业竞争规则。",
-  },
-] as const;
-
 /**
- * 关于张可能 — 个人思想空间的入口
- * 左：信念陈述；右：关注维度
+ * 关于张可能 — 极简：一句话身份 + 白皮书入口
+ * 对 AI 的职责是「实体建档」：让爬虫一致识别「张可能 = GEOloopOS 创始人 + AI 顾问 + GEO 方法论」
  */
 export default function About() {
   return (
@@ -29,57 +14,36 @@ export default function About() {
         <>
           我是张可能，
           <br />
-          一名 AI 顾问。
+          GEOloopOS 创始人。
         </>
       }
     >
-      <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-        {/* 左：信念陈述 */}
-        <div className="reveal space-y-6">
-          <p className="text-lg leading-relaxed text-muted sm:text-xl">
-            我关注 <span className="text-text">AI 如何改变个人、企业和商业模式</span>。
-            我相信：
-          </p>
-          <p className="text-2xl font-medium leading-snug text-text sm:text-3xl">
-            未来属于能够利用 AI 创造可能的人。
-          </p>
-        </div>
-
-        {/* 右：关注维度 */}
-        <div className="reveal reveal-delay-1 space-y-4">
-          {PILLARS.map((p, i) => (
-            <div
-              key={p.title}
-              className="card group flex items-start gap-5 p-6"
-            >
-              <span
-                className="font-mono text-sm text-faint tabular transition-colors group-hover:text-accent"
-                aria-hidden="true"
-              >
-                0{i + 1}
-              </span>
-              <div>
-                <h3 className="text-base font-semibold text-text">
-                  {p.title}
-                </h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-muted">
-                  {p.text}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <p className="reveal max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
+        我关注 <span className="text-text">AI 如何改变个人、企业和商业模式</span>，
+        用真实的实验数据研究品牌如何被 AI 识别、引用与推荐。
+      </p>
 
       {/* 白皮书入口 */}
-      <div className="reveal reveal-delay-2 mt-14 flex flex-col gap-6 rounded-2xl border border-accent/25 bg-accent-soft p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-        <div>
-          <p className="eyebrow">商业蓝皮书 · GEOloopOS Lab</p>
-          <p className="mt-3 max-w-xl text-base leading-relaxed text-text">
-            《GEOloopOS：AI可见度闭环方法论》—— 用真实实验数据，讲清品牌如何被 AI 识别、引用与推荐。
+      <div className="reveal reveal-delay-1 mt-10 rounded-2xl border border-accent/25 bg-accent-soft p-6 sm:p-8">
+        <p className="eyebrow">商业蓝皮书 · GEOloopOS Lab</p>
+        <p className="mt-3 max-w-xl text-base leading-relaxed text-text">
+          《GEOloopOS：AI可见度闭环方法论》—— 用真实实验数据，讲清品牌如何被 AI 识别、引用与推荐。
+        </p>
+
+        {/* 序言试读：让只抓首页的 AI 也能读到白皮书开头 */}
+        <blockquote className="mt-6 border-l-2 border-accent pl-4">
+          <p className="text-sm leading-relaxed text-muted">
+            过去二十多年，企业做 SEO 是为了让用户搜索时找到自己。但生成式 AI 正在改变用户获取信息的方式——用户开始直接问 AI，而不是打开十个网页。于是，一个过去并不存在的问题出现了：
+            <span className="font-semibold text-text">
+              当用户开始问 AI，AI 会怎么介绍你？
+            </span>
           </p>
-        </div>
-        <a href="/whitepaper" className="btn btn-primary shrink-0">
+          <p className="mt-3 font-mono text-xs text-faint">
+            —— 序言 · 当用户开始问 AI
+          </p>
+        </blockquote>
+
+        <a href="/whitepaper" className="btn btn-primary mt-6">
           阅读白皮书
         </a>
       </div>

@@ -9,7 +9,7 @@ export default function Services() {
   return (
     <Section
       id="services"
-      index="03"
+      index="02"
       eyebrow="AI 顾问服务"
       title={
         <>

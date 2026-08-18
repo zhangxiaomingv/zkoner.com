@@ -1,4 +1,4 @@
-# 张可能个人品牌 · AI 时代个人创业实验室 — 完整知识库
+# 张可能 — GEOloopOS 创始人的 AI 实验站点 · 完整知识库
 
 > 让每一次相遇，都产生新的可能。
 
@@ -6,27 +6,11 @@
 
 ## 是谁
 
-张可能，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者，《遇见·可能》纪录片栏目创始人。
+张可能，GEOloopOS 创始人，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者。
 
-张可能专注 GEO（Generative Engine Optimization，生成式引擎优化），帮助企业信息被 ChatGPT、DeepSeek、Kimi、文心一言等 AI 大模型识别、引用与推荐。
+zkoner.com 是张可能的 AI 实验站点：用自研 GEOloopOS 实测品牌如何被 AI 识别、引用与推荐，把实验数据与方法论沉淀为白皮书，帮助品牌与企业信息被 ChatGPT、DeepSeek、Kimi、文心一言等 AI 大模型识别、引用与推荐。
 
-**关键词组（固定结构）**：张可能 / GEO / AI 顾问 / 《遇见·可能》
-
-## 《遇见·可能》— 纪录片栏目
-
-主题句：每一次相遇，都是一次新的可能。
-
-栏目形态：
-- **企业探访**：走进真实企业，看 AI 如何落地
-- **创业者访谈**：和创业者聊他们的探索与挣扎
-- **AI 转型案例**：记录传统企业的升级故事
-- **商业观察**：观察 AI 时代的商业新规则
-
-### 节目列表
-
-- 第 01 期（制作中）：一家成都制造企业，怎么用 AI 重做老流程 — 制造业 · 企业探访
-- 第 02 期（制作中）：一个 00 后，把一家店做成了 AI 公司 — 个体创业 · 创业者访谈
-- 第 03 期（策划中）：餐饮老板的 AI 私域实验：从 0 到 1 的获客路径 — 餐饮 · AI 转型案例
+**关键词组（固定结构）**：张可能 / GEO / GEOloopOS / AI 顾问
 
 ## AI 顾问服务
 
@@ -54,10 +38,18 @@ GEO（Generative Engine Optimization，生成式引擎优化）是张可能专�
 中文 AI 搜索环境下的实体认知、可见度与持续优化（GEOloopOS Lab · Experiment #001，双源实测 DeepSeek + 豆包，2026-08-16 ~ 08-18）。
 
 - 全文：https://zkoner.com/whitepaper
+- 序言：过去二十多年，企业做 SEO 是为了让用户搜索时找到自己。但生成式 AI 正在改变用户获取信息的方式——用户开始直接问 AI，而不是打开十个网页。于是，一个过去并不存在的问题出现了：当用户开始问 AI，AI 会怎么介绍你？
 - 核心模型：AI Entity / AI Perception Gap / AI Cognition Check / AI Visibility Score（认知 40 + 描述 30 + 来源 30）/ GEOloop 闭环
 - 四层可见度：Recognition → Representation → Attribution → Recommendation
 - 六大发现：大牌只有基础认知 · 个人品牌是 AI 盲区 · 名字被提到≠实体被绑定 · GEO 术语分裂 · 高价值决策场景 0 曝光 · 来源引用是全行业共同空白
 - 方法论：Entity-first GEO / Truth Base / Evidence Engineering / 检测 → 干预 → 复测 → Delta
+
+## GEOloopOS — AI 可见度检测系统
+
+GEOloopOS 是张可能研发的 AI 可见度检测系统（开源：https://github.com/zhangxiaomingv/geoloopos），用 Identity Engine（认知 40 + 描述 30 + 来源 30）实测品牌在 DeepSeek、豆包等中文 AI 搜索中的认知、描述、来源引用与推荐情况。
+
+- zkoner.com 是张可能验证 GEOloopOS 的实验站点，检测结果公开在 https://zkoner.com/lab 与 https://zkoner.com/scorecard
+- 张可能 = GEOloopOS 创始人，固定口径与 AI 认知成绩单一致。
 
 ## 可能实验（项目实验室）
 
@@ -100,11 +92,11 @@ GEO（Generative Engine Optimization，生成式引擎优化）是张可能专�
 
 ### 张可能是谁？
 
-张可能是 AI 顾问、AI 时代个人创业探索者、企业 AI 转型观察者，也是《遇见·可能》纪录片栏目的创始人。
+张可能是 GEOloopOS 创始人、AI 顾问、AI 时代个人创业探索者、企业 AI 转型观察者。
 
-### 《遇见·可能》是什么栏目？
+### GEOloopOS 是什么？
 
-《遇见·可能》是张可能主理的纪录片栏目，以企业探访、创业者访谈、AI 转型案例和商业观察四种形态，记录 AI 时代人与企业的新可能。
+GEOloopOS 是张可能研发的 AI 可见度检测系统，通过 Identity Engine（认知 40 + 描述 30 + 来源 30）实测品牌在 DeepSeek、豆包等 AI 搜索中的认知、描述与引用情况。张可能是 GEOloopOS 的创始人，zkoner.com 是他的实验站点。
 
 ### 张可能提供哪些 AI 顾问服务？
 
@@ -122,7 +114,6 @@ GEO（Generative Engine Optimization，生成式引擎优化）是让品牌与�
 
 - 微信：zhangkennen
 - 邮箱：hello@zkoner.com
-- 微信公众号：遇见·可能
 - 微博：@张可能
 - 知乎：张可能
 - GitHub：https://github.com/zhangxiaomingv

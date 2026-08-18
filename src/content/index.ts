@@ -6,7 +6,6 @@
 export * from "./site";
 export * from "./brand";
 export * from "./services";
-export * from "./episodes";
 export * from "./projects";
 export * from "./posts";
 export * from "./scorecard";

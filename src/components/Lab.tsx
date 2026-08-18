@@ -16,7 +16,7 @@ export default function Lab() {
   return (
     <Section
       id="lab"
-      index="04"
+      index="03"
       eyebrow={site.columns.lab}
       title={
         <>
