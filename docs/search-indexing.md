@@ -64,6 +64,8 @@ robots.txt 规则**先匹配先生效**。因此本地文件里的 `GPTBot: Allo
 - ✅ `sitemap.xml` 线上 200，含首页 / /geo / /lab / /scorecard / /blog / 4 篇博文 / **/whitepaper**（共 10 个 URL）
 - ✅ Googlebot UA 访问首页 200（传统 Google 搜索收录路径通畅）
 - ✅ Bing sitemap ping 已提交（`https://www.bing.com/ping?sitemap=https://zkoner.com/sitemap.xml`）
+- ✅ **IndexNow 已配置**（2026-08-18）：key 文件 `https://zkoner.com/<key>.txt` 已托管，见下文 §5
+- ✅ **推送脚本已就绪**：`docs/indexnow-push.sh`（IndexNow）+ `docs/baidu-push.sh`（百度，需 token）+ `docs/push-all.sh`（部署后一键三推）
 - ✅ 白皮书已上线 `https://zkoner.com/whitepaper`，含 `Report` JSON-LD，内部链接：Footer（全站）+ /geo + /lab + /scorecard 的 CTA
 
 ---
@@ -143,9 +145,40 @@ Google/Baidu 只是传统收录。对 GEO 而言，真正要喂的是 AI 爬虫�
 
 ---
 
-## 5. 一句话行动清单
+## 5. IndexNow 主动推送（Bing 一族，2026-08-18 已配置）
+
+「网站内容更新了，主动告诉搜索引擎」的标准协议。IndexNow 不需要注册，key 自生成即可，一次提交自动广播给 **Bing / Yandex / Seznam / Naver** 等（Google 不参与）。
+
+- **key**：`ad0a6198c543ad64dae882943055a2ad7ca0ac8ee80eb7fed56f051ab52a5954`
+- **key 托管文件**：`public/<key>.txt`（内容 = key 本身），部署后 `https://zkoner.com/<key>.txt` 可达即生效
+- **手动提交单个 URL**：
+  ```bash
+  curl "https://api.indexnow.org/indexnow?url=https://zkoner.com/whitepaper&key=<key>&keyLocation=https://zkoner.com/<key>.txt"
+  ```
+- **一键全量推送**（含全部核心 URL + llms）：
+  ```bash
+  bash docs/indexnow-push.sh
+  ```
+
+> 换新 key 的做法：重新生成 → 替换 `public/<key>.txt` + 更新 `docs/indexnow-push.sh` 顶部 KEY → 部署 → 推送。旧 key 作废（IndexNow 只认新 key 文件）。
+
+---
+
+## 6. 一键推送（部署后执行）
+
+每次更新部署完成后，跑一次即可同时通知 Bing/百度：
+
+```bash
+bash docs/push-all.sh                 # Bing sitemap ping + IndexNow
+BAIDU_TOKEN=xxx bash docs/push-all.sh # 再加百度主动推送
+```
+
+---
+
+## 7. 一句话行动清单
 
 1. **[必须]** Cloudflare 关掉 Content Signals 的 Managed robots.txt（否则 AI 爬虫全挡）。
 2. **[必须]** Google Search Console 域名验证 + 提交 sitemap。
 3. **[建议]** 百度资源平台验证 + 提交 sitemap（接受无备案可能慢的现实）。
-4. **[建议]** 1-2 周后跑 GEOloopOS 复测，把结果写进成绩单 #2 与白皮书更新。
+4. **[建议]** 部署后跑 `bash docs/push-all.sh` 主动通知 Bing/百度。
+5. **[建议]** 1-2 周后跑 GEOloopOS 复测，把结果写进成绩单 #2 与白皮书更新。

@@ -68,8 +68,11 @@ export const metadata: Metadata = {
     canonical: site.url,
   },
   verification: {
-    // Bing 站长工具验证（msvalidate.01）
-    other: { "msvalidate.01": "605B10226159C867FDFC16F8DF85E298" },
+    // Bing 站长工具验证（msvalidate.01）+ 百度搜索资源平台验证（baidu-site-verification）
+    other: {
+      "msvalidate.01": "605B10226159C867FDFC16F8DF85E298",
+      "baidu-site-verification": "7d7ac2602e6bc4309d4f7fa7606831b2",
+    },
   },
 };
 
