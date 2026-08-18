@@ -52,8 +52,8 @@ export interface ScorecardIssue {
   scene: SceneShare;
   /** 来源引用情况 */
   sources: { citedSites: number; note: string };
-  /** 这个月我做了什么 */
-  actions: string[];
+  /** 这个月我做了什么（text=动作；logRef=对应项目日志里程碑编号，如 "04"） */
+  actions: { text: string; logRef?: string }[];
   /** 下个月计划 */
   next: string[];
   /** 本月核心洞察 */
@@ -135,10 +135,21 @@ export const scorecards: ScorecardIssue[] = [
       note: "两源均未引用任何站点。DeepSeek 拒答无来源；豆包仅凭常识作答。官网 zkoner.com 尚未进入 AI 的引用范围。",
     },
     actions: [
-      "GEOloopOS 独立为公开产品仓库（github.com/zhangxiaomingv/geoloopos），代码纯净、公开可爬。",
-      "定位锚点落地：固定「张可能 — AI 顾问 / GEO 优化工程师 / GEOloopOS 创始人」，口径逐字统一。",
-      "官网 GEO 工程：schema.org @graph 结构化数据、robots 放行 AI 爬虫、llms.txt / llms-full.txt 知识库、sitemap。",
-      "本页就是第一份公开成绩单——把 35 分亮出来，让复测有据可查。",
+      {
+        text: "GEOloopOS 独立为公开产品仓库（github.com/zhangxiaomingv/geoloopos），代码纯净、公开可爬。",
+        logRef: "04",
+      },
+      {
+        text: "定位锚点落地：固定「张可能 — AI 顾问 / GEO 优化工程师 / GEOloopOS 创始人」，口径逐字统一。",
+        logRef: "06",
+      },
+      {
+        text: "官网 GEO 工程：schema.org @graph 结构化数据、robots 放行 AI 爬虫、llms.txt / llms-full.txt 知识库、sitemap。",
+        logRef: "02",
+      },
+      {
+        text: "本页就是第一份公开成绩单——把 35 分亮出来，让复测有据可查。",
+      },
     ],
     next: [
       "发 3–5 篇「张可能 × GEO」公开内容（个人站 / 知乎 / 公众号），让品牌名与场景词同框出现。",

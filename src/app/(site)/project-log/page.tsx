@@ -119,6 +119,24 @@ export default function ProjectLogPage() {
           {archiveNote}
         </p>
 
+        {/* 与成绩单的因果联动 */}
+        <div className="mt-8 rounded-2xl border border-accent/25 bg-accent-soft p-5 sm:p-6">
+          <p className="text-sm leading-relaxed text-text">
+            <span className="mr-2 font-mono text-xs text-accent">
+              过程 → 结果
+            </span>
+            日志记录「做了什么」（成因），
+            <a href="/scorecard" className="link-underline text-accent">
+              AI 认知成绩单
+            </a>
+            记录「分数怎么变」（结果）。每一份成绩单的前因，都能在这条时间线里找到——本月的三大动作挂在
+            <a href="/scorecard" className="link-underline text-accent">
+              成绩单「这个月我做了什么」
+            </a>
+            。
+          </p>
+        </div>
+
         {/* 迭代时间线 */}
         <ol className="mt-16 space-y-14 border-l border-border">
           {projectLog.milestones.map((m) => (

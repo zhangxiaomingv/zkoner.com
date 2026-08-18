@@ -17,6 +17,7 @@
 
 ## AI 时代观察（文章）
 
+- [为什么我把每一步迭代都公开记录](https://zkoner.com/blog/why-i-keep-a-public-project-log) — 个人品牌 · 2026-08-18
 - [普通人建立个人品牌的三个 AI 杠杆](https://zkoner.com/blog/personal-brand-ai-leverage) — 个人品牌 · 2026-08-12
 - [AI 时代，企业官网为什么反而更重要了](https://zkoner.com/blog/why-company-website-matters-in-ai-era) — AI 趋势 · 2026-08-05
 - [一人公司的边界到底在哪](https://zkoner.com/blog/one-person-company-boundary) — 一人公司 · 2026-07-28

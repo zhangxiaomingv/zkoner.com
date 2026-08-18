@@ -201,10 +201,23 @@ export default function ScorecardPage() {
               <span className="mt-0.5 font-mono text-xs text-accent tabular">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span>{a}</span>
+              <span>
+                {a.text}
+                {a.logRef && (
+                  <a
+                    href={`/project-log#m${a.logRef}`}
+                    className="ml-2 inline-flex items-center rounded-full border border-border bg-surface-2 px-2 py-0.5 font-mono text-xs text-accent transition-colors hover:border-accent/40 hover:bg-accent-soft"
+                  >
+                    #M{a.logRef} 详见项目日志
+                  </a>
+                )}
+              </span>
             </li>
           ))}
         </ul>
+        <p className="mt-4 font-mono text-xs text-faint">
+          #M 编号对应 <a href="/project-log" className="link-underline hover:text-muted">项目日志</a> 里程碑 —— 过程看日志，结果看成绩单。
+        </p>
 
         <SectionHead index="06" label="下个月计划" />
         <ul className="mt-6 space-y-4">
