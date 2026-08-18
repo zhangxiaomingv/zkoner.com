@@ -10,6 +10,7 @@ const NAV = [
   { href: "/lab", label: "可能实验" },
   { href: "/blog", label: "AI 时代观察" },
   { href: "/scorecard", label: "AI 成绩单" },
+  { href: "/project-log", label: "项目日志" },
   { href: "#connect", label: "连接" },
 ] as const;
 

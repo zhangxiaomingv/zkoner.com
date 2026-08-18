@@ -42,6 +42,9 @@ export default function Footer({ minimal = false }: { minimal?: boolean }) {
             <a href="/scorecard" className="hover:text-muted">
               AI 成绩单
             </a>
+            <a href="/project-log" className="hover:text-muted">
+              项目日志
+            </a>
             <a href="mailto:hello@zkoner.com" className="hover:text-muted">
               联系
             </a>

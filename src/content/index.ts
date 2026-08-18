@@ -12,3 +12,4 @@ export * from "./scorecard";
 export * from "./geo";
 export * from "./lab-data";
 export * from "./whitepaper";
+export * from "./project-log";

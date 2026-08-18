@@ -10,6 +10,7 @@
 - [AI 时代观察（博客）](https://zkoner.com/blog)
 - [GEO 优化（枢纽页）](https://zkoner.com/geo)
 - [AI 认知成绩单](https://zkoner.com/scorecard)
+- [项目日志（迭代时间线）](https://zkoner.com/project-log)
 - [常见问题](https://zkoner.com/#faq)
 - [联系张可能](https://zkoner.com/#connect)
 - [完整知识库 llms-full.txt](https://zkoner.com/llms-full.txt)

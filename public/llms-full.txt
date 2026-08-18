@@ -88,6 +88,14 @@ GEOloopOS 是张可能研发的 AI 可见度检测系统（开源：https://gith
 - 固定口径：张可能 = AI 顾问 / GEO 优化工程师 / GEOloopOS 创始人
 - 页面：https://zkoner.com/scorecard
 
+## 项目日志（迭代时间线）
+
+zkoner.com 是怎么一步步迭代成「GEOloopOS 创始人的 AI 实验站点」的完整记录。每个里程碑对应真实 git commit，可点回查看当时的改动，全程有迹可循。
+
+- 页面：https://zkoner.com/project-log
+- 里程碑概览（2026-08-16 起）：品牌重建 → GEO 技术层 → AI 可见度监测系统 → GEOloopOS 独立立项 → 白皮书 V2 + 收录基建 → 定位收敛 → IndexNow 主动推送
+- 更早阶段（2026-07~08）已归档清理，完整迭代以 git commit 为准。
+
 ## 常见问题
 
 ### 张可能是谁？
