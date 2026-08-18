@@ -16,6 +16,7 @@ URLS=(
   "${SITE}/scorecard"
   "${SITE}/project-log"
   "${SITE}/blog"
+  "${SITE}/blog/why-i-keep-a-public-project-log"
   "${SITE}/blog/personal-brand-ai-leverage"
   "${SITE}/blog/why-company-website-matters-in-ai-era"
   "${SITE}/blog/one-person-company-boundary"
