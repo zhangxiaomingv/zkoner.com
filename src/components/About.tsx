@@ -70,6 +70,19 @@ export default function About() {
           ))}
         </div>
       </div>
+
+      {/* 白皮书入口 */}
+      <div className="reveal reveal-delay-2 mt-14 flex flex-col gap-6 rounded-2xl border border-accent/25 bg-accent-soft p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <div>
+          <p className="eyebrow">商业蓝皮书 · GEOloopOS Lab</p>
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-text">
+            《GEOloopOS：AI可见度闭环方法论》—— 用真实实验数据，讲清品牌如何被 AI 识别、引用与推荐。
+          </p>
+        </div>
+        <a href="/whitepaper" className="btn btn-primary shrink-0">
+          阅读白皮书
+        </a>
+      </div>
     </Section>
   );
 }
