@@ -14,6 +14,7 @@ URLS=(
   "${SITE}/geo"
   "${SITE}/lab"
   "${SITE}/scorecard"
+  "${SITE}/project-log"
   "${SITE}/blog"
   "${SITE}/blog/personal-brand-ai-leverage"
   "${SITE}/blog/why-company-website-matters-in-ai-era"
