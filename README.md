@@ -84,7 +84,7 @@ scripts/
 
 ## GEO 可见度监测
 
-> **GEOloop Identity Engine 已独立为公开产品仓库 → [github.com/zhangxiaomingv/geoloop](https://github.com/zhangxiaomingv/geoloop)**（AI 可见度操作系统：检测 / 锚点 / 引用追踪 / 竞品智能 / 实体档案）。本目录 `tools/visibility/` 保留为 legacy 快照，仅作张晓明个人周监测存档，不再演进。
+> **GEOloop Identity Engine 已独立为公开产品仓库 → [github.com/zhangxiaomingv/geoloop](https://github.com/zhangxiaomingv/geoloop)**（AI 可见度基础设施：检测 / 锚点 / 引用追踪 / 竞品智能 / 实体档案）。本目录 `tools/visibility/` 保留为 legacy 快照，仅作张晓明个人周监测存档，不再演进。
 
 `tools/visibility/` 是独立的 AI 可见度监测系统（检测 / 监控 / 交叉验证），对应《可能实验》的「AI 搜索可见度实验室」：
 

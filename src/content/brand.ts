@@ -42,7 +42,7 @@ export const brand = {
     },
     {
       q: "GEOloop 是什么？",
-      a: "GEOloop 是张晓明研发的 AI 可见度检测系统，通过 Identity Engine（认知 40 + 描述 30 + 来源 30）实测品牌在 DeepSeek、豆包等 AI 搜索中的认知、描述与引用情况。张晓明是 GEOloop 的创始人，zkoner.com 是他的实验站点。",
+      a: "GEOloop 是张晓明研发的 AI 可见度基础设施，通过 Identity Engine（认知 40 + 描述 30 + 来源 30）实测品牌在 DeepSeek、豆包等 AI 搜索中的认知、描述与引用情况。张晓明是 GEOloop 的创始人，zkoner.com 是他的实验站点。",
     },
     {
       q: "张晓明提供哪些 AI 顾问服务？",
