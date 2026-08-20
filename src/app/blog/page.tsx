@@ -5,12 +5,12 @@ import PostRow from "@/components/PostRow";
 export const metadata: Metadata = {
   title: "AI 时代观察",
   description:
-    "张可能关于 AI 趋势、个人品牌、一人公司、创业思考与商业模式的观察与思考。",
+    "张晓明关于 AI 趋势、个人品牌、一人公司、创业思考与商业模式的观察与思考。",
   alternates: { canonical: "/blog" },
 };
 
 const blogDescription =
-  "关于 AI 时代，张可能的观察与思考：AI 趋势、个人品牌、一人公司、创业思考、商业模式。";
+  "关于 AI 时代，张晓明的观察与思考：AI 趋势、个人品牌、一人公司、创业思考、商业模式。";
 
 /** Blog 结构化数据：blogPost 数组覆盖页面上可见的全部文章（含成绩单，指向 /scorecard） */
 const graphJsonLd = {

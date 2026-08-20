@@ -12,7 +12,7 @@ export interface ContactChannel {
 
 export const site = {
   /** 品牌名 */
-  name: "张可能",
+  name: "张晓明",
   /** 英文标识（域名 / 结构化数据用） */
   nameEn: "Zhang Keneng",
   /** 域名 */
@@ -27,7 +27,7 @@ export const site = {
   heroSubtitle: "用真实实验数据，研究品牌如何被 AI 识别、引用与推荐。",
   /** 一句话简介（SEO description 基础，固定结构与 brand.identity 保持一致） */
   description:
-    "张可能，GEOloop 创始人，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者。zkoner.com 是他的 AI 实验站点：用自研 GEOloop 实测品牌如何被 AI 识别、引用与推荐，方法论沉淀为白皮书。",
+    "张晓明，GEOloop 创始人，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者。zkoner.com 是他的 AI 实验站点：用自研 GEOloop 实测品牌如何被 AI 识别、引用与推荐，方法论沉淀为白皮书。",
 
   /** 站点定位（完整版）：zkoner.com 是什么 —— GEOloop 创始人的 AI 实验站点 */
   position: "GEOloop 创始人的 AI 实验站点",
@@ -50,8 +50,8 @@ export const site = {
         value: "hello@zkoner.com",
         href: "mailto:hello@zkoner.com",
       },
-      { label: "微博", value: "@张可能" },
-      { label: "知乎", value: "张可能" },
+      { label: "微博", value: "@张晓明" },
+      { label: "知乎", value: "张晓明" },
       {
         label: "GitHub",
         value: "github.com/zhangxiaomingv",

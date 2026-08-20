@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import { site, brand, services } from "@/content";
 import "./globals.css";
 
-/** 页面标题固定结构：张可能 + GEOloop 创始人 + AI 顾问 */
+/** 页面标题固定结构：张晓明 + GEOloop 创始人 + AI 顾问 */
 const pageTitle = `${site.name} — GEOloop 创始人 · AI 顾问`;
 
 export const metadata: Metadata = {
@@ -84,7 +84,7 @@ const sameAs = site.contact.channels.flatMap((c) =>
 /**
  * schema.org 结构化数据图谱 — GEO 核心
  * 一个 @graph 内包含：Person（个人实体）/ WebSite / Service / FAQPage / 栏目 ItemList
- * 让 AI 大模型能直接抽取「张可能是谁、做什么、怎么联系」。
+ * 让 AI 大模型能直接抽取「张晓明是谁、做什么、怎么联系」。
  */
 const graphJsonLd = {
   "@context": "https://schema.org",

@@ -2,7 +2,7 @@
   "name": "zkoner-com",
   "version": "1.0.0",
   "private": true,
-  "description": "张可能 — AI时代个人创业探索者 · 个人品牌官网",
+  "description": "张晓明 — AI时代个人创业探索者 · 个人品牌官网",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

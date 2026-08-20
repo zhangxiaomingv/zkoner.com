@@ -141,7 +141,7 @@ Google/Baidu 只是传统收录。对 GEO 而言，真正要喂的是 AI 爬虫�
 - **DeepSeek**：官方无独立爬虫名，靠公开网络抓取 + 合作数据源，站内 llms.txt/llms-full.txt 已就位。
 - **豆包（Bytespider）**：修复 robots 后，内容会被字节爬虫抓取；llms-full.txt 全量知识库是豆包理解你的主通道。
 - **ChatGPT（GPTBot / OAI-SearchBot）**、**Claude（ClaudeBot）**、**Perplexity**、**Google AI Overviews（googlebot）**：均已显式放行。
-- 复测闭环：修复 robots → 等 1-2 周 → 用 GEOloop 重测「张可能」「什么是GEO」「推荐GEO顾问」，看 Delta（对应白皮书 Experiment #002-006）。
+- 复测闭环：修复 robots → 等 1-2 周 → 用 GEOloop 重测「张晓明」「什么是GEO」「推荐GEO顾问」，看 Delta（对应白皮书 Experiment #002-006）。
 
 ---
 

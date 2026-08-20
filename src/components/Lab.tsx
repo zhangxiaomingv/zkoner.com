@@ -77,7 +77,7 @@ export default function Lab() {
               AI 可见度实测：你的品牌在 AI 眼里值多少分？
             </p>
             <p className="mt-1.5 text-sm leading-relaxed text-muted">
-              双源实测海底捞 / 张可能 / zkoner.com 等 5 个样本，6 个发现，数据公开可复测。
+              双源实测海底捞 / 张晓明 / zkoner.com 等 5 个样本，6 个发现，数据公开可复测。
             </p>
           </div>
           <span className="shrink-0 font-mono text-sm text-accent">查看数据 →</span>

@@ -3,7 +3,7 @@ import { brand } from "./brand";
 /**
  * GEO 枢纽页（/geo）— 主题聚簇中心
  * 「网页链接 + 结构化数据 + 内容关系」三层双向绑定的内容侧中枢：
- * - 页面本身提供权威的「张可能 = GEO」实体描述（Service / FAQ / ItemList schema）
+ * - 页面本身提供权威的「张晓明 = GEO」实体描述（Service / FAQ / ItemList schema）
  * - 反向列出全部 GEO 相关内容（文章 / 成绩单 / 产品），与文章正文互相链接
  */
 
@@ -70,5 +70,5 @@ export const geoHub = {
   },
 
   /** 常见问题（brand.faq 子集，GEO 相关） */
-  faqQuestions: ["什么是 GEO？", "张可能提供哪些 AI 顾问服务？"] as const,
+  faqQuestions: ["什么是 GEO？", "张晓明提供哪些 AI 顾问服务？"] as const,
 } as const;

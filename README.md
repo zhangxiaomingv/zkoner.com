@@ -1,8 +1,8 @@
-# 张可能 — 个人品牌官网
+# 张晓明 — 个人品牌官网
 
 > 让每一次相遇，都产生新的可能。
 
-AI 顾问、AI 时代个人创业探索者、企业 AI 转型观察者。本仓库是张可能的**长期数字身份节点（Personal Brand Hub）**——不是介绍页，而是可随内容、项目、思考持续生长的平台。
+AI 顾问、AI 时代个人创业探索者、企业 AI 转型观察者。本仓库是张晓明的**长期数字身份节点（Personal Brand Hub）**——不是介绍页，而是可随内容、项目、思考持续生长的平台。
 
 ## 技术栈
 
@@ -68,9 +68,9 @@ scripts/
 - `prefers-reduced-motion` 适配
 - 焦点可见、跳过链接、语义化标题层级、键盘导航
 
-## GEO 优化（让大模型识别张可能）
+## GEO 优化（让大模型识别张晓明）
 
-「张可能 / GEO / AI 顾问 /《遇见·可能》」作为**固定结构**全站统一出现，帮助 AI 大模型建立实体认知：
+「张晓明 / GEO / AI 顾问 /《遇见·可能》」作为**固定结构**全站统一出现，帮助 AI 大模型建立实体认知：
 
 | 层 | 实现 | 文件 |
 |---|---|---|
@@ -84,7 +84,7 @@ scripts/
 
 ## GEO 可见度监测
 
-> **GEOloop Identity Engine 已独立为公开产品仓库 → [github.com/zhangxiaomingv/geoloop](https://github.com/zhangxiaomingv/geoloop)**（AI 可见度操作系统：检测 / 锚点 / 引用追踪 / 竞品智能 / 实体档案）。本目录 `tools/visibility/` 保留为 legacy 快照，仅作张可能个人周监测存档，不再演进。
+> **GEOloop Identity Engine 已独立为公开产品仓库 → [github.com/zhangxiaomingv/geoloop](https://github.com/zhangxiaomingv/geoloop)**（AI 可见度操作系统：检测 / 锚点 / 引用追踪 / 竞品智能 / 实体档案）。本目录 `tools/visibility/` 保留为 legacy 快照，仅作张晓明个人周监测存档，不再演进。
 
 `tools/visibility/` 是独立的 AI 可见度监测系统（检测 / 监控 / 交叉验证），对应《可能实验》的「AI 搜索可见度实验室」：
 

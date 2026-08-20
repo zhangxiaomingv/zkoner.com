@@ -63,8 +63,8 @@ export const projectLog: ProjectLogData = {
     {
       date: "2026-08-16",
       index: "01",
-      title: "品牌重建：张可能个人官网上线",
-      what: "整站从视频生成模块重建为「张可能个人品牌官网」，并接入 GitHub Pages 部署自动化。",
+      title: "品牌重建：张晓明个人官网上线",
+      what: "整站从视频生成模块重建为「张晓明个人品牌官网」，并接入 GitHub Pages 部署自动化。",
       why: "聚焦个人品牌，作为 GEO 自实验的实验载体——先有一个能被识别、能反复实验的「自己」。",
       result: "品牌站上线，部署流程可一键复现。",
       commits: [
@@ -76,9 +76,9 @@ export const projectLog: ProjectLogData = {
     {
       date: "2026-08-16",
       index: "02",
-      title: "GEO 技术层：让大模型识别「张可能」",
+      title: "GEO 技术层：让大模型识别「张晓明」",
       what: "搭建 schema.org 结构化数据、llms.txt、外站同名矩阵执行清单；同期确立《遇见·可能》栏目（后于定位收敛阶段移除）。",
-      why: "GEO 的第一步是 Recognition（被 AI 识别）——先让 AI 能读懂「张可能是谁、做什么、怎么联系」。",
+      why: "GEO 的第一步是 Recognition（被 AI 识别）——先让 AI 能读懂「张晓明是谁、做什么、怎么联系」。",
       result: "全站成为可被 AI 解析的语料，实体图谱接入。",
       commits: [
         { hash: "bb50724", label: "搭建 GEO 技术层", repo: "zkoner" },
@@ -132,7 +132,7 @@ export const projectLog: ProjectLogData = {
       title: "定位收敛：GEOloop 创始人的 AI 实验站",
       what: "站点重构为「GEOloop 创始人的 AI 实验站点」，整体移除《遇见·可能》栏目，全站文案、结构化数据、llms 统一新定位。",
       why: "站与产品关系收敛——实验飞轮：GEOloop → 数据 → 方法论 → 产品 → 客户 → 回流。",
-      result: "全站 AI 认知聚焦于「张可能 = GEOloop 创始人」。",
+      result: "全站 AI 认知聚焦于「张晓明 = GEOloop 创始人」。",
       commits: [
         { hash: "09168f9", label: "定位重构 + 移除《遇见·可能》", repo: "zkoner" },
       ],

@@ -1,7 +1,7 @@
 import { site } from "@/content";
 
 /**
- * 第一屏 Hero — 张可能
+ * 第一屏 Hero — 张晓明
  * 深色电影感：近黑背景 + 顶部科技蓝微光 + 极淡网格
  */
 export default function Hero() {
@@ -41,7 +41,7 @@ export default function Hero() {
         <a
           href="#about"
           className="reveal reveal-delay-4 mt-24 inline-flex items-center gap-2 text-xs tracking-widest text-faint transition-colors hover:text-muted"
-          aria-label="向下滚动了解张可能"
+          aria-label="向下滚动了解张晓明"
         >
           <span className="font-mono">SCROLL</span>
           <span className="inline-block h-4 w-px bg-faint" aria-hidden="true" />

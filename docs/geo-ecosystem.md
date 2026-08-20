@@ -1,6 +1,6 @@
 # GEO 生态架构总览（GEO Ecosystem Map）
 
-> 张可能 2026-08-18 手绘图落档。这是全系统的**母图**：从「实体根」出发，穿过产品与检测引擎、方法论、个人站内容阵地，抵达外部分发，再由 AI 可见度反馈回卷成闭环。
+> 张晓明 2026-08-18 手绘图落档。这是全系统的**母图**：从「实体根」出发，穿过产品与检测引擎、方法论、个人站内容阵地，抵达外部分发，再由 AI 可见度反馈回卷成闭环。
 >
 > 配套细节：外站同名矩阵执行清单见 [geo-platform-matrix.md](./geo-platform-matrix.md)（即本图「外部互联网传播」一层的展开）。
 
@@ -10,7 +10,7 @@
 
 ```mermaid
 flowchart TD
-    Z["张可能<br/><b>Person · 实体源</b>"] -->|"Founder / Creator"| O["GEOloop<br/><b>Organization · 检测引擎</b>"]
+    Z["张晓明<br/><b>Person · 实体源</b>"] -->|"Founder / Creator"| O["GEOloop<br/><b>Organization · 检测引擎</b>"]
     O --> G["GEO · AI Search · AI Visibility"]
     O --> M["GEO 方法论体系"]
     G --> M
@@ -19,7 +19,7 @@ flowchart TD
     C --> D["Data 数据"]
     D --> R["Research 研究"]
     R -->|"方法论迭代"| M
-    R --> P["张可能个人站 zkoner.com<br/>观点 · 文章 · 实践 · 视频"]
+    R --> P["张晓明个人站 zkoner.com<br/>观点 · 文章 · 实践 · 视频"]
     ECK --> P
     P --> X["外部互联网传播<br/>知乎 · 小红书 · 抖音 · 公众号"]
     X -->|"内容被 AI 爬取与引用"| V["AI 可见度反馈<br/>被描述 · 被引用 · 被推荐"]
@@ -31,7 +31,7 @@ flowchart TD
 
 ```
 ┌────────────────┐
-│     张可能      │
+│     张晓明      │
 │     Person     │
 └───────┬────────┘
         │
@@ -67,7 +67,7 @@ Entity  Knowledge  Content
         │
         ↓
 ┌───────────────┐
-│   张可能个人站 │
+│   张晓明个人站 │
 └───────┬───────┘
         │
 观点 / 文章 / 实践 / 视频
@@ -84,13 +84,13 @@ Entity  Knowledge  Content
 
 ## 3. 分层解读
 
-### 3.1 实体根 — 张可能（Person）
-全系统唯一实体源。所有下游（产品、方法论、内容、外站账号）都指向同一个「张可能 = AI 顾问 / GEO 优化工程师 / GEOloop 创始人」。口径一旦漂移，AI 建立的实体关联就会断。
+### 3.1 实体根 — 张晓明（Person）
+全系统唯一实体源。所有下游（产品、方法论、内容、外站账号）都指向同一个「张晓明 = AI 顾问 / GEO 优化工程师 / GEOloop 创始人」。口径一旦漂移，AI 建立的实体关联就会断。
 
 **现实落点**：`src/content/brand.ts` + `src/content/site.ts` 固定口径，Person JSON-LD（`@id = zkoner.com#person`）。
 
 ### 3.2 检测引擎 — GEOloop（Organization）
-张可能的创始产物，也是本图的「测量仪器」：GEO / AI Search / AI Visibility 三向能力（认知 / 描述 / 来源 三维打分）。没有它，GEO 就是玄学——有了它，每一轮优化都有基线、有复测、有曲线。
+张晓明的创始产物，也是本图的「测量仪器」：GEO / AI Search / AI Visibility 三向能力（认知 / 描述 / 来源 三维打分）。没有它，GEO 就是玄学——有了它，每一轮优化都有基线、有复测、有曲线。
 
 **现实落点**：`~/geoloop`（本机 Docker :8788）+ github.com/zhangxiaomingv/geoloop（公开）。
 
@@ -107,7 +107,7 @@ Entity  Knowledge  Content
 唯一**完全自主、可被 AI 爬取**的内容阵地。外站账号是租的场地，个人站是自己的地基；所有内容最终回链到这里。
 
 ### 3.5 外部分发 — 知乎 / 小红书 / 抖音 / 公众号
-放大与交叉验证层：多个来源「同名同描述」的张可能，被 AI 交叉验证后更敢引用。**细节见 [geo-platform-matrix.md](./geo-platform-matrix.md)**（P0 知乎 / GitHub / 公众号，统一话术 + 一鱼多吃管线）。
+放大与交叉验证层：多个来源「同名同描述」的张晓明，被 AI 交叉验证后更敢引用。**细节见 [geo-platform-matrix.md](./geo-platform-matrix.md)**（P0 知乎 / GitHub / 公众号，统一话术 + 一鱼多吃管线）。
 
 ---
 
@@ -128,7 +128,7 @@ Entity  Knowledge  Content
 
 | 图上节点 | 现实落点 |
 |---|---|
-| 张可能 Person | `brand.ts` / `site.ts` 口径 + Person JSON-LD（zkoner.com#person） |
+| 张晓明 Person | `brand.ts` / `site.ts` 口径 + Person JSON-LD（zkoner.com#person） |
 | GEOloop | `~/geoloop` Docker :8788 + GitHub 公开仓库 |
 | GEO / AI Search / AI Visibility | GEOloop 检测能力（认知/描述/来源三维） |
 | Entity / Knowledge / Content | `public/llms.txt` · `llms-full.txt` · 博客 · 成绩单 |

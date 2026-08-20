@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 /**
- * 张可能个人品牌官网 — Next.js 配置
+ * 张晓明个人品牌官网 — Next.js 配置
  *
  * 静态导出（GitHub Pages / Cloudflare Pages 均可托管）：
  * - output: "export" → npm run build 生成 /out 纯静态站点

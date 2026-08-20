@@ -12,7 +12,7 @@ export default function Faq() {
       id="faq"
       index="06"
       eyebrow="FAQ"
-      title="关于张可能，你可能想问"
+      title="关于张晓明，你可能想问"
     >
       <div className="divide-y divide-border border-y border-border">
         {brand.faq.map((item) => (
