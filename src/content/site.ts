@@ -20,19 +20,19 @@ export const site = {
   /** 核心使命 */
   mission: "让每一次相遇，都产生新的可能。",
   /** 个人定位（Hero 主标签） */
-  role: "GEOloopOS 创始人",
+  role: "GEOloop 创始人",
   /** 定位扩展（不含 role 本身，避免重复展示） */
   roles: ["AI 顾问", "AI 时代个人创业探索者", "企业 AI 转型观察者"],
   /** Hero 副标题 */
   heroSubtitle: "用真实实验数据，研究品牌如何被 AI 识别、引用与推荐。",
   /** 一句话简介（SEO description 基础，固定结构与 brand.identity 保持一致） */
   description:
-    "张可能，GEOloopOS 创始人，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者。zkoner.com 是他的 AI 实验站点：用自研 GEOloopOS 实测品牌如何被 AI 识别、引用与推荐，方法论沉淀为白皮书。",
+    "张可能，GEOloop 创始人，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者。zkoner.com 是他的 AI 实验站点：用自研 GEOloop 实测品牌如何被 AI 识别、引用与推荐，方法论沉淀为白皮书。",
 
-  /** 站点定位（完整版）：zkoner.com 是什么 —— GEOloopOS 创始人的 AI 实验站点 */
-  position: "GEOloopOS 创始人的 AI 实验站点",
+  /** 站点定位（完整版）：zkoner.com 是什么 —— GEOloop 创始人的 AI 实验站点 */
+  position: "GEOloop 创始人的 AI 实验站点",
   /** 站点定位（短版）：Hero 眉标用，避免与下方品牌名重复 */
-  positionShort: "GEOloopOS 创始人 · AI 实验站",
+  positionShort: "GEOloop 创始人 · AI 实验站",
 
   /** 栏目品牌 */
   columns: {

@@ -10,7 +10,7 @@ export interface LogCommitRef {
   /** 简短说明（commit message 主题） */
   label: string;
   /** 所属仓库 */
-  repo: "zkoner" | "geoloopos";
+  repo: "zkoner" | "geoloop";
 }
 
 export interface ProjectMilestone {
@@ -30,10 +30,10 @@ export interface ProjectMilestone {
 
 /** GitHub commit 链接基址 */
 const ZKONER_COMMITS = "https://github.com/zhangxiaomingv/zkoner.com/commit";
-const GEOLOOPOS_COMMITS = "https://github.com/zhangxiaomingv/geoloopos/commit";
+const GEOLOOPOS_COMMITS = "https://github.com/zhangxiaomingv/geoloop/commit";
 
 export function commitUrl(c: LogCommitRef): string {
-  return c.repo === "geoloopos"
+  return c.repo === "geoloop"
     ? `${GEOLOOPOS_COMMITS}/${c.hash}`
     : `${ZKONER_COMMITS}/${c.hash}`;
 }
@@ -55,9 +55,9 @@ export const projectLog: ProjectLogData = {
   title: "项目日志",
   eyebrow: "实验站 · 迭代日志",
   description:
-    "zkoner.com 作为 GEOloopOS 创始人的 AI 实验站点，是怎么一步步迭代过来的——每个里程碑都对应真实的 git commit，可点回查看当时的改动。",
+    "zkoner.com 作为 GEOloop 创始人的 AI 实验站点，是怎么一步步迭代过来的——每个里程碑都对应真实的 git commit，可点回查看当时的改动。",
   intro:
-    "这个站从一张个人主页，迭代成今天的「GEOloopOS 创始人的 AI 实验站点」。下面每一行都对应真实的 git commit——点击 hash 即可查看当时改了什么、为什么改，全程有迹可循。",
+    "这个站从一张个人主页，迭代成今天的「GEOloop 创始人的 AI 实验站点」。下面每一行都对应真实的 git commit——点击 hash 即可查看当时改了什么、为什么改，全程有迹可循。",
   updated: "2026-08-18",
   milestones: [
     {
@@ -103,21 +103,21 @@ export const projectLog: ProjectLogData = {
     {
       date: "2026-08-18",
       index: "04",
-      title: "GEOloopOS 独立立项",
-      what: "检测系统标记为 legacy 存档，GEOloopOS 独立为公开产品仓库（Identity Engine：认知 40 + 描述 30 + 来源 30），容器化部署，内置 AI 认知成绩单月度模板。",
+      title: "GEOloop 独立立项",
+      what: "检测系统标记为 legacy 存档，GEOloop 独立为公开产品仓库（Identity Engine：认知 40 + 描述 30 + 来源 30），容器化部署，内置 AI 认知成绩单月度模板。",
       why: "打通「实验 → 产品 → 数据 → 方法论」闭环——检测只是采集器，数据资产才是护城河。",
-      result: "开源仓库上线 github.com/zhangxiaomingv/geoloopos。",
+      result: "开源仓库上线 github.com/zhangxiaomingv/geoloop。",
       commits: [
-        { hash: "0ea42d4", label: "GEOloopOS 独立为公开仓库", repo: "zkoner" },
-        { hash: "d73f78c", label: "Identity Engine 独立立项", repo: "geoloopos" },
-        { hash: "c3339ab", label: "AI 认知成绩单月度模板", repo: "geoloopos" },
+        { hash: "0ea42d4", label: "GEOloop 独立为公开仓库", repo: "zkoner" },
+        { hash: "d73f78c", label: "Identity Engine 独立立项", repo: "geoloop" },
+        { hash: "c3339ab", label: "AI 认知成绩单月度模板", repo: "geoloop" },
       ],
     },
     {
       date: "2026-08-18",
       index: "05",
       title: "白皮书 V2 + 收录基建",
-      what: "发布商业蓝皮书《GEOloopOS：AI 可见度闭环方法论》V2、同步 GitHub，接入 Bing 站长验证，首页新增白皮书入口卡片。",
+      what: "发布商业蓝皮书《GEOloop：AI 可见度闭环方法论》V2、同步 GitHub，接入 Bing 站长验证，首页新增白皮书入口卡片。",
       why: "把实验沉淀成方法论，并让方法论本身可被 AI 阅读、引用。",
       result: "白皮书页上线，Bing 收录验证就位。",
       commits: [
@@ -129,10 +129,10 @@ export const projectLog: ProjectLogData = {
     {
       date: "2026-08-18",
       index: "06",
-      title: "定位收敛：GEOloopOS 创始人的 AI 实验站",
-      what: "站点重构为「GEOloopOS 创始人的 AI 实验站点」，整体移除《遇见·可能》栏目，全站文案、结构化数据、llms 统一新定位。",
-      why: "站与产品关系收敛——实验飞轮：GEOloopOS → 数据 → 方法论 → 产品 → 客户 → 回流。",
-      result: "全站 AI 认知聚焦于「张可能 = GEOloopOS 创始人」。",
+      title: "定位收敛：GEOloop 创始人的 AI 实验站",
+      what: "站点重构为「GEOloop 创始人的 AI 实验站点」，整体移除《遇见·可能》栏目，全站文案、结构化数据、llms 统一新定位。",
+      why: "站与产品关系收敛——实验飞轮：GEOloop → 数据 → 方法论 → 产品 → 客户 → 回流。",
+      result: "全站 AI 认知聚焦于「张可能 = GEOloop 创始人」。",
       commits: [
         { hash: "09168f9", label: "定位重构 + 移除《遇见·可能》", repo: "zkoner" },
       ],

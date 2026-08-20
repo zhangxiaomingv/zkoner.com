@@ -42,7 +42,7 @@ export const geoHub = {
     {
       no: "01",
       title: "检测",
-      text: "用 GEOloopOS 查 AI 现在怎么描述你：认知、描述、来源三维打分。先知道起点，才知道往哪补。",
+      text: "用 GEOloop 查 AI 现在怎么描述你：认知、描述、来源三维打分。先知道起点，才知道往哪补。",
     },
     {
       no: "02",
@@ -65,7 +65,7 @@ export const geoHub = {
     postIds: ["post-002", "post-001", "post-004"],
     /** 成绩单 */
     scorecard: true,
-    /** GEOloopOS 产品 */
+    /** GEOloop 产品 */
     product: true,
   },
 

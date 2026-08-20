@@ -98,7 +98,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="mt-14 rounded-2xl border border-border bg-surface p-6 sm:p-8">
           <p className="font-mono text-xs text-faint">作者</p>
           <p className="mt-3 text-base leading-relaxed text-text">
-            张可能，GEOloopOS 创始人 / AI 顾问 / GEO 优化工程师。
+            张可能，GEOloop 创始人 / AI 顾问 / GEO 优化工程师。
           </p>
           <p className="mt-2 text-sm leading-relaxed text-muted">
             关注 AI 如何改变个人品牌与中小企业的获客方式，把 AI 可见度沉淀为战略资产。

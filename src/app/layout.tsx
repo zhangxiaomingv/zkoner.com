@@ -4,8 +4,8 @@ import Header from "@/components/Header";
 import { site, brand, services } from "@/content";
 import "./globals.css";
 
-/** 页面标题固定结构：张可能 + GEOloopOS 创始人 + AI 顾问 */
-const pageTitle = `${site.name} — GEOloopOS 创始人 · AI 顾问`;
+/** 页面标题固定结构：张可能 + GEOloop 创始人 + AI 顾问 */
+const pageTitle = `${site.name} — GEOloop 创始人 · AI 顾问`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     ...brand.keywordGroups,
     "GEO",
     "生成式引擎优化",
-    "GEOloopOS",
+    "GEOloop",
     "AI 可见度检测",
     "AI 搜索优化",
     "企业 AI 转型",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — GEOloopOS 创始人 · AI 顾问`,
+    title: `${site.name} — GEOloop 创始人 · AI 顾问`,
     description: brand.identity,
   },
   robots: {
@@ -101,7 +101,7 @@ const graphJsonLd = {
       knowsAbout: [
         "AI 顾问",
         "GEO 生成式引擎优化",
-        "GEOloopOS AI 可见度检测",
+        "GEOloop AI 可见度检测",
         "AI 搜索优化",
         "企业 AI 转型",
         "AI 工作流设计",

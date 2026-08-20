@@ -11,7 +11,7 @@ export default function Hero() {
       <div className="grid-texture absolute inset-0" aria-hidden="true" />
 
       <div className="relative mx-auto flex min-h-svh w-full max-w-6xl flex-col justify-center px-5 py-32 sm:px-8">
-        {/* 定位标签（站点定义：GEOloopOS 创始人的 AI 实验站点） */}
+        {/* 定位标签（站点定义：GEOloop 创始人的 AI 实验站点） */}
         <p className="eyebrow reveal">{site.positionShort}</p>
 
         {/* 品牌名 */}

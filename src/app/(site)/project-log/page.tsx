@@ -44,7 +44,7 @@ function CommitPill({ c }: { c: LogCommitRef }) {
       rel="noreferrer"
       className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-2 px-2.5 py-1 font-mono text-xs text-accent transition-colors hover:border-accent/40 hover:bg-accent-soft"
     >
-      <span>{c.repo === "geoloopos" ? "GEOloopOS" : "zkoner"}</span>
+      <span>{c.repo === "geoloop" ? "GEOloop" : "zkoner"}</span>
       <span className="text-faint">·</span>
       <span className="tabular">{c.hash.slice(0, 7)}</span>
       <span className="hidden text-faint sm:inline">· {c.label}</span>
@@ -155,12 +155,12 @@ export default function ProjectLogPage() {
             查看完整 commit 记录
           </a>
           <a
-            href="https://github.com/zhangxiaomingv/geoloopos"
+            href="https://github.com/zhangxiaomingv/geoloop"
             target="_blank"
             rel="noreferrer"
             className="btn btn-ghost"
           >
-            GEOloopOS 源码
+            GEOloop 源码
           </a>
           <a href="/scorecard" className="btn btn-ghost">
             AI 成绩单

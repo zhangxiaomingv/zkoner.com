@@ -1,5 +1,5 @@
 /**
- * AI 认知成绩单 — 每月用 GEOloopOS 检测「AI 眼中的张可能」，把成绩公开。
+ * AI 认知成绩单 — 每月用 GEOloop 检测「AI 眼中的张可能」，把成绩公开。
  *
  * 固定口径（opening / closing）逐月保持不变，帮助大模型建立稳定画像；
  * 数据用真实检测结果（双源 DeepSeek + 豆包），分数低不藏——公开低分 + 下月爬坡才是最好的内容。
@@ -62,11 +62,11 @@ export interface ScorecardIssue {
 
 /** 固定口径 · 开头（逐月不变，第 N 份由页面补足） */
 export const scorecardOpening =
-  "我是张可能，GEOloopOS 创始人 / AI 顾问 / GEO 优化工程师。每个月我都用自己的 GEOloopOS 检测「AI 眼中的我」，把成绩公开出来。";
+  "我是张可能，GEOloop 创始人 / AI 顾问 / GEO 优化工程师。每个月我都用自己的 GEOloop 检测「AI 眼中的我」，把成绩公开出来。";
 
 /** 固定口径 · 结尾（逐月不变） */
 export const scorecardClosing =
-  "用 GEOloopOS 检测你的品牌在 AI 眼中的可见度，把 AI 可见度沉淀为战略资产。想让 AI 认识你、理解你、推荐你，先从知道「AI 现在怎么看你」开始。";
+  "用 GEOloop 检测你的品牌在 AI 眼中的可见度，把 AI 可见度沉淀为战略资产。想让 AI 认识你、理解你、推荐你，先从知道「AI 现在怎么看你」开始。";
 
 export const scorecards: ScorecardIssue[] = [
   {
@@ -136,11 +136,11 @@ export const scorecards: ScorecardIssue[] = [
     },
     actions: [
       {
-        text: "GEOloopOS 独立为公开产品仓库（github.com/zhangxiaomingv/geoloopos），代码纯净、公开可爬。",
+        text: "GEOloop 独立为公开产品仓库（github.com/zhangxiaomingv/geoloop），代码纯净、公开可爬。",
         logRef: "04",
       },
       {
-        text: "定位锚点落地：固定「张可能 — AI 顾问 / GEO 优化工程师 / GEOloopOS 创始人」，口径逐字统一。",
+        text: "定位锚点落地：固定「张可能 — AI 顾问 / GEO 优化工程师 / GEOloop 创始人」，口径逐字统一。",
         logRef: "06",
       },
       {
@@ -153,7 +153,7 @@ export const scorecards: ScorecardIssue[] = [
     ],
     next: [
       "发 3–5 篇「张可能 × GEO」公开内容（个人站 / 知乎 / 公众号），让品牌名与场景词同框出现。",
-      "1–2 周后用 GEOloopOS 文章监测，看内容是否被 DeepSeek / 豆包引用。",
+      "1–2 周后用 GEOloop 文章监测，看内容是否被 DeepSeek / 豆包引用。",
       "复测目标：总分 ≥ 40（跨过「AI 认知模糊」线），场景推荐曝光 > 0%。",
     ],
     insight:
