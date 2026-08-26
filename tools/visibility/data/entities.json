@@ -1,0 +1,21 @@
+[
+  {
+    "key": "海底捞",
+    "name": "海底捞",
+    "kind": "brand",
+    "keywords": [],
+    "createdAt": "2026-08-17T14:47:13.822Z",
+    "checks": [
+      {
+        "at": "2026-08-17T14:47:13.819Z",
+        "score": 70,
+        "verdict": "AI 有基础认知",
+        "mention": true,
+        "cited": false,
+        "sources": []
+      }
+    ],
+    "citations": [],
+    "sceneShares": []
+  }
+]

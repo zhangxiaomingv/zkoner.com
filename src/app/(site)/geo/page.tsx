@@ -14,7 +14,7 @@ import {
 export const metadata: Metadata = {
   title: "GEO 生成式引擎优化",
   description:
-    "张可能专注 GEO（生成式引擎优化），帮品牌与企业信息被 ChatGPT、DeepSeek、Kimi、文心一言等 AI 大模型识别与引用。检测、内容、复测的一轮循环。",
+    "张晓明专注 GEO（生成式引擎优化），帮品牌与企业信息被 ChatGPT、DeepSeek、Kimi、文心一言等 AI 大模型识别与引用。检测、内容、复测的一轮循环。",
   alternates: { canonical: "/geo" },
 };
 
@@ -44,8 +44,14 @@ const relatedItems = [
   {
     "@type": "ListItem",
     position: relatedPosts.length + 2,
-    name: "GEOloopOS — AI 可见度检测引擎",
-    url: "https://github.com/zhangxiaomingv/geoloopos",
+    name: "GEOloopOS — AI 可见度基础设施（产品官网）",
+    url: "https://geoloopos.com",
+  },
+  {
+    "@type": "ListItem",
+    position: relatedPosts.length + 3,
+    name: "GEOloop — AI 可见度检测引擎（开源）",
+    url: "https://github.com/zhangxiaomingv/geoloop",
   },
 ];
 
@@ -158,8 +164,8 @@ export default function GeoPage() {
           ))}
         </div>
 
-        {/* 张可能做 GEO 的三种方式 */}
-        <SectionHead index="02" label="张可能做 GEO 的三种方式" />
+        {/* 张晓明做 GEO 的三种方式 */}
+        <SectionHead index="02" label="张晓明做 GEO 的三种方式" />
         <div className="mt-6 space-y-4">
           {hubServices.map((s) => (
             <div key={s.id} className="card p-6 sm:p-7">
@@ -225,7 +231,7 @@ export default function GeoPage() {
                 {scorecards[0].title}
               </p>
               <p className="mt-1 text-sm leading-relaxed text-muted">
-                用 GEOloopOS 实测大模型眼中的张可能：总分 {scorecards[0].total}，
+                用 GEOloop 实测大模型眼中的张晓明：总分 {scorecards[0].total}，
                 {scorecards[0].verdict}。
               </p>
             </div>
@@ -235,7 +241,7 @@ export default function GeoPage() {
           </a>
 
           <a
-            href="https://github.com/zhangxiaomingv/geoloopos"
+            href="https://geoloopos.com"
             target="_blank"
             rel="noreferrer"
             className="group flex items-start justify-between gap-6 border-b border-border py-5"
@@ -243,10 +249,10 @@ export default function GeoPage() {
             <div>
               {relatedKind("产品")}
               <p className="mt-1 text-base font-medium text-text transition-colors group-hover:text-accent">
-                GEOloopOS — AI 可见度检测引擎
+                GEOloopOS — AI 可见度基础设施
               </p>
               <p className="mt-1 text-sm leading-relaxed text-muted">
-                张可能自研的 GEO 检测工具：认知 / 描述 / 来源三维打分，检测 AI 眼中的品牌可见度。
+                GEOloop 产品官网（geoloopos.com）：可见度检测 / 竞品对比 / 持续追踪，把 AI 可见度沉淀为战略资产。核心引擎在 GitHub 开源。
               </p>
             </div>
             <span className="mt-0.5 shrink-0 font-mono text-sm text-faint transition-colors group-hover:text-accent">
@@ -287,24 +293,47 @@ export default function GeoPage() {
         <div className="mt-16 rounded-2xl border border-border bg-surface p-8 sm:p-10">
           <h2 className="text-lg font-medium text-text">想测测 AI 现在怎么看你？</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted">
-            用 GEOloopOS 检测一次你的品牌可见度，从「检测」开始一轮 GEO 循环。
+            用 GEOloop 检测一次你的品牌可见度，从「检测」开始一轮 GEO 循环。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a
-              href="https://github.com/zhangxiaomingv/geoloopos"
+              href="https://geoloopos.com"
               target="_blank"
               rel="noreferrer"
               className="btn btn-primary"
             >
-              用 GEOloopOS 检测可见度
+              去 geoloopos.com 检测可见度
             </a>
-            <a href="/whitepaper" className="btn btn-ghost">
-              阅读白皮书
+            <a
+              href="https://github.com/zhangxiaomingv/geoloop"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-ghost"
+            >
+              GitHub 开源引擎
+            </a>
+            <a
+              href="https://geoloopos.com/deploy"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-ghost"
+            >
+              企业私有部署
             </a>
             <a href="/#connect" className="btn btn-ghost">
               预约交流
             </a>
           </div>
+          <p className="mt-5 text-sm text-muted">
+            企业私有部署 · 直接联系创始人 <span className="text-text">张晓明</span>：微信
+            <span className="font-mono text-text"> 19136166195</span> · 邮箱
+            <a
+              href="mailto:243922774@qq.com"
+              className="font-mono text-accent hover:underline"
+            >
+              243922774<span>@</span>qq.com
+            </a>
+          </p>
         </div>
       </div>
     </div>

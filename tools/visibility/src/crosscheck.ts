@@ -27,6 +27,11 @@ async function fetchPage(url: string): Promise<string> {
 
 /** 对单个目标执行交叉验证 */
 async function checkOne(t: CrosscheckTarget): Promise<CrosscheckResult> {
+  // 账号未建立（占位目标）：不抓取，报「待建号」，避免首页无意义抓取/误报未命中
+  if (t.pending) {
+    return { id: t.id, label: t.label, status: "pending", hitKeywords: [], note: t.pending };
+  }
+
   let content: string;
   try {
     content = t.kind === "github-repo" ? await githubReadme(t.value) : await fetchPage(t.value);

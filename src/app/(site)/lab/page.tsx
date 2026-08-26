@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { site, labExperiment, geoHub } from "@/content";
 
 export const metadata: Metadata = {
-  title: "可能实验 · 实验数据",
+  title: "自我实验 · 实验数据",
   description:
-    "用 GEOloopOS 检测引擎实测 AI 眼中的品牌可见度：海底捞 70、张可能 35、zkoner.com 18。个人品牌是 AI 盲区，来源引用是全行业空白。",
+    "用 GEOloop 检测引擎实测 AI 眼中的品牌可见度：海底捞 70、张晓明 35、zkoner.com 18。个人品牌是 AI 盲区，来源引用是全行业空白。",
   alternates: { canonical: "/lab" },
 };
 
@@ -25,14 +25,14 @@ const datasetJsonLd = {
   name: "AI 可见度实验数据（2026-08）",
   url: `${site.url}/lab`,
   description:
-    "用 GEOloopOS Identity Engine 双源（DeepSeek / 豆包）实测品牌、个人品牌、网站、术语与决策场景的 AI 可见度得分。",
+    "用 GEOloop Identity Engine 双源（DeepSeek / 豆包）实测品牌、个人品牌、网站、术语与决策场景的 AI 可见度得分。",
   datePublished: labExperiment.datePublished,
   dateModified: labExperiment.datePublished,
   measurementTechnique: labExperiment.engine,
   variableMeasured: labExperiment.dimensions.map((d) => d.name).join("、"),
   includedInDataCatalog: {
     "@type": "DataCatalog",
-    name: "张可能个人实验室",
+    name: "张晓明个人实验室",
     url: `${site.url}/lab`,
   },
   publisher: { "@id": `${site.url}#person` },
@@ -69,7 +69,7 @@ export default function LabPage() {
             LAB
           </span>
           <span className="h-px w-10 bg-border" aria-hidden="true" />
-          <span className="eyebrow">可能实验 · 实验数据</span>
+          <span className="eyebrow">自我实验 · 实验数据</span>
         </div>
 
         <h1 className="display mt-6 text-3xl text-text sm:text-4xl md:text-5xl">
@@ -203,22 +203,19 @@ export default function LabPage() {
         <div className="mt-16 rounded-2xl border border-border bg-surface p-8 sm:p-10">
           <h2 className="text-lg font-medium text-text">测测你的品牌在 AI 眼里值多少分</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted">
-            用 GEOloopOS 检测你的品牌 / 域名 / 问句，拿到认知、描述、来源三维得分与差距分析。
+            用 GEOloop 检测你的品牌 / 域名 / 问句，拿到认知、描述、来源三维得分与差距分析。
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a
-              href="https://github.com/zhangxiaomingv/geoloopos"
+              href="https://github.com/zhangxiaomingv/geoloop"
               target="_blank"
               rel="noreferrer"
               className="btn btn-primary"
             >
-              用 GEOloopOS 检测可见度
+              用 GEOloop 检测可见度
             </a>
             <a href={`/geo`} className="btn btn-ghost">
               了解 {geoHub.eyebrow}
-            </a>
-            <a href="/whitepaper" className="btn btn-ghost">
-              阅读白皮书
             </a>
             <a href="/#connect" className="btn btn-ghost">
               预约交流

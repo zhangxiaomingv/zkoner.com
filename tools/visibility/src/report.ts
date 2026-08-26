@@ -37,14 +37,14 @@ export function renderMarkdown(s: RunSummary): string {
     s.crosschecks
       .map(
         (c) =>
-          `| ${c.label} | ${c.status === "ok" ? "✅ 一致" : c.status === "partial" ? "🟡 部分" : c.status === "miss" ? "❌ 未命中" : "⚠️ " + c.status} | ${
+          `| ${c.label} | ${c.status === "ok" ? "✅ 一致" : c.status === "partial" ? "🟡 部分" : c.status === "miss" ? "❌ 未命中" : c.status === "pending" ? "🕐 待建号" : "⚠️ " + c.status} | ${
             c.hitKeywords.join("、") || "—"
           } | ${c.note ?? "—"} |`
       )
       .join("\n") + "\n\n";
 
   md += `## 判定标准\n\n`;
-  md += `回答出现「张可能 /《遇见·可能》/ GEO / zkoner.com」任意 2 项且描述一致、来源正确 = 达标。\n`;
+  md += `回答出现「张晓明 / GEO / zkoner.com」任意 2 项且描述一致、来源正确 = 达标。\n`;
   md += `达标率 = 达标观测数 ÷ 实际获得回答的观测数。\n`;
 
   return md;

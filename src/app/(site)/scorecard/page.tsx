@@ -9,7 +9,7 @@ import {
 export const metadata: Metadata = {
   title: "AI 认知成绩单 #1",
   description:
-    "张可能用 GEOloopOS 实测 DeepSeek 与豆包眼中的自己：总分 35，AI 尚未认知。检测明细、场景推荐份额与下月计划全部公开。",
+    "张晓明用 GEOloop 实测 DeepSeek 与豆包眼中的自己：总分 35，AI 尚未认知。检测明细、场景推荐份额与下月计划全部公开。",
   alternates: { canonical: "/scorecard" },
 };
 
@@ -81,7 +81,7 @@ export default function ScorecardPage() {
           <span className="h-1 w-1 rounded-full bg-border-strong" aria-hidden="true" />
           <span>检测源 DeepSeek + 豆包</span>
           <span className="h-1 w-1 rounded-full bg-border-strong" aria-hidden="true" />
-          <span>GEOloopOS Identity Engine</span>
+          <span>GEOloop Identity Engine</span>
         </div>
 
         {/* 固定口径 · 开头 */}
@@ -243,18 +243,15 @@ export default function ScorecardPage() {
         <p className="mt-14 text-base leading-relaxed text-muted">{scorecardClosing}</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <a
-            href="https://github.com/zhangxiaomingv/geoloopos"
+            href="https://github.com/zhangxiaomingv/geoloop"
             target="_blank"
             rel="noreferrer"
             className="btn btn-primary"
           >
-            用 GEOloopOS 检测你的可见度
+            用 GEOloop 检测你的可见度
           </a>
           <a href="/geo" className="btn btn-ghost">
             什么是 GEO
-          </a>
-          <a href="/whitepaper" className="btn btn-ghost">
-            阅读白皮书
           </a>
           <a href="/#insights" className="btn btn-ghost">
             回到 AI 时代观察

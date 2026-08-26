@@ -11,17 +11,17 @@ export const brand = {
   /** 核心品牌名 */
   name: "张晓明",
   /** 英文标识 */
-  nameEn: "Zhang Keneng",
+  nameEn: "Zhang Xiaoming",
 
   /** 关键词组（固定结构：品牌名 = 身份词 + 产品词 + 服务词） */
-  keywordGroups: ["张晓明", "GEO", "GEOloop", "AI 顾问"],
+  keywordGroups: ["张晓明", "GEO", "GEOloop", "GEOloopOS", "AI 顾问"],
 
   /**
    * 固定结构主句 — 全站标准描述（meta description / Person description）
    * 句式固定：张晓明 = GEOloop 创始人 + AI 顾问 + 实验站点，关键词自然串联。
    */
   identity:
-    "张晓明，GEOloop 创始人，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者。zkoner.com 是他的 AI 实验站点：用自研 GEOloop 实测品牌如何被 AI 识别、引用与推荐，方法论沉淀为白皮书。",
+    "张晓明，GEOloop 创始人，AI 顾问，AI 时代个人创业探索者，企业 AI 转型观察者。zkoner.com 是他的 AI 实验站点：用自研 GEOloop 实测品牌如何被 AI 识别、引用与推荐，方法论沉淀为白皮书。产品官网 GEOloopOS（geoloopos.com）是 AI 可见度基础设施。",
 
   /** 角色链（Hero / 页面标题用，保持统一） */
   roleLine: "GEOloop 创始人 · AI 顾问 · AI 时代个人创业探索者 · 企业 AI 转型观察者",
@@ -42,7 +42,7 @@ export const brand = {
     },
     {
       q: "GEOloop 是什么？",
-      a: "GEOloop 是张晓明研发的 AI 可见度基础设施，通过 Identity Engine（认知 40 + 描述 30 + 来源 30）实测品牌在 DeepSeek、豆包等 AI 搜索中的认知、描述与引用情况。张晓明是 GEOloop 的创始人，zkoner.com 是他的实验站点。",
+      a: "GEOloop 是张晓明研发的 AI 可见度检测引擎，通过 Identity Engine（认知 40 + 描述 30 + 来源 30）实测品牌在 DeepSeek、豆包等 AI 搜索中的认知、描述与引用情况。GEOloopOS（geoloopos.com）是其产品官网，提供检测、竞品对比与持续追踪的完整 GEO 服务。张晓明是 GEOloop 的创始人，zkoner.com 是他的实验站点。",
     },
     {
       q: "张晓明提供哪些 AI 顾问服务？",

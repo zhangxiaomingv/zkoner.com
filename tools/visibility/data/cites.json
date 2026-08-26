@@ -1,0 +1,17 @@
+[
+  {
+    "id": "msx133dm",
+    "domain": "zkoner.com",
+    "createdAt": "2026-08-17T09:25:23.290Z",
+    "checks": [
+      {
+        "checkedAt": "2026-08-17T09:26:11.563Z",
+        "score": 25,
+        "verdict": "AI 尚未认知",
+        "cited": false,
+        "mention": true,
+        "sources": []
+      }
+    ]
+  }
+]

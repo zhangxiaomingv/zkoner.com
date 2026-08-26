@@ -17,7 +17,7 @@ export default function Footer({ minimal = false }: { minimal?: boolean }) {
               “{site.mission}”
             </p>
             <p className="mt-3 text-sm text-faint">
-              GEOloopOS 创始人 · AI 顾问 — 张可能
+              GEOloop 创始人 · AI 顾问 — 张晓明
             </p>
           </div>
         )}
@@ -36,8 +36,13 @@ export default function Footer({ minimal = false }: { minimal?: boolean }) {
             <a href="/geo" className="hover:text-muted">
               GEO 优化
             </a>
-            <a href="/whitepaper" className="hover:text-muted">
-              白皮书
+            <a
+              href="https://geoloopos.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-muted"
+            >
+              GEOloopOS 产品
             </a>
             <a href="/scorecard" className="hover:text-muted">
               AI 成绩单

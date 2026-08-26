@@ -1,0 +1,3 @@
+# 百度验证文件：Cloudflare Pages 会把 .html 308 到无扩展名路径，导致百度报「网页存在跳转」
+# 用 200 内部改写，让验证文件路径直接返回 200（不产生任何跳转）
+/baidu_verify_codeva-adG0nF54ky.html  /baidu_verify_codeva-adG0nF54ky  200

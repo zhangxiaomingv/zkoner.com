@@ -14,7 +14,7 @@ export const site = {
   /** 品牌名 */
   name: "张晓明",
   /** 英文标识（域名 / 结构化数据用） */
-  nameEn: "Zhang Keneng",
+  nameEn: "Zhang Xiaoming",
   /** 域名 */
   url: "https://zkoner.com",
   /** 核心使命 */
@@ -36,7 +36,7 @@ export const site = {
 
   /** 栏目品牌 */
   columns: {
-    lab: "可能实验",
+    lab: "自我实验",
     insights: "AI 时代观察",
   },
 
@@ -44,7 +44,7 @@ export const site = {
   contact: {
     note: "欢迎企业家、创业者、创造者交流。",
     channels: [
-      { label: "微信", value: "zhangkennen", hint: "添加请备注「可能」" },
+      { label: "微信", value: "zhangkennen", hint: "添加请备注「晓明」" },
       {
         label: "邮箱",
         value: "hello@zkoner.com",
@@ -52,6 +52,12 @@ export const site = {
       },
       { label: "微博", value: "@张晓明" },
       { label: "知乎", value: "张晓明" },
+      {
+        label: "产品官网",
+        value: "geoloopos.com",
+        href: "https://geoloopos.com",
+        hint: "GEOloopOS · AI 可见度基础设施",
+      },
       {
         label: "GitHub",
         value: "github.com/zhangxiaomingv",

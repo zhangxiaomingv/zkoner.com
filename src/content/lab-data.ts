@@ -1,8 +1,8 @@
 /**
- * 可能实验 · 实验数据（AI 可见度实测）
- * GEOloopOS 检测引擎的双源（DeepSeek + 豆包）实测快照。
- * 数据来自 ~/geoloopos/data/checks.jsonl，本文件是发布到 zkoner.com 的快照，
- * 复测后更新这里即重新部署。完整蓝皮书数据包见 docs/bluepaper-data.md。
+ * 自我实验 · 实验数据（AI 可见度实测）
+ * GEOloop 检测引擎的双源（DeepSeek + 豆包）实测快照。
+ * 数据来自 ~/geoloop/data/checks.jsonl，本文件是发布到 zkoner.com 的快照，
+ * 复测后更新这里即重新部署。完整白皮书数据包见 docs/whitepaper-data.md。
  */
 
 export interface LabDimension {
@@ -27,7 +27,7 @@ export interface LabFinding {
 }
 
 export const labExperiment = {
-  engine: "GEOloopOS Identity Engine",
+  engine: "GEOloop Identity Engine",
   providers: ["DeepSeek", "豆包"],
   date: "2026-08-16 ~ 2026-08-18",
   datePublished: "2026-08-18",
@@ -59,7 +59,7 @@ export const labExperiment = {
       note: "4 次复测稳定 70，但从不引用来源",
     },
     {
-      name: "张可能",
+      name: "张晓明",
       kind: "个人品牌",
       deepseek: 0,
       doubao: 70,
@@ -83,7 +83,7 @@ export const labExperiment = {
       doubao: 30,
       score: 30,
       verdict: "AI 回答质量较低",
-      note: "无任何顾问被推荐，张可能曝光 0%",
+      note: "无任何顾问被推荐，张晓明曝光 0%",
     },
     {
       name: "zkoner.com",
@@ -104,11 +104,11 @@ export const labExperiment = {
     },
     {
       title: "个人品牌是 AI 盲区",
-      text: "张可能 35、zkoner.com 18。DeepSeek 对不知名实体直接拒答，豆包只当「中文人名」。有官网有内容，AI 也未必认识你。",
+      text: "张晓明 35、zkoner.com 18。DeepSeek 对不知名实体直接拒答，豆包只当「中文人名」。有官网有内容，AI 也未必认识你。",
     },
     {
       title: "名字被提到 ≠ 实体被绑定",
-      text: "豆包把 zkoner.com 认成「疑似钓鱼网站」、把张可能认成「普通中文人名」。Entity Misbinding：名字存在，实体错位。",
+      text: "豆包把 zkoner.com 认成「疑似钓鱼网站」、把张晓明认成「普通中文人名」。Entity Misbinding：名字存在，实体错位。",
     },
     {
       title: "GEO 术语在 AI 眼里是分裂的",
@@ -116,7 +116,7 @@ export const labExperiment = {
     },
     {
       title: "高价值决策场景 0 曝光",
-      text: "「推荐一位做GEO优化的顾问」——模型能描述场景，却不推荐任何顾问，张可能曝光 0%。",
+      text: "「推荐一位做GEO优化的顾问」——模型能描述场景，却不推荐任何顾问，张晓明曝光 0%。",
     },
     {
       title: "来源引用是全行业的共同空白",

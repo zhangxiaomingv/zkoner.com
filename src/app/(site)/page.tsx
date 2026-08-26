@@ -8,7 +8,7 @@ import Faq from "@/components/Faq";
 
 /**
  * 首页 — GEOloop 创始人的 AI 实验站点
- * 结构：Hero → 关于 → AI顾问服务 → 可能实验 → AI时代观察 → 连接 → 常见问题
+ * 结构：Hero → 关于 → AI顾问服务 → 自我实验 → AI时代观察 → 连接 → 常见问题
  */
 export default function Home() {
   return (

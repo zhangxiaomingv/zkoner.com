@@ -15,7 +15,7 @@ export interface Observation {
   pass: boolean;       // score >= passThreshold
 }
 
-export type CrosscheckStatus = "ok" | "partial" | "miss" | "blocked" | "error";
+export type CrosscheckStatus = "ok" | "partial" | "miss" | "blocked" | "pending" | "error";
 
 export interface CrosscheckResult {
   id: string;

@@ -7,7 +7,7 @@ const NAV = [
   { href: "#about", label: "关于" },
   { href: "#services", label: "AI 顾问服务" },
   { href: "/geo", label: "GEO 优化" },
-  { href: "/lab", label: "可能实验" },
+  { href: "/lab", label: "自我实验" },
   { href: "/blog", label: "AI 时代观察" },
   { href: "/scorecard", label: "AI 成绩单" },
   { href: "/project-log", label: "项目日志" },

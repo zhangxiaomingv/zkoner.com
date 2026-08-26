@@ -8,7 +8,7 @@ const STATUS_STYLE: Record<string, string> = {
 };
 
 /**
- * 可能实验 — 项目实验室
+ * 自我实验 — 项目实验室
  * 记录正在探索的 AI 项目、一人公司实验与商业验证。
  * 数据由 content/projects.ts 驱动，可动态增加。
  */

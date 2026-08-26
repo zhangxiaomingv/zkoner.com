@@ -2,6 +2,7 @@ import "dotenv/config";
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { questions, providers, passThreshold } from "../config.js";
+import type { Provider, Question } from "../config.js";
 import { query } from "./providers.js";
 import { extract } from "./extract.js";
 import { score } from "./score.js";
@@ -16,35 +17,45 @@ const reportDir = path.resolve(here, "data/reports");
 const indexFile = path.resolve(here, "data/index.json");
 const today = new Date().toISOString().slice(0, 10);
 
+/** 一次观测：查询 + 判定 + 打分 */
+async function observe(q: Question, p: Provider): Promise<Observation> {
+  const r = await query(p, q);
+  const { mentionHit, consistency, sourceHit } = extract(q, r.raw);
+  const total = r.raw ? score(mentionHit, consistency, sourceHit) : 0;
+  return {
+    ts: new Date().toISOString(),
+    date: today,
+    questionId: q.id,
+    questionText: q.text,
+    provider: p.id,
+    providerLabel: p.label,
+    raw: r.raw,
+    error: r.error,
+    mentionHit,
+    consistency,
+    sourceHit,
+    score: total,
+    pass: total >= passThreshold,
+  } satisfies Observation;
+}
+
 /** 一次运行：问题集 × 模型源 → 观测；交叉验证 → 结果；落盘 → 报告 */
 async function main(): Promise<void> {
   mkdirSync(runDir, { recursive: true });
   mkdirSync(reportDir, { recursive: true });
 
-  // 1. 采集 + 分析（全量并行：4 问 × 多源一起发，耗时≈最慢单次）
-  const tasks = questions.flatMap((q) =>
-    providers.map(async (p) => {
-      const r = await query(p, q);
-      const { mentionHit, consistency, sourceHit } = extract(q, r.raw);
-      const total = r.raw ? score(mentionHit, consistency, sourceHit) : 0;
-      return {
-        ts: new Date().toISOString(),
-        date: today,
-        questionId: q.id,
-        questionText: q.text,
-        provider: p.id,
-        providerLabel: p.label,
-        raw: r.raw,
-        error: r.error,
-        mentionHit,
-        consistency,
-        sourceHit,
-        score: total,
-        pass: total >= passThreshold,
-      } satisfies Observation;
-    })
+  // 1. 采集 + 分析
+  //   API / 手动源：全量并行（耗时≈最慢单次）
+  //   浏览器源：串行执行 —— 秘塔对并发会话限流（实测 4 个同时请求只有 1 个能拿到回答）
+  const fast = questions.flatMap((q) =>
+    providers.filter((p) => p.kind !== "browser").map((p) => observe(q, p))
   );
-  const observations: Observation[] = await Promise.all(tasks);
+  const observations: Observation[] = await Promise.all(fast);
+  for (const q of questions) {
+    for (const p of providers.filter((x) => x.kind === "browser")) {
+      observations.push(await observe(q, p));
+    }
+  }
 
   // 2. 交叉验证
   const crosschecks = await crosscheck();
