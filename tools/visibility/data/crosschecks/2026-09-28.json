@@ -1,0 +1,26 @@
+[
+  {
+    "id": "github",
+    "label": "GitHub 仓库 README",
+    "status": "ok",
+    "hitKeywords": [
+      "张晓明",
+      "AI 顾问"
+    ],
+    "note": "全部关键词一致，实体信号统一"
+  },
+  {
+    "id": "weibo",
+    "label": "微博主页",
+    "status": "pending",
+    "hitKeywords": [],
+    "note": "账号未建立（P1），建立后把真实主页 URL 填入 config.ts 与 src/content/site.ts"
+  },
+  {
+    "id": "zhihu",
+    "label": "知乎",
+    "status": "pending",
+    "hitKeywords": [],
+    "note": "账号未建立（P0），建立后把真实主页 URL 填入 config.ts 与 src/content/site.ts"
+  }
+]
