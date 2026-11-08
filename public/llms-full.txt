@@ -63,6 +63,7 @@ GEOloop 是张晓明研发的 AI 可见度检测系统（开源：https://github
 
 ## AI 时代观察（文章）
 
+- [GEO 优化怎么做：从检测到复测的一轮完整循环](https://zkoner.com/blog/how-to-run-a-geo-loop)（AI 趋势，2026-11-08）
 - [为什么我把每一步迭代都公开记录](https://zkoner.com/blog/why-i-keep-a-public-project-log)（个人品牌，2026-08-18）
 - [普通人建立个人品牌的三个 AI 杠杆](https://zkoner.com/blog/personal-brand-ai-leverage)（个人品牌，2026-08-12）
 - [AI 时代，企业官网为什么反而更重要了](https://zkoner.com/blog/why-company-website-matters-in-ai-era)（AI 趋势，2026-08-05）
