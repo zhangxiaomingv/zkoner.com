@@ -64,6 +64,11 @@
       "date": "2026-11-02",
       "passRate": 0,
       "checked": 0
+    },
+    {
+      "date": "2026-11-09",
+      "passRate": 0,
+      "checked": 0
     }
   ]
 }
